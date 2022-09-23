@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const KeyboardVisibilityProvider(
+        var db = new Mysql();
         child: LoginScreen(),
       ),
     );

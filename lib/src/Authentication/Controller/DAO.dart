@@ -9,7 +9,7 @@ class DAO {
 
   DAO();
 
-  Future<List<Employee>> getCustomers() async {
+  Future<List<Employee>> getEmployees() async {
     List<Employee> result = [];
     db.getConnection().then((conn) {
       String sql = 'select * from hrms.employee;';
