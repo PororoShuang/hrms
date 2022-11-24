@@ -1,16 +1,19 @@
 {
     "sqltools.connections": [
         {
-            "mysqlOptions": {
-                "authProtocol": "default"
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true,
+                "instanceName": "SQL Express"
             },
             "previewLimit": 50,
             "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "name": "mysqlconnection",
-            "database": "hrms",
-            "username": "admin",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "SQL Server",
+            "database": "testdb",
+            "username": "sa",
             "password": "1234"
         }
     ]
