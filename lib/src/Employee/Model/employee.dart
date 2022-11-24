@@ -18,33 +18,22 @@
 //     password = '';
 //   }
 // }
-
-import 'dart:convert';
-
 class User {
-  String user;
-  String password;
-  List modelData;
+  static const String nameKey = "user_name";
+  static const String arrayKey = "user_array";
 
-  User({
-    required this.user,
-    required this.password,
-    required this.modelData,
-  });
+  String? name;
+  List? array;
 
-  static User fromMap(Map<String, dynamic> user) {
-    return new User(
-      user: user['user'],
-      password: user['password'],
-      modelData: jsonDecode(user['model_data']),
-    );
-  }
+  User({this.name, this.array});
 
-  toMap() {
-    return {
-      'user': user,
-      'password': password,
-      'model_data': jsonEncode(modelData),
-    };
-  }
+  factory User.fromJson(Map<dynamic, dynamic> json) => User(
+        name: json[nameKey],
+        array: json[arrayKey],
+      );
+
+  Map<String, dynamic> toJson() => {
+        nameKey: name,
+        arrayKey: array,
+      };
 }
