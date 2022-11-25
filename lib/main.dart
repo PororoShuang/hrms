@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hrms/src/Attendace/Controller/Camera.dart';
 import 'package:hrms/src/Attendace/Model/HiveBoxes.dart';
 import 'package:flutter/services.dart';
+import 'package:hrms/src/Attendace/View/ViewAttendanceOption.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome to Flutter',
-      home: LoginPage(),
+      // home: LoginPage(),
+      home: AttendanceHome(),
     );
   }
 }

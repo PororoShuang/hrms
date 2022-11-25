@@ -38,8 +38,9 @@
 //     );
 //   }
 // }
+
 import 'package:flutter/material.dart';
-import 'package:hrms/src/Attendace/Controller/ControllerGenerateQR.dart';
+import 'package:hrms/src/Attendace/Controller/Camera.dart';
 import 'package:hrms/src/Attendace/Controller/ScanQR.dart';
 
 class AttendanceHome extends StatefulWidget {
@@ -63,7 +64,10 @@ class _AttendanceHomeState extends State<AttendanceHome> {
           children: <Widget>[
             //textButton("Facial Recognition",widget),
             textButton("QR Code", Scan()),
-            textButton("Generate", Generate()),
+            SizedBox(
+              height: 10.0,
+            ),
+            textButton("Facial Recognition", FaceScanScreen()),
           ],
         ),
       ),
@@ -72,14 +76,13 @@ class _AttendanceHomeState extends State<AttendanceHome> {
 
   Widget textButton(String text, Widget widget) {
     return TextButton(
+      // padding: EdgeInsets.all(15.0),
       child: Text(text),
       onPressed: () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => widget));
       },
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(20.0)
-      // ),
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
     );
   }
 }
