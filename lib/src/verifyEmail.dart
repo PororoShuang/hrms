@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hrm_hrmtest/screens/createNewPassword.dart';
+
+import 'createNewPassword.dart';
+
 
 class VerifyEmail extends StatefulWidget{
   const VerifyEmail({super.key});

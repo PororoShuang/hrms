@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hrm_hrmtest/screens/login.dart';
+
+import 'login.dart';
 
 class CreateNewPassword extends StatefulWidget{
   const CreateNewPassword({super.key});

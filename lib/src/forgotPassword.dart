@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrm_hrmtest/screens/verifyEmail.dart';
+import 'package:hrms/src/verifyEmail.dart';
 
 class ForgotPassword extends StatefulWidget{
   const ForgotPassword({super.key});
