@@ -11,13 +11,14 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUp extends State<SignUp> {
-  List<String> itemsNationality = [
-    'Select a Nationality',
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4'
-  ];
+  String countryValue = "";
+  // List<String> itemsNationality = [
+  //   'Select a Nationality',
+  //   'Item 1',
+  //   'Item 2',
+  //   'Item 3',
+  //   'Item 4'
+  // ];
   String? selectedItemNationality = 'Select a Nationality';
 
   List<String> itemsSupervisor = [
@@ -135,24 +136,97 @@ class _SignUp extends State<SignUp> {
                 Container(
                   child: SizedBox(
                     width: 350,
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                    child: Column(children: [
+                      ///Adding CSC Picker Widget in app
+                      CSCPicker(
+                        ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                        showStates: false,
+
+                        /// Enable disable city drop down [OPTIONAL PARAMETER]
+                        showCities: false,
+
+                        ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                        flagState: CountryFlag.DISABLE,
+
+                        ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+
+                        dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Colors.grey.shade300, width: 1)),
+
+                        ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                        disabledDropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey.shade300,
+                            border: Border.all(
+                                color: Colors.grey.shade300, width: 1)),
+
+                        ///placeholders for dropdown search field
+                        countrySearchPlaceholder: "Country",
+
+                        ///labels for dropdown
+                        countryDropdownLabel: "*Country",
+
+                        ///Default Country
+                        //defaultCountry: DefaultCountry.India,
+
+                        ///Disable country dropdown (Note: use it with default country)
+                        //disableCountry: true,
+
+                        ///selected item style [OPTIONAL PARAMETER]
+                        selectedItemStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+
+                        ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                        dropdownHeadingStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+
+                        ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                        dropdownItemStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+
+                        ///Dialog box radius [OPTIONAL PARAMETER]
+                        dropdownDialogRadius: 10.0,
+
+                        ///Search bar radius [OPTIONAL PARAMETER]
+                        searchBarRadius: 10.0,
+
+                        ///triggers once country selected in dropdown
+                        onCountryChanged: (value) {
+                          setState(() {
+                            ///store value in country variable
+                            countryValue = value;
+                          });
+                        },
                       ),
-                      value: selectedItemNationality,
-                      items: itemsNationality
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item,
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.black45)),
-                              ))
-                          .toList(),
-                      onChanged: (item) =>
-                          setState(() => selectedItemNationality = item),
-                    ),
+                    ]
+                        // child: DropdownButtonFormField<String>(
+                        //   decoration: InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //   ),
+                        //   value: selectedItemNationality,
+                        //   items: itemsNationality
+                        //       .map((item) => DropdownMenuItem<String>(
+                        //             value: item,
+                        //             child: Text(item,
+                        //                 style: TextStyle(
+                        //                     fontSize: 19,
+                        //                     fontStyle: FontStyle.italic,
+                        //                     color: Colors.black45)),
+                        //           ))
+                        //       .toList(),
+                        //   onChanged: (item) =>
+                        //       setState(() => selectedItemNationality = item),
+                        // ),
+                        ),
                   ),
                 ),
                 Container(
