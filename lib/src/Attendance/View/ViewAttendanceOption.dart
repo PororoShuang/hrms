@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/Attendance/Controller/ScanQR.dart';
 import 'package:hrms/src/Attendance/View/FaceRecognition.dart';
 
@@ -21,7 +22,6 @@ class _AttendanceHomeState extends State<AttendanceHome> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            //textButton("Facial Recognition",widget),
             textButton("QR Code", Scan()),
             SizedBox(
               height: 10.0,

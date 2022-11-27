@@ -40,9 +40,10 @@ dependencies:
   camera: ^0.10.0+4
   barcode_scan2: ^4.2.1
   qr_flutter: ^4.0.0
-  
   #for facial recognition
   local_auth: ^2.1.2
+  #for getting device UUID
+  device_info_plus: ^8.0.0
 
 dev_dependencies:
   flutter_test:
