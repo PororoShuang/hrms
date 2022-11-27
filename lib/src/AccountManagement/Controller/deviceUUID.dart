@@ -15,3 +15,5 @@ class GetUniqueId {
     return null;
   }
 }
+
+// String? deviceInfo = await GetUniqueId.getDeviceId();
