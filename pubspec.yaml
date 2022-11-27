@@ -44,6 +44,8 @@ dependencies:
   local_auth: ^2.1.2
   #for getting device UUID
   device_info_plus: ^8.0.0
+  #for country dropdownlist
+  csc_picker: ^0.2.6
 
 dev_dependencies:
   flutter_test:

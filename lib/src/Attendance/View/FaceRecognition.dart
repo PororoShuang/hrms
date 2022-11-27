@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/View/home.dart';
 import 'package:hrms/src/Attendance/Controller/auth.dart';
 
+import '../../AccountManagement/Controller/deviceUUID.dart';
+
 class FaceRecognition extends StatelessWidget {
   const FaceRecognition({Key? key}) : super(key: key);
 
@@ -32,6 +34,7 @@ class FaceRecognition extends StatelessWidget {
                 child: TextButton(
                   onPressed: () async {
                     bool isAuthenticated = await AuthService.authenticateUser();
+                    //String? deviceInfo = await GetUniqueId.getDeviceId();
                     if (isAuthenticated) {
                       Navigator.push(
                         context,
@@ -39,7 +42,11 @@ class FaceRecognition extends StatelessWidget {
                             builder: (context) =>
                                 const Home()), //THIS NEEDS TO CHANGE TO ATTENDANCE TAKEN!
                       );
-                    } else {
+                    }
+                    // if (deviceInfo != null) {
+                    //   print(deviceInfo);
+                    // }
+                    else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Authentication failed.'),

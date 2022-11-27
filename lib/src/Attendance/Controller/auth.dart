@@ -32,7 +32,6 @@ class AuthService {
         print(e);
       }
     }
-
     return isAuthenticated;
   }
 }
