@@ -42,6 +42,9 @@ class _ScanState extends State<Scan> {
                   var scaning = await BarcodeScanner.scan();
                   setState(() {
                     qrResult = scaning.rawContent;
+                    if (qrResult == "Hello Jolin") {
+                      print("Attendance Taken");
+                    }
                     //TakeAttendanceCode!
                   });
                 },

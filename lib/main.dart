@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/geofencing.dart';
 import 'package:hrms/src/AccountManagement/View/signUp.dart';
 import 'package:hrms/src/Attendance/View/ViewAttendanceOption.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: AttendanceHome(),
-      home: SignUp(),
+      home: determinePosition(),
     );
   }
 }

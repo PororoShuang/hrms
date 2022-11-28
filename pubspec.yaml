@@ -46,6 +46,8 @@ dependencies:
   device_info_plus: ^8.0.0
   #for country dropdownlist
   csc_picker: ^0.2.6
+  #for geofencing service
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
