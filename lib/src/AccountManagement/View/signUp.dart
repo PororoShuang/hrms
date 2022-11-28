@@ -1,3 +1,4 @@
+import 'package:csc_picker/model/select_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/View/login.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -11,7 +12,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUp extends State<SignUp> {
-  String countryValue = "";
+  String countryValue = " ";
+
   // List<String> itemsNationality = [
   //   'Select a Nationality',
   //   'Item 1',
@@ -167,10 +169,10 @@ class _SignUp extends State<SignUp> {
                         countrySearchPlaceholder: "Country",
 
                         ///labels for dropdown
-                        countryDropdownLabel: "*Country",
+                        countryDropdownLabel: countryValue,
 
                         ///Default Country
-                        //defaultCountry: DefaultCountry.India,
+                        defaultCountry: DefaultCountry.Malaysia,
 
                         ///Disable country dropdown (Note: use it with default country)
                         //disableCountry: true,
@@ -203,7 +205,7 @@ class _SignUp extends State<SignUp> {
                         onCountryChanged: (value) {
                           setState(() {
                             ///store value in country variable
-                            countryValue = value;
+                            countryValue = value.toString();
                           });
                         },
                       ),
