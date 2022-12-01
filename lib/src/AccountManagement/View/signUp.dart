@@ -13,7 +13,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUp extends State<SignUp> {
   String countryValue = " ";
-
+  TextEditingController nameController = TextEditingController();
   // List<String> itemsNationality = [
   //   'Select a Nationality',
   //   'Item 1',
@@ -60,6 +60,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: nameController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -346,6 +347,7 @@ class _SignUp extends State<SignUp> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
+                      Text(nameController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const Login()),

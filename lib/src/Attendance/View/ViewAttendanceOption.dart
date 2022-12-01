@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/Attendance/Controller/ScanQR.dart';
+import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Attendance/View/FaceRecognition.dart';
 
 class AttendanceHome extends StatefulWidget {
@@ -9,6 +10,15 @@ class AttendanceHome extends StatefulWidget {
 }
 
 class _AttendanceHomeState extends State<AttendanceHome> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationController.scheduleNewNotification();
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //     (_) =>);
+  }
+
+  final NotificationController nc = new NotificationController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +36,15 @@ class _AttendanceHomeState extends State<AttendanceHome> {
             SizedBox(
               height: 10.0,
             ),
+
             textButton("Facial Recognition", FaceRecognition()),
+            FloatingActionButton(
+              heroTag: '2',
+              onPressed: () => NotificationController.scheduleNewNotification(),
+              tooltip: 'Schedule New notification',
+              child: const Icon(Icons.access_time_outlined),
+            ),
+            // textButton("Facial Recognition",NotificationController.scheduleNewNotification() ),
           ],
         ),
       ),
