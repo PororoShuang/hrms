@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'AccountManagement/View/home.dart';
 import '../src/Attendance/View/attendance.dart';
+import 'home.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
