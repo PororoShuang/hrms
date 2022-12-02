@@ -138,7 +138,7 @@ class Employee {
 
   set employement_letter(value) => this._employement_letter = value;
 
-  String? Function(String?)? validateEmail(String email) {
+  static String? Function(String?)? validateEmail(String email) {
     return ((email) {
       if (email == "" ||
           !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
