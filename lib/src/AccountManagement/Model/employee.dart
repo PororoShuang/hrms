@@ -1,7 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:ffi';
-
 class Employee {
   //Variable Declaration
   String? _employee_id;

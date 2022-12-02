@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/navBar.dart';
 import '../../AccountManagement/View/forgotPassword.dart';
 import '../../AccountManagement/View/signUp.dart';
-import '../../AccountManagement/View/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -155,7 +155,7 @@ class _Login extends State<Login> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Home()),
+                      MaterialPageRoute(builder: (context) => const BottomNavigation()),
                     );
                   },
                 ),
