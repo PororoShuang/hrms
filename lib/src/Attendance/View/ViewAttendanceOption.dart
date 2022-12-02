@@ -38,12 +38,7 @@ class _AttendanceHomeState extends State<AttendanceHome> {
             ),
 
             textButton("Facial Recognition", FaceRecognition()),
-            FloatingActionButton(
-              heroTag: '2',
-              onPressed: () => NotificationController.scheduleNewNotification(),
-              tooltip: 'Schedule New notification',
-              child: const Icon(Icons.access_time_outlined),
-            ),
+
             // textButton("Facial Recognition",NotificationController.scheduleNewNotification() ),
           ],
         ),
