@@ -13,6 +13,43 @@ class SignUp extends StatefulWidget {
 
 class _SignUp extends State<SignUp> {
   String countryValue = " ";
+  String _gender = "";
+
+  final nameController = TextEditingController();
+  final icController = TextEditingController();
+  final passportController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final epfController = TextEditingController();
+  final soscoController = TextEditingController();
+  final iTaxController = TextEditingController();
+  final bankNameController = TextEditingController();
+  final bankAccController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameController.dispose();
+    icController.dispose();
+    passportController.dispose();
+    dateOfBirthController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    epfController.dispose();
+    soscoController.dispose();
+    iTaxController.dispose();
+    bankNameController.dispose();
+    bankAccController.dispose();
+
+    super.dispose();
+  }
+
+  void checkRadio(String value) {
+    setState(() {
+      _gender = value;
+    });
+  }
 
   // List<String> itemsNationality = [
   //   'Select a Nationality',
@@ -60,6 +97,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: nameController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -70,6 +108,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: icController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -80,6 +119,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: passportController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -90,6 +130,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: dateOfBirthController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -234,6 +275,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: phoneController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -244,6 +286,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -254,6 +297,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: epfController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -264,6 +308,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: soscoController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -274,6 +319,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: iTaxController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -284,6 +330,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: bankNameController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -294,6 +341,7 @@ class _SignUp extends State<SignUp> {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: bankAccController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -346,10 +394,13 @@ class _SignUp extends State<SignUp> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
+                      print(_genderType.toString());
+                      print(countryValue);
+                      print(bankAccController.text);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const Login()),
+                      // );
                     },
                   ),
                 ),
