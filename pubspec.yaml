@@ -48,6 +48,10 @@ dependencies:
   csc_picker: ^0.2.6
   #for geofencing service
   geolocator: ^9.0.2
+  awesome_notifications: ^0.7.4+1
+  http: ^0.13.5
+
+
 
 dev_dependencies:
   flutter_test:
