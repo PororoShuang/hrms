@@ -2,6 +2,7 @@ import 'package:csc_picker/model/select_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/View/login.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:hrms/src/AccountManagement/Model/employee.dart';
 
 enum GenderType { Male, Female }
 
@@ -14,7 +15,7 @@ class SignUp extends StatefulWidget {
 class _SignUp extends State<SignUp> {
   String countryValue = " ";
   String _gender = "";
-
+  String email = "";
   final nameController = TextEditingController();
   final icController = TextEditingController();
   final passportController = TextEditingController();
@@ -293,6 +294,8 @@ class _SignUp extends State<SignUp> {
                             color: Colors.teal,
                           )),
                           labelText: "Email Address"),
+                      // validator: Employee.validateEmail(emailController.text),
+                      onFieldSubmitted: (value) {},
                     )),
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -394,9 +397,11 @@ class _SignUp extends State<SignUp> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
-                      print(_genderType.toString());
-                      print(countryValue);
-                      print(bankAccController.text);
+                      Employee.validateEmail(emailController.text);
+                      // print(_genderType.toString());
+                      // print(countryValue);
+                      // print(bankAccController.text);
+                      print(emailController.text);
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(builder: (context) => const Login()),
