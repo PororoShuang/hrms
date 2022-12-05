@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/View/home.dart';
+import '../../home.dart';
 import 'package:hrms/src/Attendance/Controller/auth.dart';
 
 import '../../AccountManagement/Controller/deviceUUID.dart';
