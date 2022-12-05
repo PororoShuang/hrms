@@ -2,7 +2,7 @@
 
 // import 'package:flutter/material.dart';
 // import 'package:hrms/src/AccountManagement/Controller/geofencing.dart';
-// import 'package:hrms/src/AccountManagement/View/signUp.dart';
+import 'package:hrms/src/AccountManagement/View/signUp.dart';
 // import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 // import 'package:hrms/src/Attendance/View/ViewAttendanceOption.dart';
 
@@ -34,7 +34,7 @@ import 'package:flutter/material.dart';
 /// Importing the configuration file to pass them to the EmailAuth instance
 /// You can have a custom path and a variable name,
 /// but the Map should be in the pattern {server : "", serverKey : ""}
-import 'package:email_auth_example/auth.config.dart';
+//import 'package:email_auth_example/auth.config.dart';
 
 void main() {
   runApp(MyApp());
@@ -54,111 +54,112 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController _otpcontroller = TextEditingController();
 
   // Declare the object
-  EmailAuth emailAuth;
+  //EmailAuth emailAuth;
 
   @override
   void initState() {
     super.initState();
     // Initialize the package
-    emailAuth = new EmailAuth(
-      sessionName: "Sample session",
-    );
+    // emailAuth = new EmailAuth(
+    //   sessionName: "Sample session",
+    // );
 
     /// Configuring the remote server
-    emailAuth.config(remoteServerConfiguration);
+    //emailAuth.config(remoteServerConfiguration);
   }
 
   /// a void function to verify if the Data provided is true
   /// Convert it into a boolean function to match your needs.
-  void verify() {
-    print(emailAuth.validateOtp(
-        recipientMail: _emailcontroller.value.text,
-        userOtp: _otpcontroller.value.text));
-  }
+  // void verify() {
+  //   print(emailAuth.validateOtp(
+  //       recipientMail: _emailcontroller.value.text,
+  //       userOtp: _otpcontroller.value.text));
+  // }
 
   /// a void funtion to send the OTP to the user
   /// Can also be converted into a Boolean function and render accordingly for providers
-  void sendOtp() async {
-    bool result = await emailAuth.sendOtp(
-        recipientMail: _emailcontroller.value.text, otpLength: 5);
-    if (result) {
-      setState(() {
-        submitValid = true;
-      });
-    }
-  }
+  // void sendOtp() async {
+  //   bool result = await emailAuth.sendOtp(
+  //       recipientMail: _emailcontroller.value.text, otpLength: 5);
+  //   if (result) {
+  //     setState(() {
+  //       submitValid = true;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Email Auth sample'),
-        ),
-        body: Container(
-          margin: EdgeInsets.all(5),
-          child: Center(
-              child: Center(
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  controller: _emailcontroller,
-                ),
-                Card(
-                  margin: EdgeInsets.only(top: 20),
-                  elevation: 6,
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    color: Colors.green[400],
-                    child: GestureDetector(
-                      onTap: sendOtp,
-                      child: Center(
-                        child: Text(
-                          "Request OTP",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+      home: SignUp(),
+      //Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text('Email Auth sample'),
+      //   ),
+      //   body: Container(
+      //     margin: EdgeInsets.all(5),
+      //     child: Center(
+      //         child: Center(
+      //       child: Column(
+      //         children: <Widget>[
+      //           TextField(
+      //             controller: _emailcontroller,
+      //           ),
+      //           Card(
+      //             margin: EdgeInsets.only(top: 20),
+      //             elevation: 6,
+      //             child: Container(
+      //               height: 50,
+      //               width: 200,
+      //               color: Colors.green[400],
+      //               child: GestureDetector(
+      //                 //onTap: sendOtp,
+      //                 child: Center(
+      //                   child: Text(
+      //                     "Request OTP",
+      //                     style: TextStyle(
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                       fontSize: 20,
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ),
+      //             ),
+      //           ),
 
-                /// A dynamically rendering text field
-                (submitValid)
-                    ? TextField(
-                        controller: _otpcontroller,
-                      )
-                    : Container(height: 1),
-                (submitValid)
-                    ? Container(
-                        margin: EdgeInsets.only(top: 20),
-                        height: 50,
-                        width: 200,
-                        color: Colors.green[400],
-                        child: GestureDetector(
-                          onTap: verify,
-                          child: Center(
-                            child: Text(
-                              "Verify",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : SizedBox(height: 1)
-              ],
-            ),
-          )),
-        ),
-      ),
+      //           /// A dynamically rendering text field
+      //           (submitValid)
+      //               ? TextField(
+      //                   controller: _otpcontroller,
+      //                 )
+      //               : Container(height: 1),
+      //           (submitValid)
+      //               ? Container(
+      //                   margin: EdgeInsets.only(top: 20),
+      //                   height: 50,
+      //                   width: 200,
+      //                   color: Colors.green[400],
+      //                   child: GestureDetector(
+      //                     //onTap: verify,
+      //                     child: Center(
+      //                       child: Text(
+      //                         "Verify",
+      //                         style: TextStyle(
+      //                           fontWeight: FontWeight.bold,
+      //                           color: Colors.white,
+      //                           fontSize: 20,
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 )
+      //               : SizedBox(height: 1)
+      //         ],
+      //       ),
+      //     )),
+      //   ),
+      // ),
     );
   }
 }
