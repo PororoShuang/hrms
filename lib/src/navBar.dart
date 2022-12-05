@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'AccountManagement/View/home.dart';
+import 'home.dart';
 import '../src/Attendance/View/attendance.dart';
 
 class BottomNavigation extends StatefulWidget {
