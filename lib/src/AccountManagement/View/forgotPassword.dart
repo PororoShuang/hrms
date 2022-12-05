@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/emailOTP.dart';
 import 'package:hrms/src/AccountManagement/View/verifyEmail.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -8,6 +9,8 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPassword extends State<ForgotPassword> {
+  TextEditingController emailAddressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -34,6 +37,7 @@ class _ForgotPassword extends State<ForgotPassword> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: TextField(
+                controller: emailAddressController,
                 decoration: InputDecoration(
                   hintText: 'Enter your Email',
                   hintStyle:
@@ -55,6 +59,8 @@ class _ForgotPassword extends State<ForgotPassword> {
                       borderRadius: BorderRadius.circular(112)),
                 ),
                 onPressed: () {
+                  emailController
+                      .sendingOTP(emailAddressController.text.trim());
                   Navigator.push(
                     context,
                     MaterialPageRoute(
