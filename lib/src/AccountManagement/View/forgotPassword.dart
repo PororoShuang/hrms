@@ -61,11 +61,14 @@ class _ForgotPassword extends State<ForgotPassword> {
                 onPressed: () {
                   emailController
                       .sendingOTP(emailAddressController.text.trim());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VerifyEmail()),
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => VerifyEmail(
+                          emailAddressPassed: emailAddressController.text)));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const VerifyEmail()),
+                  // );
                 },
               ),
             ),

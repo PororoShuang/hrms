@@ -6,12 +6,16 @@ import '../../AccountManagement/View/createNewPassword.dart';
 import '../Controller/emailOTP.dart';
 
 class VerifyEmail extends StatefulWidget {
-  const VerifyEmail({super.key});
+  //const VerifyEmail({super.key});
+  String emailAddressPassed;
+  VerifyEmail({required this.emailAddressPassed});
   @override
-  State<VerifyEmail> createState() => _VerifyEmail();
+  State<VerifyEmail> createState() => _VerifyEmail(this.emailAddressPassed);
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
+  String emailAddressPassed;
+  _VerifyEmail(this.emailAddressPassed);
   TextEditingController otpController1 = TextEditingController();
   TextEditingController otpController2 = TextEditingController();
   TextEditingController otpController3 = TextEditingController();
@@ -160,7 +164,9 @@ class _VerifyEmail extends State<VerifyEmail> {
               height: 55,
               child: TextButton(
                 //onPressed: () {emailController.sendingOTP()},
-                onPressed: () {},
+                onPressed: () {
+                  emailController.sendingOTP(emailAddressPassed);
+                },
                 child: Text(
                   "Resend Code",
                   style: TextStyle(
