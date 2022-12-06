@@ -6,8 +6,8 @@ class emailController {
 
   static Future<void> sendingOTP(String email) async {
     myAuth.setConfig(
-        appEmail: "me@rohitchouhan.com",
-        appName: "Email OTP",
+        appEmail: "excalic@gmail.com",
+        appName: "Exaclic Password Changing",
         userEmail: email,
         otpLength: 4,
         otpType: OTPType.digitsOnly);
