@@ -1,14 +1,26 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hrms/src/AccountManagement/View/forgotPassword.dart';
 import '../../AccountManagement/View/createNewPassword.dart';
+import '../Controller/emailOTP.dart';
 
 class VerifyEmail extends StatefulWidget {
-  const VerifyEmail({super.key});
+  //const VerifyEmail({super.key});
+  String emailAddressPassed;
+  VerifyEmail({required this.emailAddressPassed});
   @override
-  State<VerifyEmail> createState() => _VerifyEmail();
+  State<VerifyEmail> createState() => _VerifyEmail(this.emailAddressPassed);
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
+  String emailAddressPassed;
+  _VerifyEmail(this.emailAddressPassed);
+  TextEditingController otpController1 = TextEditingController();
+  TextEditingController otpController2 = TextEditingController();
+  TextEditingController otpController3 = TextEditingController();
+  TextEditingController otpController4 = TextEditingController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -18,7 +30,7 @@ class _VerifyEmail extends State<VerifyEmail> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              //Navigator.pop(context);
             },
           ),
         ),
@@ -35,6 +47,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   child: AspectRatio(
                     aspectRatio: 3 / 2,
                     child: TextFormField(
+                      controller: otpController1,
                       onChanged: (value) {
                         if (value.length == 1) {
                           FocusScope.of(context).nextFocus();
@@ -63,6 +76,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   child: AspectRatio(
                     aspectRatio: 0.7,
                     child: TextFormField(
+                      controller: otpController2,
                       onChanged: (value) {
                         if (value.length == 1) {
                           FocusScope.of(context).nextFocus();
@@ -91,6 +105,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   child: AspectRatio(
                     aspectRatio: 0.7,
                     child: TextFormField(
+                      controller: otpController3,
                       onChanged: (value) {
                         if (value.length == 1) {
                           FocusScope.of(context).nextFocus();
@@ -119,6 +134,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   child: AspectRatio(
                     aspectRatio: 0.7,
                     child: TextFormField(
+                      controller: otpController4,
                       onChanged: (value) {
                         if (value.length == 1) {
                           FocusScope.of(context).nextFocus();
@@ -146,12 +162,18 @@ class _VerifyEmail extends State<VerifyEmail> {
             SizedBox(height: 30),
             SizedBox(
               height: 55,
-              child: Text(
-                "Resend Code",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+              child: TextButton(
+                //onPressed: () {emailController.sendingOTP()},
+                onPressed: () {
+                  emailController.sendingOTP(emailAddressPassed);
+                },
+                child: Text(
+                  "Resend Code",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -167,12 +189,19 @@ class _VerifyEmail extends State<VerifyEmail> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateNewPassword()),
-                  );
+                onPressed: () async {
+                  String otpInput = otpController1.text +
+                      otpController2.text +
+                      otpController3.text +
+                      otpController4.text;
+                  if (await emailController.verifyOTP(otpInput) == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateNewPassword()),
+                    );
+                  } else
+                    print("Failed");
                 },
               ),
             ),

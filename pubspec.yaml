@@ -50,6 +50,9 @@ dependencies:
   geolocator: ^9.0.2
   awesome_notifications: ^0.7.4+1
   http: ^0.13.5
+  email_otp: ^1.0.4
+  # email_auth: ^1.0.0
+  # get: ^4.6.5
 
 
 

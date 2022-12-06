@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/Controller/geofencing.dart';
+import 'package:hrms/src/Attendance/Controller/geofencing.dart';
+import 'package:hrms/src/AccountManagement/View/forgotPassword.dart';
 import 'package:hrms/src/AccountManagement/View/signUp.dart';
 import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Attendance/View/ViewAttendanceOption.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       ),
 
       //home: SignUp(),
-      home: AttendanceHome(),
+      //home: AttendanceHome(),
+      //home: ForgotPassword(),
       //home: determinePosition(),
     );
   }
