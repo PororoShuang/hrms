@@ -5,11 +5,20 @@ CREATE TABLE [dbo].[Document] (
     [date_created]  DATETIME2 (7)  NOT NULL,
     [expiry_date]   DATETIME2 (7)  NOT NULL,
     [notify_date]   DATETIME2 (7)  NOT NULL,
-    CONSTRAINT [PK_Document] PRIMARY KEY CLUSTERED ([document_id] ASC),
-    CONSTRAINT [FK_Document_EmployeeDetails_owner_id] FOREIGN KEY ([owner_id]) REFERENCES [dbo].[EmployeeDetails] ([employee_id]) ON DELETE CASCADE
+    [document_path] NVARCHAR (MAX) NULL
 );
 
 
 GO
 CREATE NONCLUSTERED INDEX [IX_Document_owner_id]
     ON [dbo].[Document]([owner_id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[Document]
+    ADD CONSTRAINT [PK_Document] PRIMARY KEY CLUSTERED ([document_id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[Document]
+    ADD CONSTRAINT [FK_Document_EmployeeDetails_owner_id] FOREIGN KEY ([owner_id]) REFERENCES [dbo].[EmployeeDetails] ([employee_id]) ON DELETE CASCADE;

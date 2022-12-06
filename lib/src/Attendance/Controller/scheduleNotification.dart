@@ -2,27 +2,20 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-///  *********************************************
-///     NOTIFICATION CONTROLLER
-///  *********************************************
-///
 class NotificationController {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static ReceivedAction? initialAction;
 
-  ///  *********************************************
-  ///     INITIALIZATIONS
-  ///  *********************************************
-  ///
+  ///initialization
   static Future<void> initializeLocalNotifications() async {
     await AwesomeNotifications().initialize(
-        null, //'resource://drawable/res_app_icon',//
+        null,
         [
           NotificationChannel(
               channelKey: 'alerts',
               channelName: 'Alerts',
-              channelDescription: 'Notification tests as alerts',
+              channelDescription: 'Check In/ Check Out',
               playSound: true,
               onlyAlertOnce: true,
               groupAlertBehavior: GroupAlertBehavior.Children,
@@ -38,19 +31,14 @@ class NotificationController {
         .getInitialNotificationAction(removeFromActionEvents: false);
   }
 
-  ///  *********************************************
-  ///     NOTIFICATION EVENTS LISTENER
-  ///  *********************************************
   ///  Notifications events are only delivered after call this method
   static Future<void> startListeningNotificationEvents() async {
     AwesomeNotifications()
         .setListeners(onActionReceivedMethod: onActionReceivedMethod);
   }
 
-  ///  *********************************************
-  ///     NOTIFICATION EVENTS
-  ///  *********************************************
-  ///
+  ///NOTIFICATION EVENTS
+
   @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
@@ -69,10 +57,7 @@ class NotificationController {
     }
   }
 
-  ///  *********************************************
-  ///     REQUESTING NOTIFICATION PERMISSIONS
-  ///  *********************************************
-  ///
+  /// Request notification access
   static Future<bool> displayNotificationRationale() async {
     bool userAuthorized = false;
     BuildContext context = navigatorKey.currentContext!;
@@ -132,9 +117,7 @@ class NotificationController {
         await AwesomeNotifications().requestPermissionToSendNotifications();
   }
 
-  ///  *********************************************
-  ///     BACKGROUND TASKS TEST
-  ///  *********************************************
+  ///BACKGROUND TASKS TEST
   static Future<void> executeLongTaskInBackground() async {
     print("starting long task");
     await Future.delayed(const Duration(seconds: 4));
@@ -144,11 +127,7 @@ class NotificationController {
     print("long task done");
   }
 
-  ///  *********************************************
-  ///     NOTIFICATION CREATION METHODS
-  ///  *********************************************
-  ///
-
+  ///NOTIFICATION CREATION METHODS
   static Future<void> scheduleNewNotification() async {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) isAllowed = await displayNotificationRationale();
@@ -160,12 +139,11 @@ class NotificationController {
         content: NotificationContent(
             id: -1, // -1 is replaced by a random number
             channelKey: 'alerts',
-            title: "Huston! The eagle has landed!",
-            body: "Hello my name is Pororo , Welcome to my wonderland!",
+            title: "Remember to Check In / Check Out your shift!",
+            body: "Don't forget to Check In / Check Out for your shift!",
             bigPicture:
                 'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
             largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
-            //'asset://assets/images/balloons-in-sky.jpg',
             notificationLayout: NotificationLayout.BigPicture,
             payload: {
               'notificationId': '1234567890'
@@ -182,194 +160,3 @@ class NotificationController {
             date: DateTime.now().add(Duration(seconds: valueA))));
   }
 }
-
-///  *********************************************
-///     MAIN WIDGET
-///  *********************************************
-///
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-
-//   // The navigator key is necessary to navigate using static methods
-//   static final GlobalKey<NavigatorState> navigatorKey =
-//       GlobalKey<NavigatorState>();
-
-//   static Color mainColor = const Color(0xFF9D50DD);
-
-//   @override
-//   State<MyApp> createState() => _AppState();
-// }
-
-// class _AppState extends State<MyApp> {
-//   // This widget is the root of your application.
-
-//   static const String routeHome = '/', routeNotification = '/notification-page';
-
-//   @override
-//   void initState() {
-//     NotificationController.startListeningNotificationEvents();
-//     super.initState();
-//   }
-
-  // List<Route<dynamic>> onGenerateInitialRoutes(String initialRouteName) {
-  //   List<Route<dynamic>> pageStack = [];
-  //   pageStack.add(MaterialPageRoute(
-  //       builder: (_) =>
-  //           const MyHomePage(title: 'Awesome Notifications Example App')));
-  //   if (initialRouteName == routeNotification &&
-  //       NotificationController.initialAction != null) {
-  //     pageStack.add(MaterialPageRoute(
-  //         builder: (_) => NotificationPage(
-  //             receivedAction: NotificationController.initialAction!)));
-  //   }
-  //   return pageStack;
-  // }
-
-//   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-//     switch (settings.name) {
-//       case routeHome:
-//         return MaterialPageRoute(
-//             builder: (_) =>
-//                 const MyHomePage(title: 'Awesome Notifications Example App'));
-
-//       case routeNotification:
-//         ReceivedAction receivedAction = settings.arguments as ReceivedAction;
-//         return MaterialPageRoute(
-//             builder: (_) => NotificationPage(receivedAction: receivedAction));
-//     }
-//     return null;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Awesome Notifications - Simple Example',
-//       navigatorKey: MyApp.navigatorKey,
-//       onGenerateInitialRoutes: onGenerateInitialRoutes,
-//       onGenerateRoute: onGenerateRoute,
-//       theme: ThemeData(
-//         primarySwatch: Colors.deepPurple,
-//       ),
-//     );
-//   }
-// }
-
-///  *********************************************
-///     NOTIFICATION PAGE
-///  *********************************************
-///
-// class NotificationPage extends StatelessWidget {
-//   const NotificationPage({Key? key, required this.receivedAction})
-//       : super(key: key);
-
-//   final ReceivedAction receivedAction;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     bool hasLargeIcon = receivedAction.largeIconImage != null;
-//     bool hasBigPicture = receivedAction.bigPictureImage != null;
-//     double bigPictureSize = MediaQuery.of(context).size.height * .4;
-//     double largeIconSize =
-//         MediaQuery.of(context).size.height * (hasBigPicture ? .12 : .2);
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(receivedAction.title ?? receivedAction.body ?? ''),
-//       ),
-//       body: SingleChildScrollView(
-//         padding: EdgeInsets.zero,
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             SizedBox(
-//                 height:
-//                     hasBigPicture ? bigPictureSize + 40 : largeIconSize + 60,
-//                 child: hasBigPicture
-//                     ? Stack(
-//                         children: [
-//                           if (hasBigPicture)
-//                             FadeInImage(
-//                               placeholder: const NetworkImage(
-//                                   'https://cdn.syncfusion.com/content/images/common/placeholder.gif'),
-//                               //AssetImage('assets/images/placeholder.gif'),
-//                               height: bigPictureSize,
-//                               width: MediaQuery.of(context).size.width,
-//                               image: receivedAction.bigPictureImage!,
-//                               fit: BoxFit.cover,
-//                             ),
-//                           if (hasLargeIcon)
-//                             Positioned(
-//                               bottom: 15,
-//                               left: 20,
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.all(
-//                                     Radius.circular(largeIconSize)),
-//                                 child: FadeInImage(
-//                                   placeholder: const NetworkImage(
-//                                       'https://cdn.syncfusion.com/content/images/common/placeholder.gif'),
-//                                   //AssetImage('assets/images/placeholder.gif'),
-//                                   height: largeIconSize,
-//                                   width: largeIconSize,
-//                                   image: receivedAction.largeIconImage!,
-//                                   fit: BoxFit.cover,
-//                                 ),
-//                               ),
-//                             )
-//                         ],
-//                       )
-//                     : Center(
-//                         child: ClipRRect(
-//                           borderRadius:
-//                               BorderRadius.all(Radius.circular(largeIconSize)),
-//                           child: FadeInImage(
-//                             placeholder: const NetworkImage(
-//                                 'https://cdn.syncfusion.com/content/images/common/placeholder.gif'),
-//                             //AssetImage('assets/images/placeholder.gif'),
-//                             height: largeIconSize,
-//                             width: largeIconSize,
-//                             image: receivedAction.largeIconImage!,
-//                             fit: BoxFit.cover,
-//                           ),
-//                         ),
-//                       )),
-//             Padding(
-//               padding: const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   RichText(
-//                       text: TextSpan(children: [
-//                     if (receivedAction.title?.isNotEmpty ?? false)
-//                       TextSpan(
-//                         text: receivedAction.title!,
-//                         style: Theme.of(context).textTheme.titleLarge,
-//                       ),
-//                     if ((receivedAction.title?.isNotEmpty ?? false) &&
-//                         (receivedAction.body?.isNotEmpty ?? false))
-//                       TextSpan(
-//                         text: '\n\n',
-//                         style: Theme.of(context).textTheme.bodyMedium,
-//                       ),
-//                     if (receivedAction.body?.isNotEmpty ?? false)
-//                       TextSpan(
-//                         text: receivedAction.body!,
-//                         style: Theme.of(context).textTheme.bodyMedium,
-//                       ),
-//                   ]))
-//                 ],
-//               ),
-//             ),
-//             Container(
-//               color: Colors.black12,
-//               padding: const EdgeInsets.all(20),
-//               width: MediaQuery.of(context).size.width,
-//               child: Text(receivedAction.toString()),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

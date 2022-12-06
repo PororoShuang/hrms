@@ -5,7 +5,6 @@ class GetUniqueId {
   static Future<String?> getDeviceId() async {
     var deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
-      // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else if (Platform.isAndroid) {
@@ -15,5 +14,3 @@ class GetUniqueId {
     return null;
   }
 }
-
-// String? deviceInfo = await GetUniqueId.getDeviceId();
