@@ -7,12 +7,20 @@ CREATE TABLE [dbo].[Compensation] (
     [approved_by]    NVARCHAR (MAX) NULL,
     [status]         NVARCHAR (MAX) NULL,
     [reject_reason]  NVARCHAR (MAX) NULL,
-    [date_completed] DATETIME2 (7)  NOT NULL,
-    CONSTRAINT [PK_Compensation] PRIMARY KEY CLUSTERED ([comp_id] ASC),
-    CONSTRAINT [FK_Compensation_EmployeeDetails_user_id] FOREIGN KEY ([user_id]) REFERENCES [dbo].[EmployeeDetails] ([employee_id]) ON DELETE CASCADE
+    [date_completed] DATETIME2 (7)  NOT NULL
 );
 
 
 GO
 CREATE NONCLUSTERED INDEX [IX_Compensation_user_id]
     ON [dbo].[Compensation]([user_id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[Compensation]
+    ADD CONSTRAINT [PK_Compensation] PRIMARY KEY CLUSTERED ([comp_id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[Compensation]
+    ADD CONSTRAINT [FK_Compensation_EmployeeDetails_user_id] FOREIGN KEY ([user_id]) REFERENCES [dbo].[EmployeeDetails] ([employee_id]) ON DELETE CASCADE;
