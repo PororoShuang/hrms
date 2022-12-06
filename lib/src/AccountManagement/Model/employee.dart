@@ -147,6 +147,17 @@ class Employee {
     });
   }
 
+  static String? Function(String?)? validateName(String name) {
+    return ((name) {
+      if (name == "" ||
+          !RegExp("/^.[a-zA-Z\s][a-zA-Z\s]{0,20}[a-zA-Z]+")
+              .hasMatch(name.toString())) {
+        return 'Enter a valid name!';
+      }
+      return null;
+    });
+  }
+
 //Employee ID Validation
 
   // //Getter

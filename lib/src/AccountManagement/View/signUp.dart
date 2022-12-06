@@ -13,6 +13,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUp extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
   String countryValue = " ";
   String _gender = "";
   String email = "";
@@ -87,330 +88,356 @@ class _SignUp extends State<SignUp> {
           ),
         ),
         body: Scrollbar(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Column(
-                  children: [
-                    imageProfile(),
-                  ],
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Full Name"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: icController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "NRIC No"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: passportController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Passport No (Non-Citizen Only)"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: dateOfBirthController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Date of Birth"),
-                    )),
-                Align(
-                  alignment: Alignment(-0.8, 1.2),
-                  child: Text('Gender',
-                      style: TextStyle(
-                          height: 2, fontSize: 20, color: Colors.black45)),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: RadioListTile<GenderType>(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                          value: GenderType.Male,
-                          groupValue: _genderType,
-                          title: Text(GenderType.Male.name),
-                          onChanged: (val) {
-                            setState(() {
-                              _genderType = val;
-                            });
-                          }),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: RadioListTile<GenderType>(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                          value: GenderType.Female,
-                          groupValue: _genderType,
-                          title: Text(GenderType.Female.name),
-                          onChanged: (val) {
-                            setState(() {
-                              _genderType = val;
-                            });
-                          }),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: SizedBox(
-                    width: 350,
-                    child: Column(children: [
-                      ///Adding CSC Picker Widget in app
-                      CSCPicker(
-                        ///Enable disable state dropdown [OPTIONAL PARAMETER]
-                        showStates: false,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  // Column(
+                  //   children: [
+                  //     imageProfile(),
+                  //   ],
+                  // ),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Full Name"),
+                        validator: Employee.validateName(nameController.text),
+                      )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: icController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "NRIC No"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: passportController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "Passport No (Non-Citizen Only)"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: dateOfBirthController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "Date of Birth"),
+                  //     )),
+                  // Align(
+                  //   alignment: Alignment(-0.8, 1.2),
+                  //   child: Text('Gender',
+                  //       style: TextStyle(
+                  //           height: 2, fontSize: 20, color: Colors.black45)),
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       flex: 1,
+                  //       child: RadioListTile<GenderType>(
+                  //           contentPadding:
+                  //               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //           value: GenderType.Male,
+                  //           groupValue: _genderType,
+                  //           title: Text(GenderType.Male.name),
+                  //           onChanged: (val) {
+                  //             setState(() {
+                  //               _genderType = val;
+                  //             });
+                  //           }),
+                  //     ),
+                  //     Expanded(
+                  //       flex: 1,
+                  //       child: RadioListTile<GenderType>(
+                  //           contentPadding:
+                  //               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //           value: GenderType.Female,
+                  //           groupValue: _genderType,
+                  //           title: Text(GenderType.Female.name),
+                  //           onChanged: (val) {
+                  //             setState(() {
+                  //               _genderType = val;
+                  //             });
+                  //           }),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Container(
+                  //   child: SizedBox(
+                  //     width: 350,
+                  //     child: Column(children: [
+                  //       ///Adding CSC Picker Widget in app
+                  //       CSCPicker(
+                  //         ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                  //         showStates: false,
 
-                        /// Enable disable city drop down [OPTIONAL PARAMETER]
-                        showCities: false,
+                  //         /// Enable disable city drop down [OPTIONAL PARAMETER]
+                  //         showCities: false,
 
-                        ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
-                        flagState: CountryFlag.DISABLE,
+                  //         ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                  //         flagState: CountryFlag.DISABLE,
 
-                        ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                  //         ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
 
-                        dropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Colors.grey.shade300, width: 1)),
+                  //         dropdownDecoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //             color: Colors.white,
+                  //             border: Border.all(
+                  //                 color: Colors.grey.shade300, width: 1)),
 
-                        ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
-                        disabledDropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.grey.shade300,
-                            border: Border.all(
-                                color: Colors.grey.shade300, width: 1)),
+                  //         ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                  //         disabledDropdownDecoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //             color: Colors.grey.shade300,
+                  //             border: Border.all(
+                  //                 color: Colors.grey.shade300, width: 1)),
 
-                        ///placeholders for dropdown search field
-                        countrySearchPlaceholder: "Country",
+                  //         ///placeholders for dropdown search field
+                  //         countrySearchPlaceholder: "Country",
 
-                        ///labels for dropdown
-                        countryDropdownLabel: countryValue,
+                  //         ///labels for dropdown
+                  //         countryDropdownLabel: countryValue,
 
-                        ///Default Country
-                        defaultCountry: DefaultCountry.Malaysia,
+                  //         ///Default Country
+                  //         defaultCountry: DefaultCountry.Malaysia,
 
-                        ///Disable country dropdown (Note: use it with default country)
-                        //disableCountry: true,
+                  //         ///Disable country dropdown (Note: use it with default country)
+                  //         //disableCountry: true,
 
-                        ///selected item style [OPTIONAL PARAMETER]
-                        selectedItemStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                        ),
+                  //         ///selected item style [OPTIONAL PARAMETER]
+                  //         selectedItemStyle: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 14,
+                  //         ),
 
-                        ///DropdownDialog Heading style [OPTIONAL PARAMETER]
-                        dropdownHeadingStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold),
+                  //         ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                  //         dropdownHeadingStyle: TextStyle(
+                  //             color: Colors.black,
+                  //             fontSize: 17,
+                  //             fontWeight: FontWeight.bold),
 
-                        ///DropdownDialog Item style [OPTIONAL PARAMETER]
-                        dropdownItemStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                        ),
+                  //         ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                  //         dropdownItemStyle: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 14,
+                  //         ),
 
-                        ///Dialog box radius [OPTIONAL PARAMETER]
-                        dropdownDialogRadius: 10.0,
+                  //         ///Dialog box radius [OPTIONAL PARAMETER]
+                  //         dropdownDialogRadius: 10.0,
 
-                        ///Search bar radius [OPTIONAL PARAMETER]
-                        searchBarRadius: 10.0,
+                  //         ///Search bar radius [OPTIONAL PARAMETER]
+                  //         searchBarRadius: 10.0,
 
-                        ///triggers once country selected in dropdown
-                        onCountryChanged: (value) {
-                          setState(() {
-                            ///store value in country variable
-                            countryValue = value.toString();
-                          });
-                        },
+                  //         ///triggers once country selected in dropdown
+                  //         onCountryChanged: (value) {
+                  //           setState(() {
+                  //             ///store value in country variable
+                  //             countryValue = value.toString();
+                  //           });
+                  //         },
+                  //       ),
+                  //     ]
+                  //         // child: DropdownButtonFormField<String>(
+                  //         //   decoration: InputDecoration(
+                  //         //     border: OutlineInputBorder(),
+                  //         //   ),
+                  //         //   value: selectedItemNationality,
+                  //         //   items: itemsNationality
+                  //         //       .map((item) => DropdownMenuItem<String>(
+                  //         //             value: item,
+                  //         //             child: Text(item,
+                  //         //                 style: TextStyle(
+                  //         //                     fontSize: 19,
+                  //         //                     fontStyle: FontStyle.italic,
+                  //         //                     color: Colors.black45)),
+                  //         //           ))
+                  //         //       .toList(),
+                  //         //   onChanged: (item) =>
+                  //         //       setState(() => selectedItemNationality = item),
+                  //         // ),
+                  //         ),
+                  //   ),
+                  // ),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: phoneController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "Phone Number"),
+                  //     )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Email Address"),
+                        validator: Employee.validateEmail(emailController.text),
+                        // validator: (value) {
+                        //   if (emailController.text.isEmpty ||
+                        //       !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        //           .hasMatch(emailController.text)) {
+                        //     return 'Enter a valid email!';
+                        //   } else
+                        //     return null;
+                        // },
+
+                        onFieldSubmitted: (value) {},
+                      )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: epfController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "EPF No"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: soscoController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "SOSCO No"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: iTaxController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "I-Tax No"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: bankNameController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "Bank Name"),
+                  //     )),
+                  // Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  //     child: TextFormField(
+                  //       controller: bankAccController,
+                  //       decoration: InputDecoration(
+                  //           border: OutlineInputBorder(
+                  //               borderSide: BorderSide(
+                  //             color: Colors.teal,
+                  //           )),
+                  //           labelText: "Bank Account"),
+                  //     )),
+                  // Container(
+                  //   child: SizedBox(
+                  //     width: 350,
+                  //     child: DropdownButtonFormField<String>(
+                  //       decoration: InputDecoration(
+                  //         border: OutlineInputBorder(),
+                  //       ),
+                  //       value: selectedItemSupervisor,
+                  //       items: itemsSupervisor
+                  //           .map((item) => DropdownMenuItem<String>(
+                  //                 value: item,
+                  //                 child: Text(item,
+                  //                     style: TextStyle(
+                  //                         fontSize: 19,
+                  //                         fontStyle: FontStyle.italic,
+                  //                         color: Colors.black45)),
+                  //               ))
+                  //           .toList(),
+                  //       onChanged: (item) =>
+                  //           setState(() => selectedItemSupervisor = item),
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Container(
+                  //   child: buildCheckBox(),
+                  // ),
+                  // Container(
+                  //   child: buildCheckBox2(),
+                  // ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    height: 55,
+                    width: 300,
+                    child: TextButton(
+                      child: Text("Submit", style: TextStyle(fontSize: 19)),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(112)),
                       ),
-                    ]
-                        // child: DropdownButtonFormField<String>(
-                        //   decoration: InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //   ),
-                        //   value: selectedItemNationality,
-                        //   items: itemsNationality
-                        //       .map((item) => DropdownMenuItem<String>(
-                        //             value: item,
-                        //             child: Text(item,
-                        //                 style: TextStyle(
-                        //                     fontSize: 19,
-                        //                     fontStyle: FontStyle.italic,
-                        //                     color: Colors.black45)),
-                        //           ))
-                        //       .toList(),
-                        //   onChanged: (item) =>
-                        //       setState(() => selectedItemNationality = item),
-                        // ),
-                        ),
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: phoneController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Phone Number"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Email Address"),
-                      // validator: Employee.validateEmail(emailController.text),
-                      onFieldSubmitted: (value) {},
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: epfController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "EPF No"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: soscoController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "SOSCO No"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: iTaxController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "I-Tax No"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: bankNameController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Bank Name"),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: bankAccController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Bank Account"),
-                    )),
-                Container(
-                  child: SizedBox(
-                    width: 350,
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      value: selectedItemSupervisor,
-                      items: itemsSupervisor
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item,
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.black45)),
-                              ))
-                          .toList(),
-                      onChanged: (item) =>
-                          setState(() => selectedItemSupervisor = item),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        } else {
+                          print("omg2");
+                        }
+                        //Employee.validateEmail(emailController.text);
+
+                        // print(_genderType.toString());
+                        // print(countryValue);
+                        // print(bankAccController.text);
+                        print(emailController.text);
+                        //print(test);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const Login()),
+                        // );
+                      },
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: buildCheckBox(),
-                ),
-                Container(
-                  child: buildCheckBox2(),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 55,
-                  width: 300,
-                  child: TextButton(
-                    child: Text("Submit", style: TextStyle(fontSize: 19)),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(112)),
-                    ),
-                    onPressed: () {
-                      Employee.validateEmail(emailController.text);
-                      // print(_genderType.toString());
-                      // print(countryValue);
-                      // print(bankAccController.text);
-                      print(emailController.text);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const Login()),
-                      // );
-                    },
-                  ),
-                ),
-                SizedBox(height: 20)
-              ],
+                  SizedBox(height: 20)
+                ],
+              ),
             ),
           ),
         ),
@@ -444,6 +471,9 @@ class _SignUp extends State<SignUp> {
             'Terms and Conditions',
             style: TextStyle(fontSize: 15, color: Colors.black45)),
       );
+  // Widget changeFieldColor(){
+
+  // }
 }
 
 Widget imageProfile() {
