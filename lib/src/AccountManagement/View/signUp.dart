@@ -111,39 +111,47 @@ class _SignUp extends State<SignUp> {
                             labelText: "Full Name"),
                         validator: Employee.validateName(nameController.text),
                       )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: icController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "NRIC No"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: passportController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Passport No (Non-Citizen Only)"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: dateOfBirthController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Date of Birth"),
-                  //     )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: icController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "NRIC No"), //want - or not
+                        validator: Employee.validateIC(icController.text),
+                      )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: passportController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Passport No (Non-Citizen Only)"),
+                        validator:
+                            Employee.validatePassport(passportController.text),
+                      )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: dateOfBirthController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Date of Birth"),
+                        validator: Employee.validateDateOfBirth(
+                            dateOfBirthController.text),
+                      )),
                   // Align(
                   //   alignment: Alignment(-0.8, 1.2),
                   //   child: Text('Gender',
@@ -278,17 +286,21 @@ class _SignUp extends State<SignUp> {
                   //         ),
                   //   ),
                   // ),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: phoneController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Phone Number"),
-                  //     )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: phoneController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText:
+                                "Phone Number"), //need to add country phone code
+                        validator:
+                            Employee.validatePhoneNumber(phoneController.text),
+                      )),
                   Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -301,72 +313,79 @@ class _SignUp extends State<SignUp> {
                             )),
                             labelText: "Email Address"),
                         validator: Employee.validateEmail(emailController.text),
-                        // validator: (value) {
-                        //   if (emailController.text.isEmpty ||
-                        //       !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        //           .hasMatch(emailController.text)) {
-                        //     return 'Enter a valid email!';
-                        //   } else
-                        //     return null;
-                        // },
-
                         onFieldSubmitted: (value) {},
                       )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: epfController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "EPF No"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: soscoController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "SOSCO No"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: iTaxController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "I-Tax No"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: bankNameController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Bank Name"),
-                  //     )),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //     child: TextFormField(
-                  //       controller: bankAccController,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Bank Account"),
-                  //     )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: epfController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "EPF No"),
+                        validator: Employee.validateEPF(epfController.text),
+                      )),
+
+                  //TN MAS 054110 000 0054321
+
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: soscoController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "SOSCO No"),
+                        validator: Employee.validateSOSCO(soscoController.text),
+                        // SOCSO or PERKESO number is our Malaysian NRIC number (12 digits, without the dash)
+                      )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: iTaxController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "I-Tax No"),
+                        validator: Employee.validateITax(iTaxController.text),
+                      )),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: bankNameController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Bank Name"),
+                      )),
+                  //make a bank list?
+
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: bankAccController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "Bank Account"),
+                        validator:
+                            Employee.validateBankAcc(bankAccController.text),
+                      )),
                   // Container(
                   //   child: SizedBox(
                   //     width: 350,
@@ -421,12 +440,11 @@ class _SignUp extends State<SignUp> {
                         } else {
                           print("omg2");
                         }
-                        //Employee.validateEmail(emailController.text);
 
                         // print(_genderType.toString());
                         // print(countryValue);
                         // print(bankAccController.text);
-                        print(emailController.text);
+                        // print(dateOfBirthController.text);
                         //print(test);
                         // Navigator.push(
                         //   context,
