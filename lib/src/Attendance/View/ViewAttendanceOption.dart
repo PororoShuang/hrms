@@ -1,60 +1,59 @@
-import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
-import 'package:hrms/src/Attendance/Controller/ScanQR.dart';
-import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
-import 'package:hrms/src/Attendance/View/FaceRecognition.dart';
+// import 'package:flutter/material.dart';
+// import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
+// import 'package:hrms/src/Attendance/Controller/ScanQR.dart';
+// import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 
-class AttendanceHome extends StatefulWidget {
-  @override
-  _AttendanceHomeState createState() => _AttendanceHomeState();
-}
+// class AttendanceHome extends StatefulWidget {
+//   @override
+//   _AttendanceHomeState createState() => _AttendanceHomeState();
+// }
 
-class _AttendanceHomeState extends State<AttendanceHome> {
-  @override
-  void initState() {
-    super.initState();
-    NotificationController.scheduleNewNotification();
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //     (_) =>);
-  }
+// class _AttendanceHomeState extends State<AttendanceHome> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     NotificationController.scheduleNewNotification();
+//     // WidgetsBinding.instance.addPostFrameCallback(
+//     //     (_) =>);
+//   }
 
-  final NotificationController nc = new NotificationController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Attendance Taking Options'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(50.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            textButton("QR Code", Scan()),
-            SizedBox(
-              height: 10.0,
-            ),
+//   final NotificationController nc = new NotificationController();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Attendance Taking Options'),
+//         centerTitle: true,
+//       ),
+//       body: Container(
+//         padding: EdgeInsets.all(50.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
+//           children: <Widget>[
+//             textButton("QR Code", Scan()),
+//             SizedBox(
+//               height: 10.0,
+//             ),
 
-            textButton("Facial Recognition", FaceRecognition()),
+//             textButton("Biometric Authentication", BiometricAuthentication()),
 
-            // textButton("Facial Recognition",NotificationController.scheduleNewNotification() ),
-          ],
-        ),
-      ),
-    );
-  }
+//             // textButton("Facial Recognition",NotificationController.scheduleNewNotification() ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 
-  Widget textButton(String text, Widget widget) {
-    return TextButton(
-      // padding: EdgeInsets.all(15.0),
-      child: Text(text),
-      onPressed: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => widget));
-      },
-      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-    );
-  }
-}
+//   Widget textButton(String text, Widget widget) {
+//     return TextButton(
+//       // padding: EdgeInsets.all(15.0),
+//       child: Text(text),
+//       onPressed: () {
+//         Navigator.of(context)
+//             .push(MaterialPageRoute(builder: (context) => widget));
+//       },
+//       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+//     );
+//   }
+// }
