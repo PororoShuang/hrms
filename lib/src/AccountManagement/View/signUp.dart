@@ -152,44 +152,46 @@ class _SignUp extends State<SignUp> {
                         validator: Employee.validateDateOfBirth(
                             dateOfBirthController.text),
                       )),
-                  // Align(
-                  //   alignment: Alignment(-0.8, 1.2),
-                  //   child: Text('Gender',
-                  //       style: TextStyle(
-                  //           height: 2, fontSize: 20, color: Colors.black45)),
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       flex: 1,
-                  //       child: RadioListTile<GenderType>(
-                  //           contentPadding:
-                  //               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //           value: GenderType.Male,
-                  //           groupValue: _genderType,
-                  //           title: Text(GenderType.Male.name),
-                  //           onChanged: (val) {
-                  //             setState(() {
-                  //               _genderType = val;
-                  //             });
-                  //           }),
-                  //     ),
-                  //     Expanded(
-                  //       flex: 1,
-                  //       child: RadioListTile<GenderType>(
-                  //           contentPadding:
-                  //               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //           value: GenderType.Female,
-                  //           groupValue: _genderType,
-                  //           title: Text(GenderType.Female.name),
-                  //           onChanged: (val) {
-                  //             setState(() {
-                  //               _genderType = val;
-                  //             });
-                  //           }),
-                  //     ),
-                  //   ],
-                  // ),
+                  Align(
+                    alignment: Alignment(-0.8, 1.2),
+                    child: Text('Gender',
+                        style: TextStyle(
+                            height: 2, fontSize: 20, color: Colors.black45)),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: RadioListTile<GenderType>(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
+                            value: GenderType.Male,
+                            groupValue: _genderType,
+                            title: Text(GenderType.Male.name),
+                            toggleable: false,
+                            onChanged: (val) {
+                              setState(() {
+                                _genderType = val;
+                              });
+                            }),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: RadioListTile<GenderType>(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
+                            value: GenderType.Female,
+                            groupValue: _genderType,
+                            title: Text(GenderType.Female.name),
+                            autofocus: true,
+                            onChanged: (val) {
+                              setState(() {
+                                _genderType = val;
+                              });
+                            }),
+                      ),
+                    ],
+                  ),
                   // Container(
                   //   child: SizedBox(
                   //     width: 350,
