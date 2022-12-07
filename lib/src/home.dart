@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../src/Attendance/View/attendance.dart';
 import '../src/LeaveApplication/View/leave.dart';
 import '../src/LeaveApplication/View/leaveApply.dart';
+import 'Attendance/Controller/scheduleNotification.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,6 +11,12 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationController.scheduleNewNotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

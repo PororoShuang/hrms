@@ -1,49 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// Determine the current position of the device.
 ///
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
-class determinePosition extends StatefulWidget {
-  @override
-  _determinePositionState createState() => _determinePositionState();
-}
 
-class _determinePositionState extends State<determinePosition> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Geofencing'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(50.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            textButton("Position", determinePosition()),
-            SizedBox(
-              height: 10.0,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+class determinePositionState {
+  //Call API to retrieve radius
+  static double setRadius = 110;
+  static double distance = 100;
+  static double companyLatitude = 3.217215;
+  static double companyLongitude = 101.727817;
 
-  Widget textButton(String text, Widget widget) {
-    return TextButton(
-      // padding: EdgeInsets.all(15.0),
-      child: Text(text),
-      onPressed: _determinePosition,
-      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-    );
-  }
-
-  Future<String> _determinePosition() async {
+  static Future<String?> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -83,11 +52,19 @@ class _determinePositionState extends State<determinePosition> {
 //position.latitude and position.longitude is USER CURRENT POSITION
 //end is company location
 //if distanceBetween < specified radius in METER, attendance can be taken
-    print(distanceBetween(
-            position.latitude, position.longitude, 3.21587, 101.72780)
+    distance = distanceBetween(position.latitude, position.longitude,
+        companyLatitude, companyLongitude);
+    print(distanceBetween(position.latitude, position.longitude,
+            companyLatitude, companyLongitude)
         .toDouble());
+    return distance.toString();
+  }
 
-    return position.toString();
+  static bool validPosition() {
+    if (distance <= setRadius) {
+      return true;
+    } else
+      return false;
   }
 
   /// Calculates the distance between the supplied coordinates in meters.
