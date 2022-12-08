@@ -24,7 +24,13 @@ class _Shift extends State<Shift> {
       child: Column(
           children:<Widget>[
             SizedBox(height: 30),
-
+            Text("Monday",style: TextStyle(height:2,fontSize:20,color: Colors.black45)),
+            Card(child:ListTile(
+                title: Text("Date"),
+                subtitle: Text("Time"))),
+            Card(child:ListTile(
+                title: Text("Date"),
+                subtitle: Text("Time"))),
           ]
       ),
     ),
