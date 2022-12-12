@@ -14,7 +14,8 @@ class _Home extends State<Home> {
   @override
   void initState() {
     super.initState();
-    NotificationController.scheduleNewNotification();
+    // NotificationController.scheduleNewNotification();
+    NotificationController.scheduleMultipleNotification();
   }
 
   @override
