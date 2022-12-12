@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'benefit.dart';
-import 'compensationApply.dart';
+import 'compensationApprove.dart';
+import 'compensationPending.dart';
+import 'compensationReject.dart';
 
-class BenefitAndCompensation extends StatefulWidget{
-  const BenefitAndCompensation({super.key});
+class CompensationStatus extends StatefulWidget{
+  const CompensationStatus({super.key});
   @override
-  State<BenefitAndCompensation> createState() => _BenefitAndCompensation();
+  State<CompensationStatus> createState() => _CompensationStatus();
 }
 
-class _BenefitAndCompensation extends State<BenefitAndCompensation>
+class _CompensationStatus extends State<CompensationStatus>
     with SingleTickerProviderStateMixin{
   late TabController controller;
 
   @override
   void initState(){
     super.initState();
-    controller=TabController(length: 2, vsync: this);
+    controller=TabController(length: 3, vsync: this);
   }
 
   @override
@@ -28,21 +29,23 @@ class _BenefitAndCompensation extends State<BenefitAndCompensation>
   @override
   Widget build(BuildContext context)=>Scaffold(
     appBar: AppBar(
-      title: Text('Benefit And Compensation'),
+      title: Text('Compensation Status'),
       centerTitle: true,
       bottom: TabBar(
         controller: controller,
         tabs: [
-          Tab(text:'Benefit'),
-          Tab(text:'Apply Claims'),
+          Tab(text:'Pending'),
+          Tab(text:'Approved'),
+          Tab(text:'Rejected'),
         ],
       ),
     ),
     body: TabBarView(
       controller: controller,
       children: [
-        Benefit(),
-        ApplyClaims(),
+        CompensationPending(),
+        CompensationApprove(),
+        CompensationReject(),
       ],
     ),
   );
