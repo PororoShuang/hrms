@@ -28,6 +28,7 @@ class ApiService {
           List<String> test = element.split(",");
           int i = -1;
           model.employeeId = test[++i];
+          model.employeeIdByCompany = test[++i];
 
           employee.add(model);
         });
