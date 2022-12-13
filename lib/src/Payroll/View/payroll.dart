@@ -22,9 +22,16 @@ class _Payroll extends State<Payroll> {
     ),
     body: SingleChildScrollView(
       child: Column(
-          children:<Widget>[
-            Text('Payroll'),
-          ]
+        children:<Widget>[
+          Card(child:ListTile(
+              onTap: (){},
+              title: Text("January"),
+              trailing: Icon(Icons.book))),
+          Card(child:ListTile(
+              onTap: (){},
+              title: Text("February"),
+              trailing: Icon(Icons.book))),
+        ],
       ),
     ),
 

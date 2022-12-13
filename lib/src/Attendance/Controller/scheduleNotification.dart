@@ -145,9 +145,7 @@ class NotificationController {
                 'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
             largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
             notificationLayout: NotificationLayout.BigPicture,
-            payload: {
-              'notificationId': '1234567890'
-            }),
+            payload: {'notificationId': '1234567890'}),
         actionButtons: [
           NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
           NotificationActionButton(
@@ -157,6 +155,15 @@ class NotificationController {
               isDangerousOption: true)
         ],
         schedule: NotificationCalendar.fromDate(
+            //valueA is the shift start time - local time AND shift end time - local time
+            //Modulos to be positive value
             date: DateTime.now().add(Duration(seconds: valueA))));
+  }
+  //Get Attendance ID, if got 2 attendance ID ,for loop twice to schedule 2 notifications;
+
+  static Future<void> scheduleMultipleNotification() async {
+    for (int i = 0; i < 5; i++) {
+      scheduleNewNotification();
+    }
   }
 }

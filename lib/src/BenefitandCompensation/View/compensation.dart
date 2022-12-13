@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import 'benefitAndCompensation.dart';
+import 'compensationStatus.dart';
+
+
+class Compensation extends StatefulWidget {
+  const Compensation({super.key});
+  @override
+  State<Compensation> createState() => _Compensation();
+}
+
+class _Compensation extends State<Compensation> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Benefit And Compensation'),
+        centerTitle:true,
+        automaticallyImplyLeading: true,
+        leading: IconButton(icon:Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); },),
+      ),
+      body: Column(
+        children:<Widget>[
+          Column(children: [
+            SizedBox(height: 20),
+            Column(
+              children: [
+                GestureDetector(
+                  onTap:(){Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const BenefitAndCompensation()));},
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:[
+                        ListTile(
+                          title: Text('Apply Compensation Claims'),),
+                      ],
+                    ),),
+                ),
+                SizedBox(height: 20),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap:(){Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const CompensationStatus()));},
+                      child: Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children:[
+                            ListTile(
+                              title: Text('View Compensation Status'),),
+                          ],
+                        ),),
+                    ),
+                  ],
+                ),
+
+              ],
+            ),
+          ],
+          ),
+        ],
+      ),
+
+
+    );
+
+  }
+}
+
+
+
