@@ -13,9 +13,10 @@ class _ChangePassword extends State<ChangePassword> {
   @override
   Widget build(BuildContext context)=> Scaffold(
     appBar: AppBar(
-        title: Text('Change Password'),
-        centerTitle:true,
-        automaticallyImplyLeading: true,
+      title: Text('Change Password'),
+      backgroundColor: Colors.blueGrey[900],
+      centerTitle:true,
+      automaticallyImplyLeading: true,
     ),
     body: SingleChildScrollView(
       child: Column(
@@ -91,7 +92,7 @@ class _ChangePassword extends State<ChangePassword> {
               child:TextButton(
                 child:Text("Save",style:TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor:Theme.of(context).primaryColor,
+                  backgroundColor:Colors.indigo[900],
                   foregroundColor:Colors.white,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(112)),
                 ), onPressed: () {},

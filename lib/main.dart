@@ -1,14 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/Attendance/Controller/geofencing.dart';
-import 'package:hrms/src/AccountManagement/View/signUp.dart';
 import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
-import 'package:hrms/src/Attendance/View/ViewAttendanceOption.dart';
-import 'package:hrms/src/Attendance/View/attendanceRegistration.dart';
-import 'package:hrms/src/home.dart';
+import 'package:hrms/src/Authentication/View/login_screen.dart';
 
-Future<void> main() async {
-  await NotificationController.initializeLocalNotifications();
+void main() {
   runApp(const MyApp());
 }
 
@@ -17,12 +11,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Excalic HRMS',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
+        textTheme: TextTheme(
+          subtitle1: TextStyle(color: Colors.black), //<-- SEE HERE
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          border: OutlineInputBorder(borderSide: BorderSide.none),
+        ),
       ),
 
-      home: Home(),
+      home: LoginScreen(),
       //home: AttendanceRegistration(),
       //home: AttendanceHome(),
       //home: determinePosition(),

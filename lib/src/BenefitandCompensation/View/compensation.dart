@@ -16,6 +16,7 @@ class _Compensation extends State<Compensation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Benefit And Compensation'),
+        backgroundColor: Colors.blueGrey[900],
         centerTitle:true,
         automaticallyImplyLeading: true,
         leading: IconButton(icon:Icon(Icons.arrow_back),

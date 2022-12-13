@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'leaveApply.dart';
 import 'leaveStatus.dart';
+
 
 
 class Leave extends StatefulWidget {
@@ -16,6 +18,7 @@ class _Leave extends State<Leave> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Leave'),
+        backgroundColor: Colors.blueGrey[900],
         centerTitle:true,
         automaticallyImplyLeading: true,
         leading: IconButton(icon:Icon(Icons.arrow_back),
@@ -28,18 +31,18 @@ class _Leave extends State<Leave> {
             SizedBox(height: 20),
             Column(
               children: [
-                 GestureDetector(
-                    onTap:(){Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const ApplyLeave()));},
-                    child: Card(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children:[
-                          ListTile(
-                            title: Text('Apply Leaves'),),
-                        ],
-                      ),),
-                  ),
+                GestureDetector(
+                  onTap:(){Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const ApplyLeave()));},
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:[
+                        ListTile(
+                          title: Text('Apply Leaves'),),
+                      ],
+                    ),),
+                ),
                 SizedBox(height: 20),
                 Column(
                   children: [
@@ -55,15 +58,16 @@ class _Leave extends State<Leave> {
                           ],
                         ),),
                     ),
-                   ],
-             ),
-         ],
-         ),
+                  ],
+                ),
+
+              ],
+            ),
+          ],
+          ),
         ],
       ),
-    ],
 
-    ),
 
     );
 

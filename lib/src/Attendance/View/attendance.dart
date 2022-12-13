@@ -11,40 +11,42 @@ class Attendance extends StatefulWidget{
 }
 
 class _Attendance extends State<Attendance>
-with SingleTickerProviderStateMixin{
-late TabController controller;
+    with SingleTickerProviderStateMixin{
+  late TabController controller;
 
-@override
-void initState(){
-  super.initState();
-  controller=TabController(length: 2, vsync: this);
-}
+  @override
+  void initState(){
+    super.initState();
+    controller=TabController(length: 2, vsync: this);
+  }
 
-@override
-void dispose(){
-  controller.dispose();
+  @override
+  void dispose(){
+    controller.dispose();
 
-  super.dispose();
-}
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context)=> Scaffold(
-      appBar: AppBar(
-        title: Text('Attendance'),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: controller,
-          tabs: [
-            Tab(text:'Registration'),
-            Tab(text:'History'),
-          ],
-        ),
-      ),
-      body: TabBarView(
+    appBar: AppBar(
+      title: Text('Attendance'),
+      backgroundColor: Colors.blueGrey[900],
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      bottom: TabBar(
         controller: controller,
-        children: [
-          AttendanceRegistration(),
-          AttendanceHistory(),
+        tabs: [
+          Tab(text:'Registration'),
+          Tab(text:'History'),
         ],
       ),
+    ),
+    body: TabBarView(
+      controller: controller,
+      children: [
+        AttendanceRegistration(),
+        AttendanceHistory(),
+      ],
+    ),
   );
 }

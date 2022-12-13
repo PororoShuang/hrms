@@ -1,4 +1,4 @@
-class Shift {
+class Shifts {
   String? _shift_id;
   DateTime? _shift_start;
   DateTime? _shift_end;

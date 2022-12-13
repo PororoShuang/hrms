@@ -14,6 +14,7 @@ class _BenefitDetails extends State<BenefitDetails> {
   Widget build(BuildContext context)=> Scaffold(
     appBar: AppBar(
       title: Text('Details'),
+      backgroundColor: Colors.blueGrey[900],
       centerTitle:true,
       automaticallyImplyLeading: true,
       leading: IconButton(icon:Icon(Icons.close),

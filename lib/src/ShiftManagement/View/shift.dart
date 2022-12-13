@@ -14,6 +14,7 @@ class _Shift extends State<Shift> {
   Widget build(BuildContext context)=> Scaffold(
     appBar: AppBar(
       title: Text('Shift'),
+      backgroundColor: Colors.blueGrey[900],
       centerTitle:true,
       automaticallyImplyLeading: true,
       leading: IconButton(icon:Icon(Icons.arrow_back),

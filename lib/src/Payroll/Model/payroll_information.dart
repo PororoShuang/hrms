@@ -1,4 +1,4 @@
-class Payroll {
+class Payrolls {
   String? _payroll_id;
   double? _month_salary;
   double? _overtime_pay;

@@ -48,6 +48,7 @@ class _TakePhotoState extends State<TakePhoto> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Take picture'),
+        backgroundColor: Colors.blueGrey[900],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

@@ -25,12 +25,13 @@ class _VerifyEmail extends State<VerifyEmail> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text('Verify Your Email'),
+          backgroundColor: Colors.blueGrey[900],
           centerTitle: true,
           automaticallyImplyLeading: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              //Navigator.pop(context);
+              Navigator.pop(context);
             },
           ),
         ),
@@ -184,7 +185,7 @@ class _VerifyEmail extends State<VerifyEmail> {
               child: TextButton(
                 child: Text("Verify", style: TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor:Colors.indigo[900],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),

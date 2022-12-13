@@ -1,4 +1,4 @@
-class Leave {
+class Leaves {
   String? _leave_id;
   String? _approval_status;
   DateTime? _date_created;
