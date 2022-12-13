@@ -54,7 +54,7 @@ void main() {
 class _HomeState extends State<Home> {
   //late List<Employee>? _userModel = [];
   //late String? _userModel = "";
-  late List? _userModel = [];
+  late List<dynamic>? _userModel = [];
   @override
   void initState() {
     super.initState();
@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               //Text(_userModel!.toString()),
-                              Text(_userModel![index].toString()),
+                              Text(_userModel!.toString()),
                               //Text(_userModel![index].employee_id.toString()),
                             ],
                           ),
