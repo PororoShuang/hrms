@@ -32,6 +32,7 @@ class _Training extends State<Training>
   Widget build(BuildContext context)=> Scaffold(
     appBar: AppBar(
       title: Text('Training'),
+      backgroundColor: Colors.blueGrey[900],
       centerTitle:true,
       automaticallyImplyLeading: true,
       leading: IconButton(icon:Icon(Icons.arrow_back),

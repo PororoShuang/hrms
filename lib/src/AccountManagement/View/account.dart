@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Login.dart';
+import '../../Authentication/View/login_screen.dart';
 import 'accountChangePassword.dart';
 
 
@@ -21,19 +21,21 @@ class _Account extends State<Account> {
   Widget build(BuildContext context)=> Scaffold(
     appBar: AppBar(
         title: Text('Account'),
+        backgroundColor: Colors.blueGrey[900],
         centerTitle:true,
         automaticallyImplyLeading: false,
         actions:<Widget>[
           IconButton(
             icon: Icon(Icons.logout_rounded),
             onPressed: (){Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Login()));
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
             },)
         ]
     ),
     body: SingleChildScrollView(
       child: Column(
           children:<Widget>[
+            SizedBox(height: 5),
             imageProfile(),
             Text('Name'),
             Text('Supervisor:'),
@@ -43,7 +45,7 @@ class _Account extends State<Account> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30,vertical: 5),
-                  width: 350,
+                  width: 300,
                   child: TextField(
                     controller: _controller,
                     enabled: _isEnableEmail,
@@ -71,7 +73,7 @@ class _Account extends State<Account> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30,vertical: 5),
-                  width: 350,
+                  width: 300,
                   child: TextField(
                     controller: _controller,
                     enabled: _isEnablePhoneNo,
@@ -99,7 +101,7 @@ class _Account extends State<Account> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30,vertical: 5),
-                  width: 350,
+                  width: 300,
                   child: TextField(
                     controller: _controller,
                     enabled: _isEnableAddress,
@@ -128,7 +130,7 @@ class _Account extends State<Account> {
               child:TextButton(
                 child:Text("Change Password",style:TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor:Theme.of(context).primaryColor,
+                  backgroundColor:Colors.indigo[900],
                   foregroundColor:Colors.white,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(112)),
                 ), onPressed: () {Navigator.push(context,
@@ -136,18 +138,6 @@ class _Account extends State<Account> {
               ),
             ),
             SizedBox(height: 30),
-            SizedBox(
-              height: 55,
-              width: 300,
-              child:TextButton(
-                child:Text("Save",style:TextStyle(fontSize: 19)),
-                style: TextButton.styleFrom(
-                  backgroundColor:Theme.of(context).primaryColor,
-                  foregroundColor:Colors.white,
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(112)),
-                ), onPressed: () {},
-              ),
-            ),
           ]
       ),
     ),

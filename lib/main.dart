@@ -1,11 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/Attendance/Controller/geofencing.dart';
-import 'package:hrms/src/AccountManagement/View/signUp.dart';
 import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
-import 'package:hrms/src/Attendance/View/ViewAttendanceOption.dart';
-import 'package:hrms/src/Attendance/View/attendanceRegistration.dart';
-import 'package:hrms/src/home.dart';
+import 'package:hrms/src/Authentication/View/login_screen.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:hrms/src/Attendance/Controller/testAPI.dart';
 
@@ -51,6 +46,10 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+void main() {
+  runApp(const Home());
+}
+
 class _HomeState extends State<Home> {
   late List<Attendance>? _userModel = [];
   @override
@@ -67,8 +66,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      debugShowCheckedModeBanner: false,
       appBar: AppBar(
         title: const Text('REST API Example'),
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
+        textTheme: TextTheme(
+          subtitle1: TextStyle(color: Colors.black), //<-- SEE HERE
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          border: OutlineInputBorder(borderSide: BorderSide.none),
+        ),
       ),
       body: _userModel == null || _userModel!.isEmpty
           ? const Center(
@@ -102,6 +111,11 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
+
+      home: LoginScreen(),
+      //home: AttendanceRegistration(),
+      //home: AttendanceHome(),
+      //home: determinePosition(),
     );
   }
 }

@@ -30,6 +30,7 @@ class _CompensationStatus extends State<CompensationStatus>
   Widget build(BuildContext context)=>Scaffold(
     appBar: AppBar(
       title: Text('Compensation Status'),
+      backgroundColor: Colors.blueGrey[900],
       centerTitle: true,
       bottom: TabBar(
         controller: controller,

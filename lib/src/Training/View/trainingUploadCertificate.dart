@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../View/trainingCardPicture.dart';
+import '../View/trainingTakePhoto.dart';
 import 'package:camera/camera.dart';
 import '../Service/dio_upload_service.dart';
 import '../Service/http_upload_service.dart';
-import '../View/trainingCardPicture.dart';
-import '../View/trainingTakePhoto.dart';
 
 
 class TrainingUploadCertificate extends StatefulWidget{
@@ -105,6 +105,7 @@ class _TrainingUploadCertificate extends State<TrainingUploadCertificate> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Upload Certificate'),
+        backgroundColor: Colors.blueGrey[900],
         centerTitle:true,
         automaticallyImplyLeading: true,
         leading: IconButton(icon:Icon(Icons.arrow_back),
@@ -129,7 +130,7 @@ class _TrainingUploadCertificate extends State<TrainingUploadCertificate> {
                       children: [
                         CardPicture(
                           onTap: () async {
-                            final String? imagePath =
+                            final String? image_path =
                             await Navigator.of(context)
                                 .push(MaterialPageRoute(
                                 builder: (_) =>
@@ -137,10 +138,10 @@ class _TrainingUploadCertificate extends State<TrainingUploadCertificate> {
                                       camera: _cameraDescription,
                                     )));
 
-                            print('imagepath: $imagePath');
-                            if (imagePath != null) {
+                            print('imagepath: $image_path');
+                            if (image_path != null) {
                               setState(() {
-                                _images.add(imagePath);
+                                _images.add(image_path);
                               });
                             }
                           },
@@ -158,6 +159,7 @@ class _TrainingUploadCertificate extends State<TrainingUploadCertificate> {
                 SizedBox(
                   height: 20.0,
                 ),
+
                 Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Row(
@@ -175,7 +177,7 @@ class _TrainingUploadCertificate extends State<TrainingUploadCertificate> {
 
                               child: RawMaterialButton(
                                 child: Text('Submit',style:TextStyle(fontSize:16,color:Colors.white)),
-                                padding: EdgeInsets.symmetric(vertical: 12.0),
+                                padding: EdgeInsets.symmetric(vertical: 15.0),
                                 onPressed: () async {
                                   // show loader
                                   presentLoader(context, text: 'Wait...');

@@ -41,14 +41,14 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
             Column(
               children: [
                 Align(
-                    alignment: Alignment(-0.8, 1.2),
+                    alignment: Alignment(-0.65, 1.2),
                     child: Text('Select Shift',
                         style: TextStyle(
                           height: 5,
                           fontSize: 20,
                         ))),
                 SizedBox(
-                  width: 350,
+                  width: 300,
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -68,14 +68,14 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                   ),
                 ),
                 Align(
-                    alignment: Alignment(-0.6, 1.2),
+                    alignment: Alignment(-0.35, 1.2),
                     child: Text('Select Check In/Out Method',
                         style: TextStyle(
                           height: 3,
                           fontSize: 20,
                         ))),
                 SizedBox(
-                  width: 350,
+                  width: 300,
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -94,10 +94,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                   ),
                 ),
                 SizedBox(height: 50),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
+                Container(
                       child: SizedBox(
                         height: 55,
                         width: 300,
@@ -105,7 +102,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           child:
                               Text("Check In", style: TextStyle(fontSize: 19)),
                           style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.teal,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(112)),
@@ -192,16 +189,15 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: SizedBox(
-                        height: 55,
-                        width: 300,
+                    SizedBox(height: 30),
+                    Container(
+                      height: 55,
+                      width: 300,
                         child: TextButton(
                           child:
                               Text("Check Out", style: TextStyle(fontSize: 19)),
                           style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.red[400],
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(112)),
@@ -211,9 +207,6 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           },
                         ),
                       ),
-                    ),
-                  ],
-                )
               ],
             )
           ]),

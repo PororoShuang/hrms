@@ -15,6 +15,7 @@ class _ForgotPassword extends State<ForgotPassword> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text('Forgot Password'),
+          backgroundColor: Colors.blueGrey[900],
           centerTitle: true,
           automaticallyImplyLeading: true,
           leading: IconButton(
@@ -53,7 +54,7 @@ class _ForgotPassword extends State<ForgotPassword> {
               child: TextButton(
                 child: Text("Send", style: TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor:Colors.indigo[900],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),

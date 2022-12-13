@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../src/home.dart';
 import '../src/Attendance/View/attendance.dart';
-import 'home.dart';
+import 'AccountManagement/View/account.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -16,7 +16,7 @@ class _BottomNavigation extends State<BottomNavigation> {
   final screens = [
     Home(),
     Attendance(),
-    Home(),
+    Account(),
   ];
   @override
   Widget build(BuildContext context) => Scaffold(

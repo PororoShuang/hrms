@@ -2,20 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class AttendanceHistory extends StatefulWidget{
-  const AttendanceHistory({super.key});
+class EmployeeLeaveApprove extends StatefulWidget{
+  const EmployeeLeaveApprove({super.key});
   @override
-  State<AttendanceHistory> createState() => _AttendanceHistory();
+  State<EmployeeLeaveApprove> createState() => _EmployeeLeaveApprove();
 }
 
-class _AttendanceHistory extends State<AttendanceHistory> {
+class _EmployeeLeaveApprove extends State<EmployeeLeaveApprove> {
 
   @override
   Widget build(BuildContext context)=> Scaffold(
     body: SingleChildScrollView(
       child: Column(
           children:<Widget>[
-            Text('history'),
+            Text('Employee Leave Approve'),
           ]
       ),
     ),

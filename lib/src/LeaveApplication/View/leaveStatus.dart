@@ -29,7 +29,8 @@ class _LeaveStatus extends State<LeaveStatus>
   @override
   Widget build(BuildContext context)=>Scaffold(
     appBar: AppBar(
-      title: Text('Attendance'),
+      title: Text('Leave'),
+      backgroundColor: Colors.blueGrey[900],
       centerTitle: true,
       bottom: TabBar(
         controller: controller,

@@ -1,7 +1,4 @@
-import 'package:csc_picker/model/select_status_model.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/View/login.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
 
 enum GenderType { Male, Female }
