@@ -1,140 +1,106 @@
 // ignore_for_file: non_constant_identifier_names
+import 'dart:convert';
+
+// List<Employee> attFromJson(String str) =>
+//     List<Employee>.from(json.decode(str).map((x) => Employee.fromJson(x)));
+// String attToJson(List<Employee> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Employee {
+  Employee(
+      {this.employee_id,
+      this.employee_id_by_company,
+      this.employee_name,
+      this.user_id,
+      this.parent_company,
+      this.staff_role,
+      this.acc_pass,
+      this.employer_id,
+      this.employer_name,
+      this.types_of_wages,
+      this.ic_no,
+      this.dob,
+      this.gender,
+      this.nationality,
+      this.phone_no,
+      this.email,
+      this.epf_no,
+      this.socso_no,
+      this.itax_no,
+      this.bank_name,
+      this.bank_no,
+      this.employment_start_date,
+      this.year_of_services = 0,
+      this.wages_rate = 0,
+      this.monthly_deduction = 0,
+      this.employement_letter = false});
+
   //Variable Declaration
-  String? _employee_id;
-  String? _employee_id_by_company;
-  String? _employee_name;
-  String? _user_id;
-  String? _parent_company;
-  String? _staff_role;
-  String? _acc_pass;
-  String? _employer_id;
-  String? _employer_name;
-  String? _types_of_wages;
-  String? _ic_no;
-  String? _dob;
-  String? _gender;
-  String? _nationality;
-  String? _phone_no;
-  String? _email;
-  String? _epf_no;
-  String? _socso_no;
-  String? _itax_no;
-  String? _bank_name;
-  String? _bank_no;
+  String? employee_id;
+  String? employee_id_by_company;
+  String? employee_name;
+  String? user_id;
+  String? parent_company;
+  String? staff_role;
+  String? acc_pass;
+  String? employer_id;
+  String? employer_name;
+  String? types_of_wages;
+  String? ic_no;
+  String? dob;
+  String? gender;
+  String? nationality;
+  String? phone_no;
+  String? email;
+  String? epf_no;
+  String? socso_no;
+  String? itax_no;
+  String? bank_name;
+  String? bank_no;
 
-  DateTime? _employment_start_date;
+  DateTime? employment_start_date;
 
-  int _year_of_services = 0;
+  int year_of_services = 0;
 
-  double _wages_rate = 0.00;
-  double _monthly_deduction = 0.00;
+  double wages_rate = 0.00;
+  double monthly_deduction = 0.00;
 
-  bool _employement_letter = false;
-  get employee_id => this._employee_id;
+  bool employement_letter = false;
 
-  set employee_id(value) => this._employee_id = value;
+  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
+      employee_id: json["employee id"],
+      employee_id_by_company: json["company employee id"],
+      employee_name: json["employee name"],
+      types_of_wages: json["type of wages"],
+      ic_no: json["ic no"],
+      dob: json["birthday"],
+      gender: json["gender"],
+      nationality: json["nationality"],
+      phone_no: json["phone no"],
+      email: json["email"],
+      epf_no: json["epf no"],
+      socso_no: json["socso no"],
+      itax_no: json["itax no"],
+      bank_name: json["bank name"],
+      bank_no: json["bank no"]);
 
-  get employee_id_by_company => this._employee_id_by_company;
-
-  set employee_id_by_company(value) => this._employee_id_by_company = value;
-
-  get employee_name => this._employee_name;
-
-  set employee_name(value) => this._employee_name = value;
-
-  get user_id => this._user_id;
-
-  set user_id(value) => this._user_id = value;
-
-  get parent_company => this._parent_company;
-
-  set parent_company(value) => this._parent_company = value;
-
-  get staff_role => this._staff_role;
-
-  set staff_role(value) => this._staff_role = value;
-
-  get acc_pass => this._acc_pass;
-
-  set acc_pass(value) => this._acc_pass = value;
-
-  get employer_id => this._employer_id;
-
-  set employer_id(value) => this._employer_id = value;
-
-  get employer_name => this._employer_name;
-
-  set employer_name(value) => this._employer_name = value;
-
-  get types_of_wages => this._types_of_wages;
-
-  set types_of_wages(value) => this._types_of_wages = value;
-
-  get ic_no => this._ic_no;
-
-  set ic_no(value) => this._ic_no = value;
-
-  get dob => this._dob;
-
-  set dob(value) => this._dob = value;
-
-  get gender => this._gender;
-
-  set gender(value) => this._gender = value;
-
-  get nationality => this._nationality;
-
-  set nationality(value) => this._nationality = value;
-
-  get phone_no => this._phone_no;
-
-  set phone_no(value) => this._phone_no = value;
-
-  get email => this._email;
-
-  set email(value) => this._email = value;
-
-  get epf_no => this._epf_no;
-
-  set epf_no(value) => this._epf_no = value;
-
-  get socso_no => this._socso_no;
-
-  set socso_no(value) => this._socso_no = value;
-
-  get itax_no => this._itax_no;
-
-  set itax_no(value) => this._itax_no = value;
-
-  get bank_name => this._bank_name;
-
-  set bank_name(value) => this._bank_name = value;
-
-  get bank_no => this._bank_no;
-
-  set bank_no(value) => this._bank_no = value;
-
-  get employment_start_date => this._employment_start_date;
-
-  set employment_start_date(value) => this._employment_start_date = value;
-
-  get year_of_services => this._year_of_services;
-
-  set year_of_services(value) => this._year_of_services = value;
-
-  get wages_rate => this._wages_rate;
-
-  set wages_rate(value) => this._wages_rate = value;
-
-  get monthly_deduction => this._monthly_deduction;
-
-  set monthly_deduction(value) => this._monthly_deduction = value;
-
-  get employement_letter => this._employement_letter;
-
-  set employement_letter(value) => this._employement_letter = value;
+  Map<String, dynamic> toJson() => {
+        "employee id": employee_id,
+        "company employee id": employee_id_by_company,
+        "employee name": employee_name,
+        "type of wages": types_of_wages,
+        "ic_no": ic_no,
+        "birthday": dob,
+        "gender": gender,
+        "nationality": nationality,
+        "phone no": phone_no,
+        "email": email,
+        "epf no": epf_no,
+        "socso_no": socso_no,
+        "itax no": itax_no,
+        "bank name": bank_name,
+        "bank no": bank_no
+      };
 
   static String? Function(String?)? validateEmail(String email) {
     return ((email) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
@@ -51,7 +52,9 @@ void main() {
 }
 
 class _HomeState extends State<Home> {
-  late List<Attendance>? _userModel = [];
+  //late List<Employee>? _userModel = [];
+  //late String? _userModel = "";
+  late List? _userModel = [];
   @override
   void initState() {
     super.initState();
@@ -59,63 +62,70 @@ class _HomeState extends State<Home> {
   }
 
   void _getData() async {
-    _userModel = (await ApiService().getUsers())!;
+    //_userModel = (await ApiService().getUsers());
+    _userModel = (await ApiService().getUsers());
+
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      debugShowCheckedModeBanner: false,
-      appBar: AppBar(
-        title: const Text('REST API Example'),
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
-        textTheme: TextTheme(
-          subtitle1: TextStyle(color: Colors.black), //<-- SEE HERE
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          hintStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          border: OutlineInputBorder(borderSide: BorderSide.none),
-        ),
-      ),
-      body: _userModel == null || _userModel!.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: _userModel!.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('REST API Example'),
+            // textSelectionTheme:
+            //     TextSelectionThemeData(cursorColor: Colors.black),
+            // textTheme: TextTheme(
+            //   subtitle1: TextStyle(color: Colors.black), //<-- SEE HERE
+            // ),
+            // inputDecorationTheme: InputDecorationTheme(
+            //   hintStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
+            //   contentPadding:
+            //       EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            //   border: OutlineInputBorder(borderSide: BorderSide.none),
+            // ),
+          ),
+          body: _userModel == null || _userModel!.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  // itemCount: _userModel!.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Column(
                         children: [
-                          Text(_userModel![index].attendance_id_.toString()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              //Text(_userModel!.toString()),
+                              Text(_userModel![index].toString()),
+                              //Text(_userModel![index].employee_id.toString()),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // Text(_userModel![index].employee_name.toString()),
+                              // Text(_userModel![index].employer_id.toString()),
+                              // Text(_userModel![index].employer_name.toString()),
+                            ],
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(_userModel![index].start_time_.toString()),
-                          Text(_userModel![index].end_time_.toString()),
-                          Text(_userModel![index].validity_.toString()),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-
-      home: LoginScreen(),
-      //home: AttendanceRegistration(),
-      //home: AttendanceHome(),
-      //home: determinePosition(),
-    );
+                    );
+                  },
+                ),
+        )
+        //home: LoginScreen(),
+        //home: AttendanceRegistration(),
+        //home: AttendanceHome(),
+        //home: determinePosition(),
+        );
   }
 }

@@ -4,5 +4,5 @@
 class ApiConstants {
   static String baseUrl =
       'https://finalyearproject20221212223004.azurewebsites.net';
-  static String usersEndpoint = '/api/AttendanceAPI';
+  static String usersEndpoint = '/api/AttendanceAPI/';
 }

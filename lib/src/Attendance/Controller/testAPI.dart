@@ -1,17 +1,28 @@
 // import 'package:flutter/widgets.dart';
 import 'dart:developer';
+import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import 'package:hrms/src/Attendance/constants.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  Future<List<Attendance>?> getUsers() async {
+  Future<List<Employee>?> getUsers() async {
     try {
-      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
+      //var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
+      var url = Uri.parse(
+          "https://finalyearproject20221212223004.azurewebsites.net/api/EmployeeAPI/");
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        List<Attendance> _model = attFromJson(response.body);
-        return _model;
+        //List<Employee> model = attFromJson(response.body);
+
+        //List Method
+        Employee model = new Employee();
+        List infoString = response.body.split(',');
+        List<Employee> storeInfo = [];
+        for (int i = 0; i < infoString.length; i++) {
+          storeInfo.add(infoString[i]);
+        }
+        return storeInfo;
       }
     } catch (e) {
       log(e.toString());
