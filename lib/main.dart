@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
+import 'package:hrms/src/AccountManagement/View/account.dart';
 import 'package:hrms/src/AccountManagement/View/callEmpAPI.dart';
 import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
-import 'package:hrms/src/Attendance/Controller/testAPI.dart';
+import 'package:hrms/src/AccountManagement/Controller/testAPI.dart';
+import 'package:hrms/src/home.dart';
 
 Future<void> main() async {
   await NotificationController.initializeLocalNotifications();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: CallEmpAPI(),
+      home: Account(),
       //home: AttendanceRegistration(),
       //home: AttendanceHome(),
       //home: determinePosition(),
