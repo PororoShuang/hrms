@@ -11,10 +11,9 @@ class ApplyLeave extends StatefulWidget {
 class _ApplyLeave extends State<ApplyLeave> {
   List<String> itemsType = [
     'Select a type',
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4'
+    'Paid Leave',
+    'Sick Leave',
+    'Unpaid Leave',
   ];
   String? selectedItemType = 'Select a type';
 
@@ -25,11 +24,11 @@ class _ApplyLeave extends State<ApplyLeave> {
   TimeOfDay EndTime = TimeOfDay(hour: 10, minute: 30);
 
   @override
-  Widget build(BuildContext context){
-    final hoursStartTime = StartTime.hour.toString().padLeft(2,'0');
-    final minutesStartTime = StartTime.minute.toString().padLeft(2,'0');
-    final hoursEndTime = EndTime.hour.toString().padLeft(2,'0');
-    final minutesEndTime = EndTime.minute.toString().padLeft(2,'0');
+  Widget build(BuildContext context) {
+    final hoursStartTime = StartTime.hour.toString().padLeft(2, '0');
+    final minutesStartTime = StartTime.minute.toString().padLeft(2, '0');
+    final hoursEndTime = EndTime.hour.toString().padLeft(2, '0');
+    final minutesEndTime = EndTime.minute.toString().padLeft(2, '0');
 
     return Scaffold(
       appBar: AppBar(
@@ -117,8 +116,8 @@ class _ApplyLeave extends State<ApplyLeave> {
                 ),
                 SizedBox(height: 5),
                 Align(
-                  alignment: Alignment(-0.8,1.0),
-                  child:  Text('Leave Type  ',
+                  alignment: Alignment(-0.8, 1.0),
+                  child: Text('Leave Type  ',
                       style: TextStyle(
                         height: 1,
                         fontSize: 18,
@@ -127,7 +126,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                 Container(
                   child: Column(
                     children: [
-                      SizedBox(height:3),
+                      SizedBox(height: 3),
                       SizedBox(
                         width: 350,
                         child: DropdownButtonFormField<String>(
@@ -137,12 +136,12 @@ class _ApplyLeave extends State<ApplyLeave> {
                           value: selectedItemType,
                           items: itemsType
                               .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontStyle: FontStyle.italic)),
-                          ))
+                                    value: item,
+                                    child: Text(item,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontStyle: FontStyle.italic)),
+                                  ))
                               .toList(),
                           onChanged: (item) =>
                               setState(() => selectedItemType = item),
@@ -153,8 +152,8 @@ class _ApplyLeave extends State<ApplyLeave> {
                 ),
                 SizedBox(height: 8),
                 Align(
-                  alignment: Alignment(-0.8,1.0),
-                  child:  Text('Reasons  ',
+                  alignment: Alignment(-0.8, 1.0),
+                  child: Text('Reasons  ',
                       style: TextStyle(
                         height: 1,
                         fontSize: 18,
@@ -171,11 +170,10 @@ class _ApplyLeave extends State<ApplyLeave> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.teal,
-                                  )),
+                                color: Colors.teal,
+                              )),
                             ),
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -183,11 +181,12 @@ class _ApplyLeave extends State<ApplyLeave> {
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
                   child: Row(
                     children: [
-                      Text('Start Time : ',
+                      Text('Leave Start Time : ',
                           style: TextStyle(
                               height: 1, fontSize: 18, color: Colors.black)),
-                      Text('$hoursStartTime:$minutesStartTime', style: TextStyle(
-                          height: 1, fontSize: 18, color: Colors.black)),
+                      Text('$hoursStartTime:$minutesStartTime',
+                          style: TextStyle(
+                              height: 1, fontSize: 18, color: Colors.black)),
                       IconButton(
                         icon: const Icon(Icons.access_time_filled_sharp),
                         color: Colors.green,
@@ -195,7 +194,6 @@ class _ApplyLeave extends State<ApplyLeave> {
                           TimeOfDay? newTime = await showTimePicker(
                             context: context,
                             initialTime: StartTime,
-
                           );
                           //if 'Cancel' return null
                           if (newTime == null) return;
@@ -212,11 +210,12 @@ class _ApplyLeave extends State<ApplyLeave> {
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
                   child: Row(
                     children: [
-                      Text('End Time   : ',
+                      Text('Leave End Time   : ',
                           style: TextStyle(
                               height: 1, fontSize: 18, color: Colors.black)),
-                      Text('$hoursEndTime:$minutesEndTime', style: TextStyle(
-                          height: 1, fontSize: 18, color: Colors.black)),
+                      Text('$hoursEndTime:$minutesEndTime',
+                          style: TextStyle(
+                              height: 1, fontSize: 18, color: Colors.black)),
                       IconButton(
                         icon: const Icon(Icons.access_time_filled_sharp),
                         color: Colors.black,
@@ -224,7 +223,6 @@ class _ApplyLeave extends State<ApplyLeave> {
                           TimeOfDay? newTime = await showTimePicker(
                             context: context,
                             initialTime: EndTime,
-
                           );
                           //if 'Cancel' return null
                           if (newTime == null) return;
@@ -237,60 +235,26 @@ class _ApplyLeave extends State<ApplyLeave> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
-                  child: Row(
-                    children: [
-                      Text('Date Submitted : ',
-                          style: TextStyle(
-                              height: 1, fontSize: 18, color: Colors.black)),
-                      Text(
-                        '${dateSubmit.year}/${dateSubmit.month}/${dateSubmit.day}',
-                        style: TextStyle(
-                            height: 1, fontSize: 18, color: Colors.black),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.date_range),
-                        color: Colors.pink,
-                        onPressed: () async {
-                          DateTime? newDate = await showDatePicker(
-                            context: context,
-                            initialDate: dateSubmit,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100),
-                          );
-                          //if 'Cancel' return null
-                          if (newDate == null) return;
-                          //if 'ok' date time
-                          setState(() {
-                            dateSubmit = newDate;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 55,
                   width: 300,
-                  child:TextButton(
-                    child:Text("Submit",style:TextStyle(fontSize: 19)),
+                  child: TextButton(
+                    child: Text("Submit", style: TextStyle(fontSize: 19)),
                     style: TextButton.styleFrom(
-                      backgroundColor:Colors.indigo[900],
-                      foregroundColor:Colors.white,
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(112)),
-                    ), onPressed: () { },
+                      backgroundColor: Colors.indigo[900],
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(112)),
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-
               ],
             )
           ],
         ),
-
       ),
     );
-
   }
 }

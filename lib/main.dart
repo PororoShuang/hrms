@@ -7,6 +7,7 @@ import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:hrms/src/AccountManagement/Controller/testAPI.dart';
+import 'package:hrms/src/LeaveApplication/View/leave.dart';
 import 'package:hrms/src/home.dart';
 
 Future<void> main() async {
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: Account(),
+      home: Leave(),
+      //home: Account(),
       //home: AttendanceRegistration(),
       //home: AttendanceHome(),
       //home: determinePosition(),
