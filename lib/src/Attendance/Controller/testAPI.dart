@@ -38,13 +38,17 @@ class ApiService {
           model.accPass = test[++i];
           model.employerId = test[++i];
           model.employer = test[++i];
-          //  model.employmentStartDate = test[++i];
+          model.employmentStartDate = DateTime.parse(test[++i]);
           model.typesOfWages = test[++i];
-          //  model.wagesRate = test[++i];
-          //  model.employementLetter = test[++i];
-          //  model.monthlyDeduction = test[++i];
+          //  model.wagesRate = test[++i]; double
+          String bool1 = test[++i];
+          if (bool1.toLowerCase() == false)
+            model.employementLetter = false;
+          else
+            model.employementLetter = true;
+          //  model.monthlyDeduction = test[++i]; double
           model.icNo = test[++i];
-          //  model.dob = test[++i];
+          model.dob = DateTime.parse(test[++i]);
           model.gender = test[++i];
           model.nationality = test[++i];
           model.phoneNo = test[++i];
@@ -56,14 +60,18 @@ class ApiService {
           model.bankNo = test[++i];
           model.aspId = test[++i];
           model.profileImgPath = test[++i];
-          //   model.isActive = test[++i];
+          String bool2 = test[++i];
+          if (bool2.toLowerCase() == false)
+            model.isActive = false;
+          else
+            model.isActive = true;
           model.religion = test[++i];
-          //   model.sickLeaveHourLeft = test[++i];
-          //  model.paidLeaveHourLeft = test[++i];
-          //   model.sickLeaveOnBargain = test[++i];
-          //   model.paidLeaveOnBargain = test[++i];
+          model.sickLeaveHourLeft = int.parse(test[++i]);
+          model.paidLeaveHourLeft = int.parse(test[++i]);
+          model.sickLeaveOnBargain = int.parse(test[++i]);
+          model.paidLeaveOnBargain = int.parse(test[++i]);
           model.uuid = test[++i];
-          //   model.leaveUpdate = test[++i];
+          model.leaveUpdate = DateTime.parse(test[++i]);
 
           employee.add(model);
         });
