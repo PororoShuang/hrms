@@ -6,6 +6,7 @@ import 'package:hrms/src/Attendance/Controller/scheduleNotification.dart';
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:hrms/src/Attendance/Controller/testAPI.dart';
+import 'package:hrms/src/LeaveApplication/View/leave.dart';
 
 Future<void> main() async {
   await NotificationController.initializeLocalNotifications();
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: CallEmpAPI(),
+      home: Leave(),
+      //home: CallEmpAPI(),
       //home: AttendanceRegistration(),
       //home: AttendanceHome(),
       //home: determinePosition(),
