@@ -94,7 +94,13 @@ class ApiService {
     }
   }
 
-  Future<List<Employee>?> updateUser() async {}
+  Future<List<Employee>?> updateUser() async {
+    var url = Uri.parse(
+        "https://finalyearproject20221212223004.azurewebsites.net/api/EmployeeAPI");
+
+    var response = await http.patch(url);
+    if (response.statusCode == 200) {}
+  }
 }
 // final urlapi = url;
 
