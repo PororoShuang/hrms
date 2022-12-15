@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../navBar.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -48,7 +47,6 @@ class _LoadingScreen extends State<LoadingScreen> {
               } else {
                 Future.delayed(Duration(milliseconds: 300), () {
                   setState(() {
-                    //showMessages = true;
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const BottomNavigation()));
                   });

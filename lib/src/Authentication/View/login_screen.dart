@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     image: DecorationImage(
-                                        image: AssetImage('assets/logo.png'))),
+                                        image: AssetImage('assets/excalicLogo.png'))),
                               ),
                               SizedBox(height: 25),
                               Text(
