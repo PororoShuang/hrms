@@ -27,7 +27,7 @@ class LeaveApiService {
           model.approved_by = retrievedData[++i];
           model.date_created = retrievedData[++i];
           model.leave_start = retrievedData[++i];
-          //model.leave_end = retrievedData[++i];
+          model.leave_end = retrievedData[++i];
           model.leave_type = retrievedData[++i];
           model.doc_file_path = retrievedData[++i];
           model.leave_reason = retrievedData[++i];
