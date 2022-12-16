@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Authentication/View/login_screen.dart';
+import 'accountBank.dart';
 import 'accountChangePassword.dart';
-import 'package:hrms/src/AccountManagement/Model/employee.dart';
-import '../Controller/AccountAPI.dart';
+import 'accountOthers.dart';
+import 'accountProfile.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -12,27 +13,6 @@ class Account extends StatefulWidget {
 }
 
 class _Account extends State<Account> {
-  late List<Employee>? _userModel = []; //
-  @override
-  void initState() {
-    super.initState();
-    _getData();
-  }
-
-  void _getData() async {
-    //_userModel = (await ApiService().getUsers());
-    _userModel = (await ApiService().getUsers())!;
-
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-  } //
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneNoController = TextEditingController();
-  bool _isEnableEmail = false;
-  bool _isEnablePhoneNo = false;
-  bool _isEnableAddress = false;
-  Employee model = new Employee();
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -51,148 +31,152 @@ class _Account extends State<Account> {
                 },
               )
             ]),
-        body: _userModel == null || _userModel!.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                child: Column(children: <Widget>[
-                  SizedBox(height: 5),
-                  imageProfile(),
-                  Text('Name'),
-                  Text('Supervisor:'),
-                  Align(
-                      alignment: Alignment(-0.8, 1.2),
-                      child: Text('Email',
-                          style: TextStyle(height: 2, fontSize: 20))),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                        width: 300,
-                        child: TextField(
-                          controller: emailController,
-                          enabled: _isEnableEmail,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                              color: Colors.teal,
-                            )),
-                            //labelText: _userModel![0].getEmail,
-                            labelText: "Email",
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            setState(() {
-                              _isEnableEmail = true;
-                            });
-                          })
-                    ],
+        body: Container(
+          padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+          child: ListView(
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    color: Colors.indigo,
                   ),
-                  Align(
-                      alignment: Alignment(-0.8, 1.2),
-                      child: Text('Phone Number',
-                          style: TextStyle(height: 2, fontSize: 20))),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                        width: 300,
-                        child: TextField(
-                          controller: phoneNoController,
-                          enabled: _isEnablePhoneNo,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                              color: Colors.teal,
-                            )),
-                            labelText: _userModel![0].phoneNo.toString(),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            setState(() {
-                              _isEnablePhoneNo = true;
-                            });
-                          })
-                    ],
-                  ),
-                  // Align(
-                  //     alignment: Alignment(-0.8, 1.2),
-                  //     child:
-                  //         Text('Address', style: TextStyle(height: 2, fontSize: 20))),
-                  // Row(
-                  //   children: <Widget>[
-                  //     Container(
-                  //       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  //       width: 300,
-                  //       child: TextField(
-                  //         controller: _controller,
-                  //         enabled: _isEnableAddress,
-                  //         decoration: InputDecoration(
-                  //           border: OutlineInputBorder(
-                  //               borderSide: BorderSide(
-                  //             color: Colors.teal,
-                  //           )),
-                  //           labelText: "Address",
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     IconButton(
-                  //         icon: Icon(Icons.edit),
-                  //         onPressed: () {
-                  //           setState(() {
-                  //             _isEnableAddress = true;
-                  //           });
-                  //         })
-                  //   ],
-                  // ),
-                  SizedBox(height: 30),
                   SizedBox(
-                    height: 55,
-                    width: 300,
-                    child: TextButton(
-                      child: Text("Change Password",
-                          style: TextStyle(fontSize: 19)),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.indigo[900],
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(112)),
-                      ),
-                      onPressed: () {
-                        // _userModel![0].getEmployeeId();
-                        _userModel![0].setEmail = emailController.text;
-                        ApiService().updateUser(_userModel![0]);
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const ChangePassword()));
-                      },
-                    ),
+                    width: 8,
                   ),
-                  SizedBox(height: 30),
-                ]),
+                  Text(
+                    "Edit Account",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-      );
-}
-
-Widget imageProfile() {
-  return Center(
-    child: Stack(
-      children: <Widget>[
-        CircleAvatar(
-          radius: 40.4,
-          backgroundColor: Colors.grey,
+              Divider(
+                height: 15,
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Profile()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.indigo,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePassword()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Change Password",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.indigo,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AccountBank()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Bank Name & Account ",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.indigo,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OtherAccount()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Other Account Number ",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.indigo,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+            ],
+          ),
         ),
-      ],
-    ),
-  );
+      );
 }

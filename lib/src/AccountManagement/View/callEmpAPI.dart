@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
-import '../Controller/AccountAPI.dart';
+import '../../AccountManagement/Controller/AccountAPI.dart';
 
 class CallEmpAPI extends StatefulWidget {
   const CallEmpAPI({Key? key}) : super(key: key);

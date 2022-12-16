@@ -19,6 +19,9 @@ class Attendance {
     this.leave_id_,
     this.supposed_end_,
     this.supposed_start_,
+    this.status,
+    this.shiftTime,
+    this.shiftDate,
   });
 
   String? attendance_id_;
@@ -31,6 +34,10 @@ class Attendance {
   String? leave_id_;
   DateTime? supposed_start_;
   DateTime? supposed_end_;
+  String? status;
+  DateTime? shiftTime;
+  DateTime? shiftDate;
+
   get attendanceid_ => this.attendance_id_;
 
   set attendanceid_(value) => this.attendance_id_ = value;
