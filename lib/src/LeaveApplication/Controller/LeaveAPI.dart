@@ -60,21 +60,9 @@ class LeaveApiService {
     // if (responseDateTime.statusCode == 200) {
     //   serverDateTime = responseDateTime.body.toString();
     // }
-    var response = await http.post(url, body: [
-      {
-        //employee.employeeId, //staff id
-        'E00001-L00005', // leave id 1
-        'E00001', // staff id 2
-        'approved', //approval status 3
-        'E00002', //approved by 4
-        '20/12/2022 6:00:00 PM', //leave start 5
-        '20/12/2022 6:30:00 PM', //leave end 6
-        leaveType, //leave type 7
-        'doc file path', //doc file path 8
-        leaveReason, //leave reason 9
-        'response message', //response message 10
-      }
-    ]);
+    var response = await http.post(url, body: {
+      "leave_id": "E000",
+    });
   }
 
   // void postAttendance() async {
