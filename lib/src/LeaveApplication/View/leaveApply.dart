@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Controller/LeaveAPI.dart';
+
 class ApplyLeave extends StatefulWidget {
   const ApplyLeave({super.key});
 
@@ -9,13 +11,18 @@ class ApplyLeave extends StatefulWidget {
 }
 
 class _ApplyLeave extends State<ApplyLeave> {
+  String? dateToString;
+  String? dateFromString;
+  String? startTimeString;
+  String? endTimeString;
+  TextEditingController leaveReason = new TextEditingController();
   List<String> itemsType = [
     'Select a type',
-    'Paid Leave',
-    'Sick Leave',
-    'Unpaid Leave',
+    'Paid',
+    'Sick',
+    'Unpaid',
   ];
-  String? selectedItemType = 'Select a type';
+  String? leaveType = 'Select a type';
 
   DateTime dateFrom = DateTime(2022, 12, 2);
   DateTime dateTo = DateTime(2022, 12, 2);
@@ -76,6 +83,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             dateFrom = newDate;
+                            dateFromString = dateFrom.day.toString();
                           });
                         },
                       ),
@@ -108,6 +116,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             dateTo = newDate;
+                            dateToString = dateTo.day.toString();
                           });
                         },
                       ),
@@ -133,7 +142,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
-                          value: selectedItemType,
+                          value: leaveType,
                           items: itemsType
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
@@ -143,8 +152,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                                             fontStyle: FontStyle.italic)),
                                   ))
                               .toList(),
-                          onChanged: (item) =>
-                              setState(() => selectedItemType = item),
+                          onChanged: (item) => setState(() => leaveType = item),
                         ),
                       ),
                     ],
@@ -166,6 +174,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                       SizedBox(
                           width: 350,
                           child: TextFormField(
+                            controller: leaveReason,
                             maxLines: 3,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -200,6 +209,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             StartTime = newTime;
+                            startTimeString = StartTime.hour.toString() +
+                                ":" +
+                                StartTime.minute.toString();
                           });
                         },
                       ),
@@ -229,6 +241,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             EndTime = newTime;
+                            endTimeString = EndTime.hour.toString() +
+                                ":" +
+                                EndTime.minute.toString();
                           });
                         },
                       ),
@@ -247,7 +262,16 @@ class _ApplyLeave extends State<ApplyLeave> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(112)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      LeaveApiService().postLeave(
+                          dateToString,
+                          dateFromString,
+                          startTimeString,
+                          endTimeString,
+                          leaveType,
+                          leaveReason.text);
+                      //LeaveApiService().postAttendance();
+                    },
                   ),
                 ),
               ],
