@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: Leave(),
+      home: Account(),
       //home: Account(),
       //home: AttendanceRegistration(),
       //home: AttendanceHome(),

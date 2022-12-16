@@ -168,7 +168,9 @@ class _Account extends State<Account> {
                             borderRadius: BorderRadius.circular(112)),
                       ),
                       onPressed: () {
-                        model.setEmail = emailController.text;
+                        // _userModel![0].getEmployeeId();
+                        _userModel![0].setEmail = emailController.text;
+                        ApiService().updateUser(_userModel![0]);
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
