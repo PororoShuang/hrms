@@ -10,11 +10,22 @@ class Leaves {
   String? doc_file_path;
   String? leave_reason;
   String? response_message;
+  String? leave_start_time;
+  String? leave_end_time;
 
   // @override
   // String toString() {
   //   return "($approval_status,$approved_by,$date_created,$leave_start,\n$leave_end,$leave_type,$leave_reason,$response_message)";
   // }
+  Leaves(
+      {this.leave_start,
+        this.leave_end,
+        this.leave_type,
+        this.leave_reason,
+        this.leave_start_time,
+        this.leave_end_time,
+        this.date_created,
+        this.approval_status});
 
   get leavetype => this.leave_type;
 

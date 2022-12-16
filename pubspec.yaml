@@ -89,7 +89,8 @@ flutter:
     - assets/shift.png
     - assets/training.png
     - assets/employee.png
-    - assets/logo.png
+    - assets/logoProfile.png
+    - assets/excalicLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

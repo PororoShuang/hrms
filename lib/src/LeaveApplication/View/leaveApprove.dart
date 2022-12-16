@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/Model/employee.dart';
-import 'package:hrms/src/LeaveApplication/Controller/LeaveAPI.dart';
-import 'package:hrms/src/LeaveApplication/Model/leave_information.dart';
-import 'package:hrms/src/LeaveApplication/View/leave.dart';
+import '../Model/leave_information.dart';
 
 class LeaveApprove extends StatefulWidget {
   const LeaveApprove({super.key});
@@ -11,50 +8,142 @@ class LeaveApprove extends StatefulWidget {
   State<LeaveApprove> createState() => _LeaveApprove();
 }
 
-late List<Leaves>? leaveModel = []; //
-late List<Employee>? employeeModel = [];
-
 class _LeaveApprove extends State<LeaveApprove> {
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
+  List<Leaves> myLeaveList = [
+    Leaves(
+        leave_start: "3/8/2022",
+        leave_end: "5/8/2022",
+        leave_type: "Annual Leave",
+        leave_reason: "Family Trip",
+        leave_start_time: "9.00",
+        leave_end_time: "18.00",
+        date_created: "28/7/2022",
+        approval_status: "Approved"),
+  ];
 
-  void getData() async {
-    leaveModel = (await LeaveApiService().getLeave())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-  } //
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: leaveModel == null || leaveModel!.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: leaveModel!.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
+  Widget build(BuildContext context) => Scaffold(
+        body: ListView(
+          children: myLeaveList.map((e) {
+            return Card(
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if (leaveModel![index]
-                                  .approval_status
-                                  .toString()
-                                  .toLowerCase() ==
-                              "approved")
-                            Text(leaveModel![index].date_created.toString()),
-                          Text(leaveModel![index].leave_start.toString()),
-                          Text(leaveModel![index].leave_end.toString()),
-                        ],
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Date From:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_start!),
+                      ),
+                      SizedBox(
+                        height: 30,
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-    );
-  }
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Date To:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_end!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Leave Type:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_type!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Reason:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_reason!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Start Time:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_start_time!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("End Time:"),
+                      ),
+                      Container(
+                        child: Text(e.leave_end_time!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Date Submitted:"),
+                      ),
+                      Container(
+                        child: Text(e.date_created!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Status:"),
+                      ),
+                      Container(
+                        child: Text(e.approval_status!),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      );
 }

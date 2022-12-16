@@ -1,11 +1,6 @@
 // // ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
-List<Employee> attFromJson(String str) =>
-    List<Employee>.from(json.decode(str).map((x) => Employee.fromJson(x)));
-String attToJson(List<Employee> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 // class Employee {
 //   Employee(
 //       {this.employee_id,
@@ -265,12 +260,6 @@ String attToJson(List<Employee> data) =>
 //
 //     final employee = employeeFromJson(jsonString);
 
-List<Employee> employeeFromJson(String str) =>
-    List<Employee>.from(json.decode(str).map((x) => Employee.fromJson(x)));
-
-String employeeToJson(List<Employee> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class Employee {
   Employee({
     this.employeeId,
@@ -323,13 +312,13 @@ class Employee {
   String? accPass;
   String? employerId;
   String? employer;
-  DateTime? employmentStartDate;
+  String? employmentStartDate;
   String? typesOfWages;
-  double? wagesRate;
-  bool? employementLetter;
-  double? monthlyDeduction;
+  String? wagesRate;
+  String? employementLetter;
+  String? monthlyDeduction;
   String? icNo;
-  DateTime? dob;
+  String? dob;
   String? gender;
   String? nationality;
   String? phoneNo;
@@ -341,14 +330,14 @@ class Employee {
   String? bankNo;
   String? aspId;
   String? profileImgPath;
-  bool? isActive;
+  String? isActive;
   String? religion;
-  int? sickLeaveHourLeft;
-  int? paidLeaveHourLeft;
-  int? sickLeaveOnBargain;
-  int? paidLeaveOnBargain;
+  String? sickLeaveHourLeft;
+  String? paidLeaveHourLeft;
+  String? sickLeaveOnBargain;
+  String? paidLeaveOnBargain;
   String? uuid;
-  DateTime? leaveUpdate;
+  String? leaveUpdate;
   get getEmployeeId => this.employeeId;
 
   set setEmployeeId(employeeId) => this.employeeId = employeeId;
@@ -504,86 +493,4 @@ class Employee {
   get getLeaveUpdate => this.leaveUpdate;
 
   set setLeaveUpdate(leaveUpdate) => this.leaveUpdate = leaveUpdate;
-
-  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
-        employeeId: json["employee_id"],
-        employeeIdByCompany: json["employee_id_by_company"],
-        employeeName: json["employee_name"],
-        userId: json["user_id"],
-        parentCompany: json["parent_company"],
-        company: json["Company"],
-        staffRole: json["staff_role"] == null ? null : json["staff_role"],
-        role: json["Role"],
-        accPass: json["acc_pass"],
-        employerId: json["employer_id"] == null ? null : json["employer_id"],
-        employer: json["Employer"],
-        employmentStartDate: DateTime.parse(json["employment_start_date"]),
-        typesOfWages:
-            json["types_of_wages"] == null ? null : json["types_of_wages"],
-        wagesRate: json["wages_rate"],
-        employementLetter: json["employement_letter"],
-        monthlyDeduction: json["monthly_deduction"],
-        icNo: json["ic_no"],
-        dob: json["dob"],
-        gender: json["gender"],
-        nationality: json["nationality"],
-        phoneNo: json["phone_no"],
-        email: json["email"],
-        epfNo: json["epf_no"],
-        soscoNo: json["sosco_no"],
-        itaxNo: json["itax_no"],
-        bankName: json["bank_name"],
-        bankNo: json["bank_no"],
-        aspId: json["asp_id"],
-        profileImgPath:
-            json["profileImg_path"] == null ? null : json["profileImg_path"],
-        isActive: json["is_active"],
-        religion: json["religion"] == null ? null : json["religion"],
-        sickLeaveHourLeft: json["sickLeaveHourLeft"],
-        paidLeaveHourLeft: json["paidLeaveHourLeft"],
-        sickLeaveOnBargain: json["sickLeaveOnBargain"],
-        paidLeaveOnBargain: json["paidLeaveOnBargain"],
-        uuid: json["uuid"],
-        leaveUpdate: DateTime.parse(json["leaveUpdate"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "employee_id": employeeId,
-        "employee_id_by_company": employeeIdByCompany,
-        "employee_name": employeeName,
-        "user_id": userId,
-        "parent_company": parentCompany,
-        "Company": company,
-        "staff_role": staffRole == null ? null : staffRole,
-        "Role": role,
-        "acc_pass": accPass,
-        "employer_id": employerId == null ? null : employerId,
-        "Employer": employer,
-        "employment_start_date": employmentStartDate,
-        "types_of_wages": typesOfWages == null ? null : typesOfWages,
-        "wages_rate": wagesRate,
-        "employement_letter": employementLetter,
-        "monthly_deduction": monthlyDeduction,
-        "ic_no": icNo,
-        "dob": dob,
-        "gender": gender,
-        "nationality": nationality,
-        "phone_no": phoneNo,
-        "email": email,
-        "epf_no": epfNo,
-        "sosco_no": soscoNo,
-        "itax_no": itaxNo,
-        "bank_name": bankName,
-        "bank_no": bankNo,
-        "asp_id": aspId,
-        "profileImg_path": profileImgPath == null ? null : profileImgPath,
-        "is_active": isActive,
-        "religion": religion == null ? null : religion,
-        "sickLeaveHourLeft": sickLeaveHourLeft,
-        "paidLeaveHourLeft": paidLeaveHourLeft,
-        "sickLeaveOnBargain": sickLeaveOnBargain,
-        "paidLeaveOnBargain": paidLeaveOnBargain,
-        "uuid": uuid,
-        "leaveUpdate": leaveUpdate,
-      };
 }
