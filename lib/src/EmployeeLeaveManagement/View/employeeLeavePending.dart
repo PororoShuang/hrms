@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeaveDetails.dart';
 
 
 class EmployeeLeavePending extends StatefulWidget{
@@ -29,6 +30,18 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                       borderSide: const BorderSide(color:Colors.black),
                     )
                 ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+              width: 400,
+              child:  TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 20),
+                ),
+                onPressed: (){Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const EmployeeLeaveDetails()));},
+                child: const Text('Disabled'),
               ),
             ),
           ]

@@ -39,7 +39,6 @@ class _Account extends State<Account> {
                       onPressed: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const LoginScreen())),
                         child: const Text('Confirm')
-
                     ),
                   ],
                 ),
