@@ -26,7 +26,7 @@ class _LeaveReject extends State<LeaveReject> {
     ),
   ];
 
-class _LeaveReject extends State<LeaveReject> {
+//class _LeaveReject extends State<LeaveReject> {
   @override
   Widget build(BuildContext context)=> Scaffold(
     body: ListView(
