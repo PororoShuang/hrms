@@ -7,6 +7,9 @@ import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:http/http.dart' as http;
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 
+Employee userModel = new Employee();
+List<Employee> employee = [];
+
 class ApiService {
   Future<List<Employee>?> getUsers() async {
     try {
@@ -18,7 +21,6 @@ class ApiService {
       var response = await http.get(url);
       if (response.statusCode == 200) {
         //List Method
-        List<Employee> employee = [];
         String infoString = response.body;
         infoString = infoString.substring(2, infoString.length - 2);
         List<String> infoList;
@@ -27,63 +29,62 @@ class ApiService {
         //infoList.forEach((element) {
         for (var element in infoList) {
           var index = infoList.indexOf(element);
-          Employee model = new Employee();
 
           List<String> test = element.split(",");
           //int index = 0;
           int i = -1;
-          model.employeeId = currentLoginID;
+          userModel.employeeId = currentLoginID;
           String captureId = test[++i]; //
-          if (model.employeeId == captureId) {
-            model.setEmployeeId = captureId;
+          if (userModel.employeeId == captureId) {
+            userModel.setEmployeeId = captureId;
 
             //model.employeeId = test[++i];
-            model.setEmployeeIdByCompany = test[++i]; //
-            //model.employeeName = test[++i];
-            model.setUserId = test[++i]; //
-            model.setParentCompany = test[++i]; //
+            userModel.setEmployeeIdByCompany = test[++i]; //
+            userModel.employeeName = test[++i];
+            userModel.setUserId = test[++i]; //
+            userModel.setParentCompany = test[++i]; //
             //model.company = test[++i];
-            model.setStaffRole = test[++i]; //
+            userModel.setStaffRole = test[++i]; //
             //model.role = test[++i];
-            model.setAccPass = test[++i]; //
-            model.setEmployerId = test[++i]; //
-            //model.employer = test[++i];
-            model.setEmploymentStartDate = test[++i]; //
+            userModel.setAccPass = test[++i]; //
+            userModel.setEmployerId = test[++i]; //
+            //userModel.employer = test[++i];
+            userModel.setEmploymentStartDate = test[++i]; //
             //model.employmentStartDate = DateTime.parse(test[++i]);
-            model.setTypesOfWages = test[++i];
-            model.setWagesRate = test[++i];
+            userModel.setTypesOfWages = test[++i];
+            userModel.setWagesRate = test[++i];
             //model.wagesRate = double.parse(test[++i]);
-            model.setEmployementLetter = test[++i];
+            userModel.setEmployementLetter = test[++i];
             // String bool1 = test[++i];
             // if (bool1.toLowerCase() == false)
             //   model.employementLetter = false;
             // else
             //   model.employementLetter = true;
-            model.setMonthlyDeduction = test[++i];
+            userModel.setMonthlyDeduction = test[++i];
             //model.isActive = test[++i];
-            model.setIcNo = test[i++];
-            model.setDob = test[++i];
-            model.setGender = test[i++];
-            model.setNationality = test[i++];
-            model.setPhoneNo = test[i++];
-            model.setEmail = test[i++];
-            model.setEpfNo = test[i++];
-            model.setSoscoNo = test[i++];
-            model.setItaxNo = test[i++];
-            model.setBankName = test[++i];
-            model.setBankNo = test[++i];
-            model.setAspId = test[++i];
-            model.setProfileImgPath = test[++i];
-            model.setIsActive = test[++i];
-            model.setReligion = test[++i]; //
-            model.setPaidLeaveHourLeft = test[++i]; //
-            model.setPaidLeaveOnBargain = test[++i]; //
-            model.setSickLeaveHourLeft = test[++i]; //
-            model.setSickLeaveOnBargain = test[++i]; //
-            model.setUuid = test[++i]; //
-            model.setLeaveUpdate = test[++i]; //
+            userModel.setIcNo = test[i++];
+            userModel.setDob = test[++i];
+            userModel.setGender = test[i++];
+            userModel.setNationality = test[i++];
+            userModel.setPhoneNo = test[i++];
+            userModel.setEmail = test[i++];
+            userModel.setEpfNo = test[i++];
+            userModel.setSoscoNo = test[i++];
+            userModel.setItaxNo = test[i++];
+            userModel.setBankName = test[++i];
+            userModel.setBankNo = test[++i];
+            userModel.setAspId = test[++i];
+            userModel.setProfileImgPath = test[++i];
+            userModel.setIsActive = test[++i];
+            userModel.setReligion = test[++i]; //
+            userModel.setPaidLeaveHourLeft = test[++i]; //
+            userModel.setPaidLeaveOnBargain = test[++i]; //
+            userModel.setSickLeaveHourLeft = test[++i]; //
+            userModel.setSickLeaveOnBargain = test[++i]; //
+            userModel.setUuid = test[++i]; //
+            userModel.setLeaveUpdate = test[++i]; //
 
-            employee.add(model);
+            employee.add(userModel);
             break;
           } else {
             continue;

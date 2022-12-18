@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   double _elementsOpacity = 1;
   bool loadingBallAppear = false;
   double loadingBallSize = 1;
-  late List<Employee> _userModel = [];
+  //late List<Employee> _userModel = [];
 
   @override
   void initState() {
@@ -118,10 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               elementsOpacity: _elementsOpacity,
                               onTap: () async {
                                 currentLoginID = idController.text;
-                                _userModel = (await ApiService().getUsers())!;
+                                //_userModel = (await ApiService().getUsers())!;
+                                (await ApiService().getUsers());
+
                                 setState(() {
                                   _elementsOpacity = 0;
-                                  if (_userModel.isEmpty) {
+                                  if (userModel == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content:
