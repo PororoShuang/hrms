@@ -24,7 +24,7 @@ class _LeavePending extends State<LeavePending> {
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     if (mounted) setState(() {});
     for (int i = 0; i < myLeaveList.length; i++) {
-      if (myLeaveList[i].approval_status.toString().toLowerCase() == " ") {
+      if (myLeaveList[i].approval_status.toString().toLowerCase() == null) {
         leavePendingList.add(myLeaveList[i]);
       }
     }

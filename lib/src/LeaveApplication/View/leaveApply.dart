@@ -276,14 +276,21 @@ class _ApplyLeave extends State<ApplyLeave> {
                       String? leaveEnd = "${dateToString}T$endTimeString:00";
                       LeaveApiService().postLeave(
                           leaveStart, leaveEnd, leaveType, leaveReason.text);
-                      // LeaveApiService().postLeave(
-                      //     dateToString,
-                      //     dateFromString,
-                      //     startTimeString,
-                      //     endTimeString,
-                      //     leaveType,
-                      //     leaveReason.text);
-                      //LeaveApiService().postAttendance();
+
+                      // setState(() {
+                      //   if (postResult == true) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //           content: Text('Leave Applied Successfully!')),
+                      //     );
+                      //   } else {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //           content: Text(
+                      //               'Something went wrong! Please try again!')),
+                      //     );
+                      //   }
+                      // });
                     },
                   ),
                 ),
