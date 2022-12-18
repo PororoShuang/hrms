@@ -7,6 +7,11 @@ import '../Widget/login_button.dart';
 import '../Widget/password_field.dart';
 import 'loading_screen.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
+import 'package:hrms/src/Authentication/Widget/passUserID.dart';
+import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
+import 'package:hrms/src/AccountManagement/View/accountProfile.dart';
+
+String? currentLoginID;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   double _elementsOpacity = 1;
   bool loadingBallAppear = false;
   double loadingBallSize = 1;
-  Employee model = new Employee();
+  late List<Employee> _userModel = [];
 
   @override
   void initState() {
@@ -62,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     image: DecorationImage(
-                                        image: AssetImage('assets/excalicLogo.png'))),
+                                        image: AssetImage(
+                                            'assets/excalicLogo.png'))),
                               ),
                               SizedBox(height: 25),
                               Text(
@@ -110,10 +116,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 20),
                             LoginButton(
                               elementsOpacity: _elementsOpacity,
-                              onTap: () {
+                              onTap: () async {
+                                currentLoginID = idController.text;
+                                _userModel = (await ApiService().getUsers())!;
                                 setState(() {
                                   _elementsOpacity = 0;
-                                  model.employeeId = idController.text;
+                                  if (_userModel.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text('Invalid ID or Password')),
+                                    );
+                                  }
                                 });
                               },
                               onAnimatinoEnd: () async {
