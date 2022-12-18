@@ -83,7 +83,11 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             dateFrom = newDate;
-                            dateFromString = dateFrom.day.toString();
+                            dateFromString = dateFrom.year.toString() +
+                                "-" +
+                                dateFrom.month.toString() +
+                                "-" +
+                                dateFrom.day.toString();
                           });
                         },
                       ),
@@ -116,7 +120,11 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             dateTo = newDate;
-                            dateToString = dateTo.day.toString();
+                            dateToString = dateTo.year.toString() +
+                                "-" +
+                                dateTo.month.toString() +
+                                "-" +
+                                dateTo.day.toString();
                           });
                         },
                       ),
@@ -263,13 +271,18 @@ class _ApplyLeave extends State<ApplyLeave> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
+                      String? leaveStart =
+                          "${dateFromString}T$startTimeString:00";
+                      String? leaveEnd = "${dateToString}T$endTimeString:00";
                       LeaveApiService().postLeave(
-                          dateToString,
-                          dateFromString,
-                          startTimeString,
-                          endTimeString,
-                          leaveType,
-                          leaveReason.text);
+                          leaveStart, leaveEnd, leaveType, leaveReason.text);
+                      // LeaveApiService().postLeave(
+                      //     dateToString,
+                      //     dateFromString,
+                      //     startTimeString,
+                      //     endTimeString,
+                      //     leaveType,
+                      //     leaveReason.text);
                       //LeaveApiService().postAttendance();
                     },
                   ),

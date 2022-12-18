@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
-import 'package:hrms/src/Attendance/constants.dart';
 import 'package:hrms/src/LeaveApplication/Model/leave_information.dart';
-import 'package:hrms/src/LeaveApplication/View/leave.dart';
 import 'package:http/http.dart' as http;
 
 int counter = 0;
+Employee employee = new Employee();
 
 class LeaveApiService {
   Future<List<Leaves>?> getLeave() async {
@@ -26,7 +24,7 @@ class LeaveApiService {
           int i = -1;
           model.leave_id = retrievedData[++i];
           model.staff_id = retrievedData[++i];
-          if (model.staff_id == "E00004") {
+          if (model.staff_id == employee.employeeId) {
             model.approval_status = retrievedData[++i];
             model.approved_by = retrievedData[++i];
             model.date_created = retrievedData[++i];
@@ -47,23 +45,56 @@ class LeaveApiService {
     }
   }
 
-  Employee employee = new Employee();
-  void postLeave(dateToString, dateFromString, startTimeString, endTimeString,
-      leaveType, leaveReason) async {
-    var url = Uri.parse(
-        'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
-
-    // var urlTime = Uri.parse(
-    //     'https://finalyearproject20221212223004.azurewebsites.net/api/DateTimeAPI');
-
-    // var responseDateTime = await http.get(urlTime);
-    // if (responseDateTime.statusCode == 200) {
-    //   serverDateTime = responseDateTime.body.toString();
-    // }
-    var response = await http.post(url, body: {
-      "leave_id": "E000",
-    });
+//"staff_id": employee.employeeId,
+  //employeeDetails is the staff id who approves the leave, remain as null as we are only applying leave
+  void postLeave(
+      String? leaveStart, String? leaveEnd, leaveType, leaveReason) async {
+    try {
+      var url = Uri.parse(
+          'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+      var response = await http.post(url, body: {
+        "leave_id": "E00004-L00007",
+        "staff_id": "E00004",
+        "employeeDetails": null,
+        "approval_status": null,
+        "approved_by": null,
+        "approvedByEmployee": null,
+        "date_created": "2022-12-19T10:30:00",
+        "leave_start": leaveStart.toString(),
+        "leave_end": leaveEnd.toString(),
+        "leave_reason": "Test post",
+        "response_message": "test post leave start",
+        "doc_filepath": "",
+        "leaveType": leaveType
+      });
+    } catch (e) {
+      log(e.toString());
+    }
   }
+
+  // void postLeave(dateToString, dateFromString, startTimeString, endTimeString,
+  //     leaveType, leaveReason) async {
+  //   try {
+  //     var url = Uri.parse(
+  //         'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+  //     var response = await http.post(url, body: {
+  //       "leave_id": "E0004-L00006",
+  //       "staff_id": "E00001",
+  //       "employeeDetails": "",
+  //       "approval_status": "",
+  //       "approved_by": "E0001",
+  //       "date_created": "2022-12-20T12:00:00",
+  //       "leave_start": "2022-12-20T12:00:00",
+  //       "leave_end": "2022-12-20T12:00:00",
+  //       "leave_type": "Sick",
+  //       "doc_filepath": "",
+  //       "leave_reason": "Test post",
+  //       "response_message": "post data manually"
+  //     });
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
   // void postAttendance() async {
   //   var url = Uri.parse(
