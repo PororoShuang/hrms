@@ -338,7 +338,10 @@ class Employee {
   String? paidLeaveOnBargain;
   String? uuid;
   String? leaveUpdate;
-  get getEmployeeId => this.employeeId;
+  //get getEmployeeId => this.employeeId;
+  String get getEmployeeId {
+    return employeeId.toString();
+  }
 
   set setEmployeeId(employeeId) => this.employeeId = employeeId;
 
