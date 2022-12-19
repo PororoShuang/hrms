@@ -73,7 +73,7 @@ class LeaveApiService {
             "doc_filepath": "",
             "leaveType": "Paid"
           }));
-      if (response.statusCode != 200) {
+      if (response.statusCode != 201) {
         print(response.body);
         print("smth went wrong trying to post");
       }

@@ -1,9 +1,8 @@
 // import 'package:flutter/widgets.dart';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
-import 'package:hrms/src/Attendance/constants.dart';
-import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 import 'package:http/http.dart' as http;
 import 'package:hrms/src/Authentication/View/login_screen.dart';
 
@@ -62,15 +61,18 @@ class ApiService {
             //   model.employementLetter = true;
             userModel.setMonthlyDeduction = test[++i];
             //model.isActive = test[++i];
-            userModel.setIcNo = test[i++];
-            userModel.setDob = test[++i];
-            userModel.setGender = test[i++];
-            userModel.setNationality = test[i++];
-            userModel.setPhoneNo = test[i++];
-            userModel.setEmail = test[i++];
-            userModel.setEpfNo = test[i++];
-            userModel.setSoscoNo = test[i++];
-            userModel.setItaxNo = test[i++];
+            userModel.setIcNo = test[++i];
+            String tempdob = test[++i];
+            List<String> dobList;
+            tempdob.split(" "); // 12/19/2022 11:13:00 AM
+            //userModel.setDob = test[++i];
+            userModel.setGender = test[++i];
+            userModel.setNationality = test[++i];
+            userModel.setPhoneNo = test[++i];
+            userModel.setEmail = test[++i];
+            userModel.setEpfNo = test[++i];
+            userModel.setSoscoNo = test[++i];
+            userModel.setItaxNo = test[++i];
             userModel.setBankName = test[++i];
             userModel.setBankNo = test[++i];
             userModel.setAspId = test[++i];
@@ -102,32 +104,73 @@ class ApiService {
     }
   }
 
-  Future<List<Employee>?> updateUser(Employee emp) async {
+  Future<void> updateUser() async {
     var url = Uri.parse(
         "https://finalyearproject20221212223004.azurewebsites.net/api/EmployeeAPI");
+    Map<String, String> headers = new HashMap();
+    headers['Accept'] = 'application/json';
+    headers['Content-type'] = 'application/json';
+    var response = await http.put(url,
+        headers: headers,
+        body: jsonEncode({
+          "employee_id": userModel.getEmployeeId,
+          "employee_id_by_company": userModel.getEmployeeIdByCompany,
+          "employee_name": userModel.getEmployeeName,
+          "user_id": userModel.getUserId,
+          "parent_company": userModel.getParentCompany,
+          "company": null,
+          "staff_role ": userModel.getStaffRole,
+          "role": null,
+          "acc_pass ": "555",
+          "employer_id ": userModel.getEmployerId,
+          "employment_start_date ": userModel.getEmploymentStartDate,
+          "types_of_wages ": userModel.getTypesOfWages,
+          "wages_rate ": userModel.getWagesRate,
+          "employement_letter ": userModel.getEmployementLetter,
+          "monthly_deduction ": userModel.getMonthlyDeduction,
+          "ic_no": userModel.getIcNo,
+          "dob": "2022-12-19T11:13:00", //
+          "gender ": "Female",
+          "nationality ": userModel.getNationality,
+          "phone_no": userModel.getPhoneNo,
+          "email": userModel.getEmail,
+          "epf_no": "12345",
+          "sosco_no ": "258963147",
+          "itax_no ": "4445256",
+          "bank_name ": "My bank",
+          "asp_id ": userModel.getAspId,
+          "profileImg_path ": userModel.getProfileImgPath,
+          "is_active ": userModel.getIsActive,
+          "religion ": userModel.getReligion,
+          "sickLeaveHourLeft": userModel.getSickLeaveHourLeft,
+          "paidLeaveHourLeft": userModel.getPaidLeaveHourLeft,
+          "sickLeaveOnBargain": userModel.getSickLeaveOnBargain,
+          "paidLeaveOnBargain": userModel.getPaidLeaveOnBargain,
+          "uuid ": "",
+          "leaveUpdate ": "2022-12-18T11:34:14"
+        }));
+    //if (response.statusCode == 200) {
 
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      // List<Employee> employee = [];
-      // String infoString = response.body;
-      // infoString = infoString.substring(2, infoString.length - 2);
-      // List<String> infoList;
-      // infoList = infoString.split("\",\"");
+    // List<Employee> employee = [];
+    // String infoString = response.body;
+    // infoString = infoString.substring(2, infoString.length - 2);
+    // List<String> infoList;
+    // infoList = infoString.split("\",\"");
 
-      // //infoList.forEach((element) {
-      // for (var element in infoList) {
-      //   Employee model = new Employee();
+    // //infoList.forEach((element) {
+    // for (var element in infoList) {
+    //   Employee model = new Employee();
 
-      //   List<String> test = element.split(",");
-      //   //int index = 0;
-      //   int i = -1;
-      //   model.employeeId = "E00002"; //employee id from login
-      //   String captureId = test[++i]; //
-      //   if (model.employeeId == captureId) {
-      var response = await http.put(url, body: emp);
-      // }
-    }
+    //   List<String> test = element.split(",");
+    //   //int index = 0;
+    //   int i = -1;
+    //   model.employeeId = "E00002"; //employee id from login
+    //   String captureId = test[++i]; //
+    //   if (model.employeeId == captureId) {
+    //var response = await http.put(url, body: emp);
+    // }
   }
+}
 
 // final urlapi = url;
 
@@ -147,5 +190,5 @@ class ApiService {
 //     notifyListeners();
 //   }
 // }
-}
+//}
 //}
