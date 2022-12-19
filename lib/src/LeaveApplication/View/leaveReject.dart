@@ -19,27 +19,30 @@ class _LeaveReject extends State<LeaveReject> {
     getData();
   }
 
-  List<Leaves> myLeaveList = [];
-  List<Leaves> rejectList = [];
+  List leaveDescendedRejectedList = [];
 
   void getData() async {
+    List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     if (mounted) setState(() {});
+    List<Leaves> rejectList = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status.toString().toLowerCase() ==
           "rejected") {
         rejectList.add(myLeaveList[i]);
       }
     }
+    leaveDescendedRejectedList = rejectList.reversed.toList();
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: rejectList == null || rejectList.isEmpty
+        body: leaveDescendedRejectedList == null ||
+                leaveDescendedRejectedList.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView(
-                children: rejectList.map((e) {
+                children: leaveDescendedRejectedList.map((e) {
                   return Card(
                     child: Column(
                       children: [
