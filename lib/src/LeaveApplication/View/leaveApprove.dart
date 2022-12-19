@@ -19,27 +19,29 @@ class _LeaveApprove extends State<LeaveApprove> {
     getData();
   }
 
-  late List<Leaves> myLeaveList = [];
-  late List<Leaves> approvedLeave = [];
+  List leaveDescendedApprovedList = [];
 
   void getData() async {
+    late List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-
+    late List<Leaves> approvedLeave = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status.toString().toLowerCase() ==
           "approved") {
         approvedLeave.add(myLeaveList[i]);
       }
     }
+    leaveDescendedApprovedList = approvedLeave.reversed.toList();
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: approvedLeave == null || approvedLeave.isEmpty
+        body: leaveDescendedApprovedList == null ||
+                leaveDescendedApprovedList.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView(
-                children: approvedLeave.map((e) {
+                children: leaveDescendedApprovedList.map((e) {
                   return Card(
                     child: Column(
                       children: [

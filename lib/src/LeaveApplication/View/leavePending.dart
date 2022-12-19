@@ -16,26 +16,29 @@ class _LeavePending extends State<LeavePending> {
     getData();
   }
 
-  late List<Leaves> myLeaveList = [];
-  late List<Leaves> leavePendingList = [];
+  List leaveDescendedPendingList = [];
 
   void getData() async {
+    List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     if (mounted) setState(() {});
+    List<Leaves> leavePendingList = [];
     for (int i = 0; i < myLeaveList.length; i++) {
-      if (myLeaveList[i].approval_status.toString().toLowerCase() == null) {
+      if (myLeaveList[i].approval_status == "") {
         leavePendingList.add(myLeaveList[i]);
       }
     }
+    leaveDescendedPendingList = leavePendingList.reversed.toList();
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: leavePendingList == null || leavePendingList.isEmpty
+        body: leaveDescendedPendingList == null ||
+                leaveDescendedPendingList.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView(
-                children: leavePendingList.map((e) {
+                children: leaveDescendedPendingList.map((e) {
                   return Card(
                     child: Column(
                       children: [

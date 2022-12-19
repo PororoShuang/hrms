@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
 
 import '../Controller/LeaveAPI.dart';
+import '../Model/leave_information.dart';
 
 class ApplyLeave extends StatefulWidget {
   const ApplyLeave({super.key});
@@ -11,6 +13,20 @@ class ApplyLeave extends StatefulWidget {
 }
 
 class _ApplyLeave extends State<ApplyLeave> {
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  late List<Leaves> myLeaveList = [];
+  late List<Leaves> totalList = [];
+  void getData() async {
+    myLeaveList = (await LeaveApiService().getTotalLeave())!;
+    // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    if (mounted) setState(() {});
+  } //
+
   String? dateToString;
   String? dateFromString;
   String? startTimeString;
@@ -274,23 +290,12 @@ class _ApplyLeave extends State<ApplyLeave> {
                       String? leaveStart =
                           "${dateFromString}T$startTimeString:00";
                       String? leaveEnd = "${dateToString}T$endTimeString:00";
-                      LeaveApiService().postLeave(
+                      LeaveApiService().postLeave(myLeaveList.length + 1,
                           leaveStart, leaveEnd, leaveType, leaveReason.text);
-
-                      // setState(() {
-                      //   if (postResult == true) {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       const SnackBar(
-                      //           content: Text('Leave Applied Successfully!')),
-                      //     );
-                      //   } else {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       const SnackBar(
-                      //           content: Text(
-                      //               'Something went wrong! Please try again!')),
-                      //     );
-                      //   }
-                      // });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LeavePending()));
                     },
                   ),
                 ),

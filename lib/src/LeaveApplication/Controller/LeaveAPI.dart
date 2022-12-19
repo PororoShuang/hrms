@@ -8,10 +8,12 @@ import 'package:http/http.dart' as http;
 
 int counter = 0;
 Employee employee = new Employee();
+int status = 0;
 
 class LeaveApiService {
-  Future<List<Leaves>?> getLeave() async {
+  Future<List<Leaves>?> getTotalLeave() async {
     try {
+      List<Leaves> leaves = [];
       var url = Uri.parse(
           'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
       var response = await http.get(url);
@@ -21,7 +23,44 @@ class LeaveApiService {
         List<String> infoList;
         infoList = infoString.split("\",\"");
 
-        List<Leaves> leaves = [];
+        for (var element in infoList) {
+          List<String> retrievedData = element.split(",");
+          int i = -1;
+          Leaves leaveModel = new Leaves();
+          leaveModel.leave_id = retrievedData[++i];
+          leaveModel.staff_id = retrievedData[++i];
+          leaveModel.approval_status = retrievedData[++i];
+          leaveModel.approved_by = retrievedData[++i];
+          leaveModel.date_created = retrievedData[++i];
+          leaveModel.leave_start = retrievedData[++i];
+          leaveModel.leave_end = retrievedData[++i];
+          leaveModel.leave_type = retrievedData[++i];
+          leaveModel.doc_file_path = retrievedData[++i];
+          leaveModel.leave_reason = retrievedData[++i];
+          leaveModel.response_message = retrievedData[++i];
+          leaves.add(leaveModel);
+        }
+      }
+      ;
+      return leaves;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<List<Leaves>?> getLeave() async {
+    try {
+      List<Leaves> leaves = [];
+
+      var url = Uri.parse(
+          'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        String infoString = response.body;
+        infoString = infoString.substring(2, infoString.length - 2);
+        List<String> infoList;
+        infoList = infoString.split("\",\"");
+
         for (var element in infoList) {
           List<String> retrievedData = element.split(",");
           int i = -1;
@@ -51,8 +90,10 @@ class LeaveApiService {
 
 //"staff_id": employee.employeeId,
   //employeeDetails is the staff id who approves the leave, remain as null as we are only applying leave
-  void postLeave(String? leaveStart, String? leaveEnd, String? leaveType,
-      String? leaveReason) async {
+  void postLeave(int totalLeaveLength, String? leaveStart, String? leaveEnd,
+      String? leaveType, String? leaveReason) async {
+    String totalLengthString = totalLeaveLength.toString().padLeft(5, "0");
+    String leaveIdString = userModel.employeeId! + "\-L" + totalLengthString;
     try {
       var url = Uri.parse(
           'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
@@ -62,7 +103,7 @@ class LeaveApiService {
       var response = await http.post(url,
           headers: headers,
           body: jsonEncode({
-            "leave_id": "Test7",
+            "leave_id": leaveIdString,
             "staff_id": userModel.employeeId,
             "employeeDetails": null,
             "approval_status": null,
@@ -72,13 +113,9 @@ class LeaveApiService {
             "leave_start": leaveStart,
             "leave_end": leaveEnd,
             "leave_reason": leaveReason,
-            "doc_filepath": "",
+            "doc_filepath": null,
             "leaveType": leaveType
           }));
-      if (response.statusCode != 201) {
-        print(response.body);
-        print("smth went wrong trying to post");
-      }
     } catch (e) {
       log(e.toString());
     }
