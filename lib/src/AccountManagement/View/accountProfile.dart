@@ -380,6 +380,8 @@ class ProfileState extends State<Profile> {
                         userModel.setEmail = emailController.text;
                         userModel.setNationality = countryValue;
                         userModel.setReligion = selectedItemReligion;
+                        userModel.setDob =
+                            convertDateTime(dateOfBirthController.text);
                         await ApiService().updateUser();
                         showToast();
                       },
