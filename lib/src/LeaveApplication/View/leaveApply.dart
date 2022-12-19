@@ -234,7 +234,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                             StartTime = newTime;
                             startTimeString = StartTime.hour.toString() +
                                 ":" +
-                                StartTime.minute.toString();
+                                StartTime.minute.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -266,7 +266,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                             EndTime = newTime;
                             endTimeString = EndTime.hour.toString() +
                                 ":" +
-                                EndTime.minute.toString();
+                                EndTime.minute.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -286,49 +286,49 @@ class _ApplyLeave extends State<ApplyLeave> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
-                      if (startTimeString == null || endTimeString == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Error'),
-                            content: Text(
-                                'Please select leave start time or end time'),
-                            actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('OK'))
-                            ],
-                          ),
-                        );
-                      } else if (dateFromString == null ||
-                          dateToString == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Error'),
-                            content: Text('Please select date'),
-                            actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('OK'))
-                            ],
-                          ),
-                        );
-                      } else {
-                        String? leaveStart =
-                            "${dateFromString}T$startTimeString:00";
-                        String? leaveEnd = "${dateToString}T$endTimeString:00";
-                        LeaveApiService().postLeave(myLeaveList.length + 1,
-                            leaveStart, leaveEnd, leaveType, leaveReason.text);
-                      }
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LeavePending()));
+                      // if (startTimeString == null || endTimeString == null) {
+                      //   showDialog(
+                      //     context: context,
+                      //     builder: (context) => AlertDialog(
+                      //       title: Text('Error'),
+                      //       content: Text(
+                      //           'Please select leave start time or end time'),
+                      //       actions: [
+                      //         ElevatedButton(
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //             child: Text('OK'))
+                      //       ],
+                      //     ),
+                      //   );
+                      // } else if (dateFromString == null ||
+                      //     dateToString == null) {
+                      //   showDialog(
+                      //     context: context,
+                      //     builder: (context) => AlertDialog(
+                      //       title: Text('Error'),
+                      //       content: Text('Please select date'),
+                      //       actions: [
+                      //         ElevatedButton(
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //             child: Text('OK'))
+                      //       ],
+                      //     ),
+                      //   );
+                      // } else {
+                      String? leaveStart =
+                          "${dateFromString}T$startTimeString:00";
+                      String? leaveEnd = "${dateToString}T$endTimeString:00";
+                      LeaveApiService().postLeave(myLeaveList.length + 1,
+                          leaveStart, leaveEnd, leaveType, leaveReason.text);
+                      //  }
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const LeavePending()));
                     },
                   ),
                 ),

@@ -116,6 +116,8 @@ class LeaveApiService {
             "doc_filepath": null,
             "leaveType": leaveType
           }));
+      print(response.statusCode);
+      print(response.body);
     } catch (e) {
       log(e.toString());
     }
