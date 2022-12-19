@@ -94,6 +94,17 @@ class LeaveApiService {
       String? leaveType, String? leaveReason) async {
     String totalLengthString = totalLeaveLength.toString().padLeft(5, "0");
     String leaveIdString = userModel.employeeId! + "\-L" + totalLengthString;
+    String dateNow = DateTime.now().year.toString() +
+        "-" +
+        DateTime.now().month.toString() +
+        "-" +
+        DateTime.now().day.toString() +
+        "T" +
+        DateTime.now().hour.toString() +
+        ":" +
+        DateTime.now().minute.toString().padLeft(2, "0") +
+        ":" +
+        DateTime.now().second.toString().padLeft(2, "0");
     try {
       var url = Uri.parse(
           'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
@@ -109,7 +120,7 @@ class LeaveApiService {
             "approval_status": null,
             "approved_by": null,
             "approvedByEmployee": null,
-            "date_created": leaveStart,
+            "date_created": dateNow,
             "leave_start": leaveStart,
             "leave_end": leaveEnd,
             "leave_reason": leaveReason,
