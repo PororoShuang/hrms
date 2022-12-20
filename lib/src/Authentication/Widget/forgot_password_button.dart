@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../AccountManagement/View/forgotPassword.dart';
 
 class ForgotPasswordButton extends StatefulWidget {

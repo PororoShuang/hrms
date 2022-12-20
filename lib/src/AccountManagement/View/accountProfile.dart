@@ -1,7 +1,6 @@
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import '../Controller/AccountAPI.dart';
 
@@ -289,7 +288,7 @@ class ProfileState extends State<Profile> {
                             //Padding = 4.0,
                             color: Colors.white70,
                             border: Border.all(
-                                color: Colors.grey.shade300, width: 1)),
+                                color: Colors.black45, width: 1)),
 
                         // ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
                         // disabledDropdownDecoration: BoxDecoration(
