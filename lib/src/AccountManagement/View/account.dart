@@ -54,7 +54,6 @@ class _Account extends State<Account> {
             children: [
               Row(
                 children: [
-                  Text(userModel.email!),
                   Icon(
                     Icons.person,
                     color: Colors.indigo,
