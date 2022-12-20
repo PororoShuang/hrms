@@ -39,6 +39,7 @@ class ProfileState extends State<Profile> {
       _isVisible = !_isVisible;
     });
   }
+  String? dateOfBirthString;
 
   Employee emp = Employee();
   List<String> itemsNationality = [
@@ -56,6 +57,7 @@ class ProfileState extends State<Profile> {
   ];
   String? selectedItemReligion = 'Select a Religion';
   GenderType? _genderType;
+  DateTime dateOfBirth = DateTime.now();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -191,16 +193,42 @@ class ProfileState extends State<Profile> {
                           labelText: "Email Address"),
                     )),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      controller: dateOfBirthController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Date of Birth"),
-                    )),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                  child: Row(
+                    children: [
+                      Text('Date Of Birth : ',
+                          style: TextStyle(
+                              height: 1, fontSize: 18, color: Colors.black45)),
+                      Text(
+                        '${dateOfBirth.year}/${dateOfBirth.month}/${dateOfBirth.day}',
+                        style: TextStyle(
+                            height: 1, fontSize: 18, color: Colors.black),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.date_range),
+                        onPressed: () async {
+                          DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: dateOfBirth,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+                          //if 'Cancel' return null
+                          if (newDate == null) return;
+                          //if 'ok' date time
+                          setState(() {
+                            dateOfBirth = newDate;
+                            dateOfBirthString = dateOfBirth.year.toString() +
+                                "-" +
+                                dateOfBirth.month.toString() +
+                                "-" +
+                                dateOfBirth.day.toString();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
