@@ -380,9 +380,11 @@ class ProfileState extends State<Profile> {
                         userModel.setEmail = emailController.text;
                         userModel.setNationality = countryValue;
                         userModel.setReligion = selectedItemReligion;
+                        dateOfBirthController.text =
+                            dateOfBirthController.text.replaceAll("/", "-");
                         userModel.setDob =
-                            convertDateTime(dateOfBirthController.text);
-                        await ApiService().updateUser();
+                            "${dateOfBirthController.text}T00:00:00";
+                        //await ApiService().updateUser();
                         showToast();
                       },
                     ),

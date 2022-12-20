@@ -110,7 +110,7 @@ class ApiService {
     }
   }
 
-  Future<void> updateUser() async {
+  Future<void> updateUser(String bankName, bankNo) async {
     var url = Uri.parse(
         "https://finalyearproject20221212223004.azurewebsites.net/api/EmployeeAPI");
     Map<String, String> headers = new HashMap();
@@ -135,7 +135,7 @@ class ApiService {
           "employement_letter ": userModel.getEmployementLetter,
           "monthly_deduction ": userModel.getMonthlyDeduction,
           "ic_no": userModel.getIcNo,
-          "dob": "2022-12-19T11:13:00", //
+          "dob": userModel.getDob, //
           "gender ": "Female",
           "nationality ": userModel.getNationality,
           "phone_no": userModel.getPhoneNo,
@@ -143,7 +143,8 @@ class ApiService {
           "epf_no": "12345",
           "sosco_no ": "258963147",
           "itax_no ": "4445256",
-          "bank_name ": "My bank",
+          "bank_name ": bankName,
+          "bank_no ": bankNo,
           "asp_id ": userModel.getAspId,
           "profileImg_path ": userModel.getProfileImgPath,
           "is_active ": userModel.getIsActive,
@@ -153,7 +154,7 @@ class ApiService {
           "sickLeaveOnBargain": userModel.getSickLeaveOnBargain,
           "paidLeaveOnBargain": userModel.getPaidLeaveOnBargain,
           "uuid ": "",
-          "leaveUpdate ": "2022-12-18T11:34:14"
+          "leaveUpdate ": userModel.getLeaveUpdate
         }));
     //if (response.statusCode == 200) {
 
@@ -188,28 +189,28 @@ String? convertDateTime(String tempdob) {
   dobList = tempdob.split(" "); // 12/19/2022 11:13:00 AM
   datedobString = dobList[0];
   dateSplit = datedobString.split("-");
-  if (dobList[1] != null) {
-    timedobString = dobList[1];
-    timeSplit = timedobString.split(":");
-    if (dobList[2].contains("PM")) {
-      hour = int.parse(timeSplit[0]) + 12;
-    } else
-      hour = timeSplit[0];
-    convertedDT = dateSplit[2] +
-        "-" +
-        dateSplit[1] +
-        "-" +
-        dateSplit[0] +
-        "T" +
-        hour.toString() +
-        ":" +
-        timeSplit[1] +
-        ":" +
-        timeSplit[2];
-  } else {
-    convertedDT =
-        dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + "T00:00:00";
-  }
+  // if (dobList[1].isNotEmpty) {
+  timedobString = dobList[1];
+  timeSplit = timedobString.split(":");
+  if (dobList[2].contains("PM")) {
+    hour = int.parse(timeSplit[0]) + 12;
+  } else
+    hour = timeSplit[0];
+  convertedDT = dateSplit[2] +
+      "-" +
+      dateSplit[1] +
+      "-" +
+      dateSplit[0] +
+      "T" +
+      hour.toString() +
+      ":" +
+      timeSplit[1] +
+      ":" +
+      timeSplit[2];
+  // } else {
+  //   convertedDT =
+  //       dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + "T00:00:00";
+  // }
 
   return convertedDT;
 }
