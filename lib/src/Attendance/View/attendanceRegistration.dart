@@ -22,21 +22,25 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
 
   List<String> shiftTime = [];
   List<Attendance> itemsShift = [];
+
   void getData() async {
     itemsShift = (await AttendanceApiService().getAttendance())!;
+
     for (int i = 0; i < itemsShift.length; i++) {
       shiftTime.add(itemsShift[i].shift_date_.toString() +
+          "\n " +
           itemsShift[i].supposed_start_.toString() +
           " - " +
-          itemsShift[i].supposed_end_.toString());
+          itemsShift[i].supposed_end_.toString() +
+          "&" +
+          itemsShift[i].attendance_id_.toString());
     }
     Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {}));
   }
 
   String? attendanceId;
-  //String? selectedItemShift = 'Select a shift';
-  //String? selectedItemShift = shiftTime[0].toString();
   late String? selectedItemShift = shiftTime[0].toString();
+
   List<String> items = [
     'Select a method',
     'Biometric Authentication',
@@ -73,7 +77,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           items: shiftTime
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
-                                    child: Text(item,
+                                    child: Text(item.substring(0, 34),
                                         style: TextStyle(
                                             fontSize: 19,
                                             fontStyle: FontStyle.italic)),
@@ -139,24 +143,60 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   String? positionHere =
                                       await determinePositionState
                                           .determinePosition();
-                                  if (determinePositionState.validPosition() ==
-                                      true) {
-                                    //CALL API HERE TO SAVE INTO DB
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'You are within designated area!'),
-                                      ),
-                                    );
-                                    //take attendance , call api to register attendance
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'You are not within designated area!'),
-                                      ),
-                                    );
+                                  // if (determinePositionState.validPosition() ==
+                                  //     true) {
+
+                                  //Get Attendance ID from selected item shift
+                                  String selectedAttId =
+                                      selectedItemShift!.substring(35);
+                                  //Compare with <Attendance> itemShift , then pass in as argument
+                                  for (int i = 0; i < itemsShift.length; i++) {
+                                    if (selectedAttId ==
+                                        itemsShift[i].attendance_id_) {
+                                      // AttendanceApiService().checkValidity(
+                                      //     itemsShift[i].supposed_start_!);
+                                      AttendanceApiService().updateAttendance(
+                                          itemsShift[i]
+                                              .attendance_id_
+                                              .toString(),
+                                          itemsShift[i].shift_id_.toString(),
+                                          itemsShift[i].start_time_.toString(),
+                                          itemsShift[i].end_time_.toString(),
+                                          itemsShift[i]
+                                              .supposed_start_
+                                              .toString(),
+                                          itemsShift[i]
+                                              .supposed_end_
+                                              .toString(),
+                                          itemsShift[i].validity_.toString(),
+                                          itemsShift[i].on_leave_.toString(),
+                                          "True",
+                                          itemsShift[i]
+                                              .check_out_valid_
+                                              .toString(),
+                                          itemsShift[i].leave_id_.toString(),
+                                          itemsShift[i].shift_date_.toString());
+                                    }
                                   }
+
+                                  //CALL API HERE TO SAVE INTO DB
+                                  //take attendance , call api to register attendance
+                                  //AttendanceApiService().
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'You are within designated area!'),
+                                    ),
+                                  );
+                                  // } else {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content: Text(
+                                  //           'You are not within designated area!'),
+                                  //     ),
+                                  //   );
+                                  // }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -179,6 +219,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   if (determinePositionState.validPosition() ==
                                       true) {
                                     //take attendance , call api to register attendance
+                                    //  AttendanceApiService().updateAttendance();
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
