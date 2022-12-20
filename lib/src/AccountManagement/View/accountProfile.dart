@@ -1,3 +1,4 @@
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
@@ -16,6 +17,13 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
+  bool _isVisible = true;
+  String countryValue = " ";
+
+  final icController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -26,8 +34,13 @@ class ProfileState extends State<Profile> {
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneNoController = TextEditingController();
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+  String? dateOfBirthString;
+
   Employee emp = Employee();
   List<String> itemsNationality = [
     'Select a Nationality',
@@ -39,13 +52,12 @@ class ProfileState extends State<Profile> {
   String? selectedItemNationality = 'Select a Nationality';
   List<String> itemsReligion = [
     'Select a Religion',
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4'
+    'Muslim',
+    'Non-Muslim',
   ];
   String? selectedItemReligion = 'Select a Religion';
   GenderType? _genderType;
+  DateTime dateOfBirth = DateTime.now();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -153,20 +165,26 @@ class ProfileState extends State<Profile> {
                     ),
                   ],
                 ),
+                Visibility(
+                  // visible: _isVisible,
+                  child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: TextFormField(
+                        controller: icController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                            labelText: "NRIC No"),
+                        //labelText: userModel.icNo),
+                      )),
+                ),
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          // labelText: "NRIC No"),
-                          labelText: userModel.icNo),
-                    )),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -175,18 +193,46 @@ class ProfileState extends State<Profile> {
                           labelText: "Email Address"),
                     )),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                          labelText: "Date of Birth"),
-                    )),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                  child: Row(
+                    children: [
+                      Text('Date Of Birth : ',
+                          style: TextStyle(
+                              height: 1, fontSize: 18, color: Colors.black45)),
+                      Text(
+                        '${dateOfBirth.year}/${dateOfBirth.month}/${dateOfBirth.day}',
+                        style: TextStyle(
+                            height: 1, fontSize: 18, color: Colors.black),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.date_range),
+                        onPressed: () async {
+                          DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: dateOfBirth,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+                          //if 'Cancel' return null
+                          if (newDate == null) return;
+                          //if 'ok' date time
+                          setState(() {
+                            dateOfBirth = newDate;
+                            dateOfBirthString = dateOfBirth.year.toString() +
+                                "-" +
+                                dateOfBirth.month.toString() +
+                                "-" +
+                                dateOfBirth.day.toString();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     child: TextFormField(
+                      controller: phoneController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -194,28 +240,128 @@ class ProfileState extends State<Profile> {
                           )),
                           labelText: "Phone Number"),
                     )),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                //   child: SizedBox(
+                //     width: 250,
+                //     child: DropdownButtonFormField<String>(
+                //       decoration: InputDecoration(
+                //         border: OutlineInputBorder(),
+                //       ),
+                //       value: selectedItemNationality,
+                //       items: itemsNationality
+                //           .map((item) => DropdownMenuItem<String>(
+                //                 value: item,
+                //                 child: Text(item,
+                //                     style: TextStyle(
+                //                         fontSize: 19,
+                //                         fontStyle: FontStyle.italic,
+                //                         color: Colors.black45)),
+                //               ))
+                //           .toList(),
+                //       onChanged: (item) =>
+                //           setState(() => selectedItemNationality = item),
+                //     ),
+                //   ),
+                // ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                   child: SizedBox(
                     width: 250,
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                    child: Column(children: [
+                      ///Adding CSC Picker Widget in app
+                      CSCPicker(
+                        ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                        showStates: false,
+
+                        /// Enable disable city drop down [OPTIONAL PARAMETER]
+                        showCities: false,
+
+                        ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                        flagState: CountryFlag.DISABLE,
+
+                        ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+
+                        dropdownDecoration: BoxDecoration(
+                            //borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                            //Padding = 4.0,
+                            color: Colors.white70,
+                            border: Border.all(
+                                color: Colors.grey.shade300, width: 1)),
+
+                        // ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                        // disabledDropdownDecoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                        //     color: Colors.grey.shade300,
+                        //     border: Border.all(
+                        //         color: Colors.grey.shade300, width: 1)),
+
+                        ///placeholders for dropdown search field
+                        countrySearchPlaceholder: "Country",
+
+                        ///labels for dropdown
+                        countryDropdownLabel: countryValue,
+
+                        ///Default Country
+                        defaultCountry: DefaultCountry.Malaysia,
+
+                        ///Disable country dropdown (Note: use it with default country)
+                        //disableCountry: true,
+
+                        ///selected item style [OPTIONAL PARAMETER]
+                        // selectedItemStyle: TextStyle(
+                        //   color: Colors.black,
+                        //   fontSize: 14,
+                        // ),
+
+                        ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                        // dropdownHeadingStyle: TextStyle(
+                        //     color: Colors.black,
+                        //     fontSize: 17,
+                        //     fontWeight: FontWeight.bold),
+
+                        ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                        // dropdownItemStyle: TextStyle(
+                        //   color: Colors.black,
+                        //   fontSize: 14,
+                        // ),
+
+                        ///Dialog box radius [OPTIONAL PARAMETER]
+                        //dropdownDialogRadius: 10.0,
+
+                        ///Search bar radius [OPTIONAL PARAMETER]
+                        //searchBarRadius: 10.0,
+
+                        ///triggers once country selected in dropdown
+                        onCountryChanged: (value) {
+                          setState(() {
+                            ///store value in country variable
+                            countryValue = value.toString();
+                          });
+                        },
                       ),
-                      value: selectedItemNationality,
-                      items: itemsNationality
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item,
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.black45)),
-                              ))
-                          .toList(),
-                      onChanged: (item) =>
-                          setState(() => selectedItemNationality = item),
-                    ),
+                    ]
+                        // child: DropdownButtonFormField<String>(
+                        //   decoration: InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //   ),
+                        //   value: selectedItemNationality,
+                        //   items: itemsNationality
+                        //       .map((item) => DropdownMenuItem<String>(
+                        //             value: item,
+                        //             child: Text(item,
+                        //                 style: TextStyle(
+                        //                     fontSize: 19,
+                        //                     fontStyle: FontStyle.italic,
+                        //                     color: Colors.black45)),
+                        //           ))
+                        //       .toList(),
+                        //   onChanged: (item) =>
+                        //       setState(() => selectedItemNationality = item),
+                        // ),
+                        ),
                   ),
                 ),
                 Container(
@@ -256,8 +402,16 @@ class ProfileState extends State<Profile> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(112)),
                       ),
-                      onPressed: () {
-                        emp.getEmployeeId;
+                      onPressed: () async {
+                        userModel.setIcNo = icController.text;
+                        userModel.setPhoneNo = phoneController.text;
+                        userModel.setEmail = emailController.text;
+                        userModel.setNationality = countryValue;
+                        userModel.setReligion = selectedItemReligion;
+                        userModel.setDob =
+                            convertDateTime(dateOfBirthController.text);
+                        await ApiService().updateUser();
+                        showToast();
                       },
                     ),
                   ),
