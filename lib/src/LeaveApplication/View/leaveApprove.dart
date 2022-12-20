@@ -10,8 +10,6 @@ class LeaveApprove extends StatefulWidget {
   State<LeaveApprove> createState() => _LeaveApprove();
 }
 
-late List<Employee>? employeeModel = [];
-
 class _LeaveApprove extends State<LeaveApprove> {
   @override
   void initState() {

@@ -100,7 +100,7 @@ class LeaveApiService {
         "-" +
         DateTime.now().day.toString() +
         "T" +
-        DateTime.now().hour.toString() +
+        DateTime.now().hour.toString().padLeft(2, "0") +
         ":" +
         DateTime.now().minute.toString().padLeft(2, "0") +
         ":" +

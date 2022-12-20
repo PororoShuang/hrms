@@ -232,9 +232,10 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             StartTime = newTime;
-                            startTimeString = StartTime.hour.toString() +
-                                ":" +
-                                StartTime.minute.toString().padLeft(2, "0");
+                            startTimeString =
+                                StartTime.hour.toString().padLeft(2, "0") +
+                                    ":" +
+                                    StartTime.minute.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -264,9 +265,10 @@ class _ApplyLeave extends State<ApplyLeave> {
                           //if 'ok' date time
                           setState(() {
                             EndTime = newTime;
-                            endTimeString = EndTime.hour.toString() +
-                                ":" +
-                                EndTime.minute.toString().padLeft(2, "0");
+                            endTimeString =
+                                EndTime.hour.toString().padLeft(2, "0") +
+                                    ":" +
+                                    EndTime.minute.toString().padLeft(2, "0");
                           });
                         },
                       ),
