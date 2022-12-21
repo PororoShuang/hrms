@@ -56,63 +56,53 @@ class AttendanceApiService {
     }
   }
 
-  void updateAttendance(
+  void updateCheckInAttendance(
       String selectedAttendanceId,
       String selectedShiftId,
-      String selectedStartTime,
       String selectedEndTime,
       String selectedSupposedStart,
       String selectedSupposedEnd,
       String selectedValidity,
       String selectedOnLeave,
-      String selectedCheckInValid,
       String selectedCheckOutValid,
       String selectedLeaveId,
       String selectedShiftDate) async {
     try {
+      //Log check in Time
+      //Get serverTime for Start Time
+      //Start Time refers to the time the employee checks in
+      //serverCurrentTime = 2022-12-21 04:35:33
+      var serverDateTimeRetrieved = await getServerTime();
+
+      serverDateTimeRetrieved = serverDateTimeRetrieved.replaceAll(" ", "T");
       selectedShiftDate = selectedShiftDate.replaceAll("\/", "\-");
       List splittedDate = selectedShiftDate.split("-");
       //Month Day Year
       selectedShiftDate =
           splittedDate[2] + "-" + splittedDate[0] + "-" + splittedDate[1];
 
-      List<String> splittedEndTime = selectedSupposedEnd.split(":");
-      if (splittedEndTime[2].contains("PM")) {
-        int hourPM = int.parse(splittedEndTime[0]);
-        hourPM = hourPM + 12;
-        splittedEndTime[0] = hourPM.toString();
-      }
-      splittedEndTime[0] = splittedEndTime[0].padLeft(2, "0");
-      splittedEndTime[1] = splittedEndTime[1].padLeft(2, "0");
-      splittedEndTime[2] = splittedEndTime[2].padLeft(2, "0");
-      selectedSupposedEnd = splittedEndTime[0] +
-          ":" +
-          splittedEndTime[1] +
-          ":" +
-          splittedEndTime[2];
+      //Selected Supposed Start Time : "7:00:00AM"
+      //splittedSupposedStartTime
+      //[0] 7
+      //[1] 00
+      //[2] 00 AM
 
-      List<String> splittedStartTime = selectedStartTime.split(" ");
-      if (splittedStartTime[2].contains("PM")) {
-        int hourPM = int.parse(splittedStartTime[0]);
-        hourPM = hourPM + 12;
-        splittedStartTime[0] = hourPM.toString();
-      }
-      splittedStartTime = splittedStartTime[1].split(":");
-      splittedStartTime[0] = splittedStartTime[0].padLeft(2, "0");
-      splittedStartTime[1] = splittedStartTime[1].padLeft(2, "0");
-      splittedStartTime[2] = splittedStartTime[2].padLeft(2, "0");
-      selectedStartTime = splittedStartTime[0] +
-          ":" +
-          splittedStartTime[1] +
-          ":" +
-          splittedStartTime[2];
+      List<String> splittedSupposedStartTime = selectedSupposedStart.split(":");
 
-      selectedSupposedStart = selectedShiftDate + "T" + selectedStartTime;
+      selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
+      selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
+
+      selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
       selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
+
+      DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
+      //Compare serverDT with current SupposedStartTime to know if employee is late , then set validity
+      //Validity True = Not Late , False = Late
+      selectedValidity = checkValidity(serverTime, selectedSupposedStart);
 
       Attendance attendanceModel = new Attendance();
       var url = Uri.parse(
-          'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+          'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
       Map<String, String> headers = new HashMap();
       headers['Accept'] = 'application/json';
       headers['Content-type'] = 'application/json';
@@ -121,16 +111,17 @@ class AttendanceApiService {
           body: jsonEncode({
             "attendance_id": selectedAttendanceId,
             "staff_id": userModel.employeeId,
-            "shift_id ": selectedAttendanceId,
-            "start_time": selectedStartTime,
-            "end_time": selectedEndTime,
-            "supposed_start ": selectedSupposedStart,
-            "suppose_end ": selectedSupposedEnd,
-            "validity ": selectedValidity,
-            "checkInValid ": "True",
-            "checkOutValid ": attendanceModel.check_out_valid_,
-            "leave_id": selectedLeaveId,
-            "on_leave": selectedOnLeave,
+            "shift_id": selectedShiftId,
+            "start_time":
+                serverDateTimeRetrieved, //use server time to log the check in timestamp to prevent time travel
+            "end_time": serverDateTimeRetrieved,
+            "supposed_start": selectedSupposedStart,
+            "suppose_end": selectedSupposedEnd,
+            "validity": selectedValidity,
+            "checkInValid": "True",
+            "checkOutValid": selectedCheckOutValid,
+            "leave_id": null,
+            "on_leave": "False",
           }));
       print(response.body);
       print(response.statusCode);
@@ -140,9 +131,202 @@ class AttendanceApiService {
     }
   }
 
-  bool checkValidity(String supposedStart) {
-    DateTime supposedStartDT = DateTime.parse(supposedStart);
+  void updateCheckOutAttendance(
+      String selectedAttendanceId,
+      String selectedShiftId,
+      String selectedStartTime,
+      String selectedEndTime,
+      String selectedSupposedStart,
+      String selectedSupposedEnd,
+      String selectedValidity,
+      String selectedOnLeave,
+      String selectedCheckInValid,
+      String selectedLeaveId,
+      String selectedShiftDate) async {
+    bool shiftEnded;
+    //Log check out Time
+    //Get serverTime for EndTime
+    //EndTime refers to the time the employee checks out
+    //serverCurrentTime = 2022-12-21 04:35:33
+    var serverDateTimeRetrieved = await getServerTime();
+    DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
+    //Compare serverDT with current DateTime.Now to know if employee is late , then set validity
+    //Validity True = Not Late , False = Late
+    String currentDeviceTime = DateTime.now().year.toString() +
+        "-" +
+        DateTime.now().month.toString().padLeft(2, "0") +
+        "-" +
+        DateTime.now().day.toString().padLeft(2, "0") +
+        " " +
+        DateTime.now().hour.toString().padLeft(2, "0") +
+        ":" +
+        DateTime.now().minute.toString().padLeft(2, "0") +
+        ":" +
+        DateTime.now().millisecond.toString().padLeft(2, "0");
+    DateTime deviceTime = DateTime.parse(currentDeviceTime);
+    if (deviceTime.compareTo(serverTime) > 0 ||
+        deviceTime.compareTo(serverTime) == 0) {
+      shiftEnded = true; //Shift has ended
+      try {
+        serverDateTimeRetrieved = serverDateTimeRetrieved.replaceAll(" ", "T");
+        selectedShiftDate = selectedShiftDate.replaceAll("\/", "\-");
+        List splittedDate = selectedShiftDate.split("-");
+        //Month Day Year
+        selectedShiftDate =
+            splittedDate[2] + "-" + splittedDate[0] + "-" + splittedDate[1];
 
-    return false;
+        //Selected Supposed Start Time : "7:00:00AM"
+        //splittedSupposedStartTime
+        //[0] 7
+        //[1] 00
+        //[2] 00 AM
+        selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
+        selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
+
+//
+
+        selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
+        selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
+
+        Attendance attendanceModel = new Attendance();
+        var url = Uri.parse(
+            'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
+        Map<String, String> headers = new HashMap();
+        headers['Accept'] = 'application/json';
+        headers['Content-type'] = 'application/json';
+        var response = await http.put(url,
+            headers: headers,
+            body: jsonEncode({
+              "attendance_id": selectedAttendanceId,
+              "staff_id": userModel.employeeId,
+              "shift_id ": selectedAttendanceId,
+              "start_time":
+                  selectedStartTime, //use server time to log the check in timestamp to prevent time travel
+              "end_time": null,
+              "supposed_start ": selectedSupposedStart,
+              "suppose_end ": selectedSupposedEnd,
+              "validity ": selectedValidity,
+              "checkInValid ": selectedCheckInValid,
+              "checkOutValid ": "True",
+              "leave_id": selectedLeaveId,
+              "on_leave": selectedOnLeave,
+            }));
+        print(response.body);
+        print(response.statusCode);
+        print(response.reasonPhrase);
+      } catch (e) {
+        log(e.toString());
+      }
+    } else
+      shiftEnded = false; //Late
+  }
+
+  String formatStartDTServer(String selectedSupposedStart) {
+    List<String> splittedSupposedStartTime = selectedSupposedStart.split(":");
+    //[2] 00 AM
+    if (splittedSupposedStartTime[2].contains("PM")) {
+      int hourPM = int.parse(splittedSupposedStartTime[0]);
+      hourPM = hourPM + 12;
+      splittedSupposedStartTime[0] = hourPM.toString();
+    }
+    // splittedSupposedStartTime = splittedSupposedStartTime[1].split(":");
+    splittedSupposedStartTime[0] = splittedSupposedStartTime[0].padLeft(2, "0");
+    splittedSupposedStartTime[1] = splittedSupposedStartTime[1].padLeft(2, "0");
+    splittedSupposedStartTime[2] = splittedSupposedStartTime[2].padLeft(2, "0");
+    selectedSupposedStart = splittedSupposedStartTime[0] +
+        ":" +
+        splittedSupposedStartTime[1] +
+        ":" +
+        splittedSupposedStartTime[2].substring(0, 2);
+    return selectedSupposedStart;
+  }
+
+  String formatEndDTServer(String selectedSupposedEnd) {
+    //Selected Supposed End Time
+    List<String> splittedEndTime = selectedSupposedEnd.split(":");
+    if (splittedEndTime[2].contains("PM")) {
+      int hourPM = int.parse(splittedEndTime[0]);
+      hourPM = hourPM + 12;
+      splittedEndTime[0] = hourPM.toString();
+    }
+    splittedEndTime[0] = splittedEndTime[0].padLeft(2, "0");
+    splittedEndTime[1] = splittedEndTime[1].padLeft(2, "0");
+    splittedEndTime[2] = splittedEndTime[2].padLeft(2, "0");
+    selectedSupposedEnd = splittedEndTime[0] +
+        ":" +
+        splittedEndTime[1] +
+        ":" +
+        splittedEndTime[2].substring(0, 2);
+
+    return selectedSupposedEnd;
+  }
+
+  Future<String> getServerTime() async {
+    String errorMsg = "Could not retrieve server time!";
+
+    var url = Uri.parse(
+        'https://finalyearproject20221212223004.azurewebsites.net/api/DateTimeAPI');
+    // var response = await http.put(url,
+    var responseGetTime = await http.get(url);
+
+    if (responseGetTime.statusCode == 200) {
+      //"2022-12-21T04:35:33.9249038+00:00"
+      String dateTimeRetrieved = responseGetTime.body;
+      //"2022-12-21T04:35:33"
+      dateTimeRetrieved = dateTimeRetrieved.substring(1, 20);
+      //"2022-12-21 04:35:33"
+      // dateTimeRetrieved = dateTimeRetrieved.replaceAll("T", " ");
+
+      //[0] 2022-12-21
+      //[1] 04:35:33"
+      //List<String> dateTimeSplitted = dateTimeRetrieved.split(" ");
+      List<String> dateTimeSplitted = dateTimeRetrieved.split("T");
+
+      //[0] 04
+      //[1] 35
+      //[2] 33
+      List<String> timeSplitted = dateTimeSplitted[1].split(":");
+
+      //Parse hour into Integer, then +8 , Eg: now 12pm , return server time 4am, 4+8 =12pm
+      int malaysiaHourPlusEight = int.parse(timeSplitted[0]);
+      malaysiaHourPlusEight = malaysiaHourPlusEight + 8;
+      //Convert the +8 hour time to String and assign into the timesplitted hour
+      timeSplitted[0] = malaysiaHourPlusEight.toString();
+      //Combine the date and time together
+      //[0] 2022-12-21 \
+      //[0] 04:
+      //[1] 35:
+      //[2] 33:
+      dateTimeRetrieved = dateTimeSplitted[0] +
+          " " +
+          timeSplitted[0] +
+          ":" +
+          timeSplitted[1] +
+          ":" +
+          timeSplitted[2];
+
+      //2022-12-21 04:35:33
+      return dateTimeRetrieved;
+    } else
+      return errorMsg;
+  }
+  // );
+  //} catch (e) {
+  // errorMsg = e.toString();
+  //return e.toString();
+  //}
+  //return errorMsg;
+
+  String checkValidity(DateTime serverTime, String selectedSupposedStart) {
+    selectedSupposedStart = selectedSupposedStart.replaceAll("T", " ");
+    DateTime DTsupposedStart =
+        DateTime.parse(formatStartDTServer(selectedSupposedStart));
+
+    if (serverTime.compareTo(DTsupposedStart) < 0 ||
+        DTsupposedStart.compareTo(serverTime) == 0) {
+      return "True"; //Not Late
+    } else
+      //Late
+      return "False";
   }
 }
