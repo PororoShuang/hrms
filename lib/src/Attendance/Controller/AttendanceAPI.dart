@@ -102,7 +102,7 @@ class AttendanceApiService {
 
       Attendance attendanceModel = new Attendance();
       var url = Uri.parse(
-          'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+          'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
       Map<String, String> headers = new HashMap();
       headers['Accept'] = 'application/json';
       headers['Content-type'] = 'application/json';
@@ -111,15 +111,15 @@ class AttendanceApiService {
           body: jsonEncode({
             "attendance_id": selectedAttendanceId,
             "staff_id": userModel.employeeId,
-            "shift_id ": selectedShiftId,
+            "shift_id": selectedShiftId,
             "start_time":
                 serverDateTimeRetrieved, //use server time to log the check in timestamp to prevent time travel
             "end_time": serverDateTimeRetrieved,
-            "supposed_start ": selectedSupposedStart,
-            "suppose_end ": selectedSupposedEnd,
-            "validity ": selectedValidity,
-            "checkInValid ": "True",
-            "checkOutValid ": selectedCheckOutValid,
+            "supposed_start": selectedSupposedStart,
+            "suppose_end": selectedSupposedEnd,
+            "validity": selectedValidity,
+            "checkInValid": "True",
+            "checkOutValid": selectedCheckOutValid,
             "leave_id": null,
             "on_leave": "False",
           }));
@@ -190,7 +190,7 @@ class AttendanceApiService {
 
         Attendance attendanceModel = new Attendance();
         var url = Uri.parse(
-            'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+            'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
         Map<String, String> headers = new HashMap();
         headers['Accept'] = 'application/json';
         headers['Content-type'] = 'application/json';
