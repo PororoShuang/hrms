@@ -135,7 +135,7 @@ class ApiService {
           "company": null,
           "staff_role": userModel.getStaffRole,
           "role": null,
-          "acc_pass ": "555",
+          "acc_pass": "555",
           "employer_id ": userModel.getEmployerId,
           "employment_start_date ": userModel.getEmploymentStartDate,
           "types_of_wages ": userModel.getTypesOfWages,
@@ -166,8 +166,8 @@ class ApiService {
           "uuid": userModel.getUuid,
           "leaveUpdate ": userModel.getLeaveUpdate
         }));
-    print(response.statusCode);
     print(response.body);
+    print(response.statusCode);
     //if (response.statusCode == 200) {
 
     // List<Employee> employee = [];
