@@ -157,36 +157,21 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                       //     itemsShift[i].supposed_start_!);
                                       AttendanceApiService()
                                           .updateCheckInAttendance(
-                                              itemsShift[i]
-                                                  .attendance_id_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .shift_id_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .end_time_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .supposed_start_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .supposed_end_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .validity_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .on_leave_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .check_out_valid_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .leave_id_
-                                                  .toString(),
-                                              itemsShift[i]
-                                                  .shift_date_
-                                                  .toString());
+                                        itemsShift[i].attendance_id_.toString(),
+                                        itemsShift[i].shift_id_.toString(),
+                                        itemsShift[i].end_time_.toString(),
+                                        itemsShift[i]
+                                            .supposed_start_
+                                            .toString(),
+                                        itemsShift[i].supposed_end_.toString(),
+                                        itemsShift[i].validity_.toString(),
+                                        itemsShift[i].on_leave_.toString(),
+                                        itemsShift[i]
+                                            .check_out_valid_
+                                            .toString(),
+                                        itemsShift[i].leave_id_.toString(),
+                                        itemsShift[i].shift_date_.toString(),
+                                      );
                                     }
                                   }
 

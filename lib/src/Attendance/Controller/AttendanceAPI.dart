@@ -42,9 +42,10 @@ class AttendanceApiService {
 
             attendanceModel.supposed_end_ = supposeEndTime;
             attendanceModel.validity_ = retrievedData[++i];
-            attendanceModel.on_leave_ = retrievedData[++i];
             attendanceModel.check_in_valid_ = retrievedData[++i];
             attendanceModel.check_out_valid_ = retrievedData[++i];
+            attendanceModel.on_leave_ = retrievedData[++i];
+            attendanceModel.leave_id_ = retrievedData[++i];
             attendance.add(attendanceModel);
           }
         }
@@ -65,7 +66,7 @@ class AttendanceApiService {
       String selectedValidity,
       String selectedOnLeave,
       String selectedCheckOutValid,
-      String selectedLeaveId,
+      String? selectedLeaveId,
       String selectedShiftDate) async {
     try {
       //Log check in Time
@@ -99,6 +100,9 @@ class AttendanceApiService {
       //Compare serverDT with current SupposedStartTime to know if employee is late , then set validity
       //Validity True = Not Late , False = Late
       selectedValidity = checkValidity(serverTime, selectedSupposedStart);
+      if (selectedLeaveId == "") {
+        selectedLeaveId = null;
+      }
 
       Attendance attendanceModel = new Attendance();
       var url = Uri.parse(
@@ -114,14 +118,14 @@ class AttendanceApiService {
             "shift_id": selectedShiftId,
             "start_time":
                 serverDateTimeRetrieved, //use server time to log the check in timestamp to prevent time travel
-            "end_time": serverDateTimeRetrieved,
+            "end_time": null,
             "supposed_start": selectedSupposedStart,
             "suppose_end": selectedSupposedEnd,
             "validity": selectedValidity,
             "checkInValid": "True",
             "checkOutValid": selectedCheckOutValid,
-            "leave_id": null,
-            "on_leave": "False",
+            "leave_id": selectedLeaveId,
+            "on_leave": selectedOnLeave,
           }));
       print(response.body);
       print(response.statusCode);
@@ -132,17 +136,18 @@ class AttendanceApiService {
   }
 
   void updateCheckOutAttendance(
-      String selectedAttendanceId,
-      String selectedShiftId,
-      String selectedStartTime,
-      String selectedEndTime,
-      String selectedSupposedStart,
-      String selectedSupposedEnd,
-      String selectedValidity,
-      String selectedOnLeave,
-      String selectedCheckInValid,
-      String selectedLeaveId,
-      String selectedShiftDate) async {
+    String selectedAttendanceId,
+    String selectedShiftId,
+    String selectedStartTime,
+    String selectedEndTime,
+    String selectedSupposedStart,
+    String selectedSupposedEnd,
+    String selectedValidity,
+    String selectedOnLeave,
+    String selectedCheckInValid,
+    String selectedLeaveId,
+    String selectedShiftDate,
+  ) async {
     bool shiftEnded;
     //Log check out Time
     //Get serverTime for EndTime
