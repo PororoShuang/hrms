@@ -73,25 +73,6 @@ class AttendanceApiService {
       //Start Time refers to the time the employee checks in
       //serverCurrentTime = 2022-12-21 04:35:33
       var serverDateTimeRetrieved = await getServerTime();
-      DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
-      //Compare serverDT with current DateTime.Now to know if employee is late , then set validity
-      //Validity True = Not Late , False = Late
-      String currentDeviceTime = DateTime.now().year.toString() +
-          "-" +
-          DateTime.now().month.toString().padLeft(2, "0") +
-          "-" +
-          DateTime.now().day.toString().padLeft(2, "0") +
-          " " +
-          DateTime.now().hour.toString().padLeft(2, "0") +
-          ":" +
-          DateTime.now().minute.toString().padLeft(2, "0") +
-          ":00";
-      DateTime deviceTime = DateTime.parse(currentDeviceTime);
-      if (deviceTime.compareTo(serverTime) < 0 ||
-          deviceTime.compareTo(serverTime) == 0) {
-        selectedValidity = "True"; //Not Late
-      } else
-        selectedValidity = "False"; //Late
 
       serverDateTimeRetrieved = serverDateTimeRetrieved.replaceAll(" ", "T");
       selectedShiftDate = selectedShiftDate.replaceAll("\/", "\-");
@@ -114,6 +95,11 @@ class AttendanceApiService {
       selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
       selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
 
+      DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
+      //Compare serverDT with current SupposedStartTime to know if employee is late , then set validity
+      //Validity True = Not Late , False = Late
+      selectedValidity = checkValidity(serverTime, selectedSupposedStart);
+
       Attendance attendanceModel = new Attendance();
       var url = Uri.parse(
           'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
@@ -125,17 +111,17 @@ class AttendanceApiService {
           body: jsonEncode({
             "attendance_id": selectedAttendanceId,
             "staff_id": userModel.employeeId,
-            "shift_id ": selectedAttendanceId,
+            "shift_id ": selectedShiftId,
             "start_time":
                 serverDateTimeRetrieved, //use server time to log the check in timestamp to prevent time travel
-            "end_time": selectedEndTime,
+            "end_time": serverDateTimeRetrieved,
             "supposed_start ": selectedSupposedStart,
             "suppose_end ": selectedSupposedEnd,
             "validity ": selectedValidity,
             "checkInValid ": "True",
             "checkOutValid ": selectedCheckOutValid,
-            "leave_id": selectedLeaveId,
-            "on_leave": selectedOnLeave,
+            "leave_id": null,
+            "on_leave": "False",
           }));
       print(response.body);
       print(response.statusCode);
@@ -196,6 +182,8 @@ class AttendanceApiService {
         //[2] 00 AM
         selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
         selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
+
+//
 
         selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
         selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
@@ -329,4 +317,16 @@ class AttendanceApiService {
   //}
   //return errorMsg;
 
+  String checkValidity(DateTime serverTime, String selectedSupposedStart) {
+    selectedSupposedStart = selectedSupposedStart.replaceAll("T", " ");
+    DateTime DTsupposedStart =
+        DateTime.parse(formatStartDTServer(selectedSupposedStart));
+
+    if (serverTime.compareTo(DTsupposedStart) < 0 ||
+        DTsupposedStart.compareTo(serverTime) == 0) {
+      return "True"; //Not Late
+    } else
+      //Late
+      return "False";
+  }
 }
