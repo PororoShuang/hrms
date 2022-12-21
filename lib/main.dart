@@ -34,14 +34,7 @@ class MyApp extends StatelessWidget {
           border: OutlineInputBorder(borderSide: BorderSide.none),
         ),
       ),
-
-      //home: Leave(),
-
       home: LoginScreen(),
-      //home: Account(),
-      //home: AttendanceRegistration(),
-      //home: AttendanceHome(),
-      //home: determinePosition(),
     );
   }
 }
