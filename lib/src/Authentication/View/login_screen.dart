@@ -129,15 +129,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         content:
                                             Text('Invalid ID or Password')),
                                   );
+                                  setState(() {
+                                    _elementsOpacity = 1;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _elementsOpacity = 0;
+                                  });
                                 }
-                                // else {
-                                //   loadingBallAppear = true;
-                                //   LoadingScreen();
-                                // }
 
-                                setState(() {
-                                  _elementsOpacity = 0;
-                                });
+                                // setState(() {
+                                //   _elementsOpacity = 0;
+                                // });
                               },
                               onAnimatinoEnd: () async {
                                 await Future.delayed(

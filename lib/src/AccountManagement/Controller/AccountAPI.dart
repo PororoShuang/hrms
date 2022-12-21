@@ -48,59 +48,59 @@ class ApiService {
             //model.company = test[++i];
             userModel.setStaffRole = test[++i]; //
             //model.role = test[++i];
-            // String capturePassword = test[++i];
-            // if (userModel.accPass == capturePassword) {
-            //   userModel.setAccPass = capturePassword;
-            userModel.setAccPass = test[++i]; //
-            userModel.setEmployerId = test[++i]; //
-            //userModel.employer = test[++i];
-            tempDateTiime = test[++i];
-            //officialDT = convertDateTime(tempDateTiime);
-            //userModel.setEmploymentStartDate = officialDT; //
-            userModel.setEmploymentStartDate = tempDateTiime; //
-            //model.employmentStartDate = DateTime.parse(test[++i]);
-            userModel.setTypesOfWages = test[++i];
-            userModel.setWagesRate = test[++i];
-            //model.wagesRate = double.parse(test[++i]);
-            userModel.setEmployementLetter = test[++i];
-            // String bool1 = test[++i];
-            // if (bool1.toLowerCase() == false)
-            //   model.employementLetter = false;
-            // else
-            //   model.employementLetter = true;
-            userModel.setMonthlyDeduction = test[++i];
-            //model.isActive = test[++i];
-            userModel.setIcNo = test[++i];
-            tempDateTiime = test[++i];
-            officialDT = convertDateTime(tempDateTiime);
-            userModel.setDob = officialDT;
-            userModel.setGender = test[++i];
-            userModel.setNationality = test[++i];
-            userModel.setPhoneNo = test[++i];
-            userModel.setEmail = test[++i];
-            userModel.setEpfNo = test[++i];
-            userModel.setSoscoNo = test[++i];
-            userModel.setItaxNo = test[++i];
-            userModel.setBankName = test[++i];
-            userModel.setBankNo = test[++i];
-            userModel.setAspId = test[++i];
-            userModel.setProfileImgPath = test[++i];
-            userModel.setIsActive = test[++i];
-            userModel.setReligion = test[++i]; //
-            userModel.setPaidLeaveHourLeft = test[++i]; //
-            userModel.setPaidLeaveOnBargain = test[++i]; //
-            userModel.setSickLeaveHourLeft = test[++i]; //
-            userModel.setSickLeaveOnBargain = test[++i]; //
-            userModel.setUuid = test[++i]; //
-            tempDateTiime = test[++i];
-            officialDT = convertDateTime(tempDateTiime);
-            userModel.setLeaveUpdate = officialDT; //
-            employee.add(userModel);
-            break;
-            // } else {
-            //   userModel.setAccPass = capturePassword;
-            //   break;
-            // }
+            String capturePassword = test[++i];
+            if (userModel.accPass == capturePassword) {
+              userModel.setAccPass = capturePassword;
+              //userModel.setAccPass = test[++i]; //
+              userModel.setEmployerId = test[++i]; //
+              //userModel.employer = test[++i];
+              tempDateTiime = test[++i];
+              //officialDT = convertDateTime(tempDateTiime);
+              //userModel.setEmploymentStartDate = officialDT; //
+              userModel.setEmploymentStartDate = tempDateTiime; //
+              //model.employmentStartDate = DateTime.parse(test[++i]);
+              userModel.setTypesOfWages = test[++i];
+              userModel.setWagesRate = test[++i];
+              //model.wagesRate = double.parse(test[++i]);
+              userModel.setEmployementLetter = test[++i];
+              // String bool1 = test[++i];
+              // if (bool1.toLowerCase() == false)
+              //   model.employementLetter = false;
+              // else
+              //   model.employementLetter = true;
+              userModel.setMonthlyDeduction = test[++i];
+              //model.isActive = test[++i];
+              userModel.setIcNo = test[++i];
+              tempDateTiime = test[++i];
+              officialDT = convertDateTime(tempDateTiime);
+              userModel.setDob = officialDT;
+              userModel.setGender = test[++i];
+              userModel.setNationality = test[++i];
+              userModel.setPhoneNo = test[++i];
+              userModel.setEmail = test[++i];
+              userModel.setEpfNo = test[++i];
+              userModel.setSoscoNo = test[++i];
+              userModel.setItaxNo = test[++i];
+              userModel.setBankName = test[++i];
+              userModel.setBankNo = test[++i];
+              userModel.setAspId = test[++i];
+              userModel.setProfileImgPath = test[++i];
+              userModel.setIsActive = test[++i];
+              userModel.setReligion = test[++i]; //
+              userModel.setPaidLeaveHourLeft = test[++i]; //
+              userModel.setPaidLeaveOnBargain = test[++i]; //
+              userModel.setSickLeaveHourLeft = test[++i]; //
+              userModel.setSickLeaveOnBargain = test[++i]; //
+              userModel.setUuid = test[++i]; //
+              tempDateTiime = test[++i];
+              officialDT = convertDateTime(tempDateTiime);
+              userModel.setLeaveUpdate = officialDT; //
+              employee.add(userModel);
+              break;
+            } else {
+              userModel.setAccPass = capturePassword;
+              break;
+            }
           } else {
             continue;
           }
@@ -166,6 +166,8 @@ class ApiService {
           "uuid": userModel.getUuid,
           "leaveUpdate ": userModel.getLeaveUpdate
         }));
+    print(response.statusCode);
+    print(response.body);
     //if (response.statusCode == 200) {
 
     // List<Employee> employee = [];
@@ -208,9 +210,9 @@ String? convertDateTime(String tempdob) {
     hour = timeSplit[0];
   convertedDT = dateSplit[2] +
       "-" +
-      dateSplit[1] +
-      "-" +
       dateSplit[0] +
+      "-" +
+      dateSplit[1] +
       "T" +
       hour.toString() +
       ":" +
@@ -225,6 +227,13 @@ String? convertDateTime(String tempdob) {
   return convertedDT;
 }
 
+bool checkCurrentPassword(String currPassword) {
+  if (currPassword == userModel.getAccPass) {
+    return true;
+  } else {
+    return false;
+  }
+}
 // final urlapi = url;
 
 // class testAPI with ChangeNotifier {
