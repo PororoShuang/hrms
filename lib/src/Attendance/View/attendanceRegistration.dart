@@ -153,8 +153,6 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   for (int i = 0; i < itemsShift.length; i++) {
                                     if (selectedAttId ==
                                         itemsShift[i].attendance_id_) {
-                                      // AttendanceApiService().checkValidity(
-                                      //     itemsShift[i].supposed_start_!);
                                       AttendanceApiService()
                                           .updateCheckInAttendance(
                                         itemsShift[i].attendance_id_.toString(),
@@ -256,8 +254,96 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(112)),
                           ),
-                          onPressed: () {
-                            if (selectedItem == 'Biometric Authentication') {}
+                          onPressed: () async {
+                            if (selectedItem == 'Biometric Authentication') {
+                              bool isAuthenticated =
+                                  await AuthService.authenticateUser();
+                              //Call server timestamp, verify UUID, verify Geofencing
+                              if (isAuthenticated) {
+                                // Get Current UUID
+                                String? deviceInfo =
+                                    await GetUniqueId.getDeviceId();
+                                //Compare with database UUID
+                                //if (deviceInfo == dbdeviceInfo) {
+                                //verify Geofencing
+                                String? positionHere =
+                                    await determinePositionState
+                                        .determinePosition();
+                                // if (determinePositionState.validPosition() ==
+                                //     true) {
+
+                                //Get Attendance ID from selected item shift
+                                String selectedAttId =
+                                    selectedItemShift!.substring(35);
+                                //Compare with <Attendance> itemShift , then pass in as argument
+                                for (int i = 0; i < itemsShift.length; i++) {
+                                  if (selectedAttId ==
+                                      itemsShift[i].attendance_id_) {
+                                    //check if can check out already or not
+                                    bool shiftEnded =
+                                        await AttendanceApiService()
+                                            .checkSupposedEndTime(
+                                                itemsShift[i]
+                                                    .shift_date_
+                                                    .toString(),
+                                                itemsShift[i]
+                                                    .supposed_end_
+                                                    .toString());
+
+                                    AttendanceApiService()
+                                        .updateCheckOutAttendance(
+                                            itemsShift[i]
+                                                .attendance_id_
+                                                .toString(),
+                                            itemsShift[i].shift_id_.toString(),
+                                            itemsShift[i]
+                                                .start_time_
+                                                .toString(),
+                                            itemsShift[i]
+                                                .supposed_start_
+                                                .toString(),
+                                            itemsShift[i]
+                                                .supposed_end_
+                                                .toString(),
+                                            itemsShift[i].validity_.toString(),
+                                            itemsShift[i].on_leave_.toString(),
+                                            itemsShift[i]
+                                                .check_in_valid_
+                                                .toString(),
+                                            itemsShift[i].leave_id_.toString(),
+                                            itemsShift[i]
+                                                .shift_date_
+                                                .toString(),
+                                            shiftEnded);
+                                  }
+                                }
+
+                                //CALL API HERE TO SAVE INTO DB
+                                //take attendance , call api to register attendance
+                                //AttendanceApiService().
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('You are within designated area!'),
+                                  ),
+                                );
+                                // } else {
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     const SnackBar(
+                                //       content: Text(
+                                //           'You are not within designated area!'),
+                                //     ),
+                                //   );
+                                // }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Authentication failed.'),
+                                  ),
+                                );
+                              }
+                            }
                           },
                         ),
                       ),
