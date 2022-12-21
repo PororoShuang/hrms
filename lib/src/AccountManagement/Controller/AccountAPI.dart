@@ -35,6 +35,7 @@ class ApiService {
           //int index = 0;
           int i = -1;
           userModel.employeeId = currentLoginID;
+          userModel.accPass = currentLoginPassword;
           String captureId = test[++i]; //
           if (userModel.employeeId == captureId) {
             userModel.setEmployeeId = captureId;
@@ -47,6 +48,9 @@ class ApiService {
             //model.company = test[++i];
             userModel.setStaffRole = test[++i]; //
             //model.role = test[++i];
+            // String capturePassword = test[++i];
+            // if (userModel.accPass == capturePassword) {
+            //   userModel.setAccPass = capturePassword;
             userModel.setAccPass = test[++i]; //
             userModel.setEmployerId = test[++i]; //
             //userModel.employer = test[++i];
@@ -91,9 +95,12 @@ class ApiService {
             tempDateTiime = test[++i];
             officialDT = convertDateTime(tempDateTiime);
             userModel.setLeaveUpdate = officialDT; //
-
             employee.add(userModel);
             break;
+            // } else {
+            //   userModel.setAccPass = capturePassword;
+            //   break;
+            // }
           } else {
             continue;
           }
@@ -110,12 +117,13 @@ class ApiService {
     }
   }
 
-  Future<void> updateUser(String bankName, bankNo) async {
+  Future<void> updateUser() async {
     var url = Uri.parse(
         "https://finalyearproject20221212223004.azurewebsites.net/api/EmployeeAPI");
     Map<String, String> headers = new HashMap();
     headers['Accept'] = 'application/json';
     headers['Content-type'] = 'application/json';
+    headers['Host'] = ' finalyearproject20221212223004.azurewebsites.net';
     var response = await http.put(url,
         headers: headers,
         body: jsonEncode({
@@ -125,7 +133,7 @@ class ApiService {
           "user_id": userModel.getUserId,
           "parent_company": userModel.getParentCompany,
           "company": null,
-          "staff_role ": userModel.getStaffRole,
+          "staff_role": userModel.getStaffRole,
           "role": null,
           "acc_pass ": "555",
           "employer_id ": userModel.getEmployerId,
@@ -136,24 +144,26 @@ class ApiService {
           "monthly_deduction ": userModel.getMonthlyDeduction,
           "ic_no": userModel.getIcNo,
           "dob": userModel.getDob, //
-          "gender ": "Female",
-          "nationality ": userModel.getNationality,
+          "gender": userModel.getGender,
+          "nationality": userModel.getNationality,
+          //"nationality"
           "phone_no": userModel.getPhoneNo,
           "email": userModel.getEmail,
-          "epf_no": "12345",
-          "sosco_no ": "258963147",
-          "itax_no ": "4445256",
-          "bank_name ": bankName,
-          "bank_no ": bankNo,
+          "epf_no": userModel.getEpfNo,
+          "sosco_no": userModel.getSoscoNo,
+          "itax_no": userModel.getItaxNo,
+          "bank_name": userModel.getBankName,
+          "bank_no": userModel.getBankNo,
           "asp_id ": userModel.getAspId,
           "profileImg_path ": userModel.getProfileImgPath,
           "is_active ": userModel.getIsActive,
-          "religion ": userModel.getReligion,
+          "religion": userModel.getReligion,
+          //"religion": "Non-Muslim",
           "sickLeaveHourLeft": userModel.getSickLeaveHourLeft,
           "paidLeaveHourLeft": userModel.getPaidLeaveHourLeft,
           "sickLeaveOnBargain": userModel.getSickLeaveOnBargain,
           "paidLeaveOnBargain": userModel.getPaidLeaveOnBargain,
-          "uuid ": "",
+          "uuid": userModel.getUuid,
           "leaveUpdate ": userModel.getLeaveUpdate
         }));
     //if (response.statusCode == 200) {

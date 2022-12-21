@@ -59,8 +59,7 @@ class _AccountBank extends State<AccountBank> {
                 onPressed: () async {
                   userModel.setBankName = bankNameController.text;
                   userModel.setBankNo = bankNoController.text;
-                  await ApiService().updateUser(
-                      bankNameController.text, bankNoController.text);
+                  await ApiService().updateUser();
                 },
               ),
             ),

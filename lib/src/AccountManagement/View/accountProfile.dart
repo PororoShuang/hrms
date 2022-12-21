@@ -39,6 +39,7 @@ class ProfileState extends State<Profile> {
       _isVisible = !_isVisible;
     });
   }
+
   String? dateOfBirthString;
 
   Employee emp = Employee();
@@ -220,9 +221,9 @@ class ProfileState extends State<Profile> {
                             dateOfBirth = newDate;
                             dateOfBirthString = dateOfBirth.year.toString() +
                                 "-" +
-                                dateOfBirth.month.toString() +
+                                dateOfBirth.month.toString().padLeft(2, "0") +
                                 "-" +
-                                dateOfBirth.day.toString();
+                                dateOfBirth.day.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -403,17 +404,18 @@ class ProfileState extends State<Profile> {
                             borderRadius: BorderRadius.circular(112)),
                       ),
                       onPressed: () async {
+                        Text(userModel.getEmail);
+                        String gender = _genderType.toString().substring(11);
+                        userModel.setGender = gender;
                         userModel.setIcNo = icController.text;
                         userModel.setPhoneNo = phoneController.text;
                         userModel.setEmail = emailController.text;
                         userModel.setNationality = countryValue;
                         userModel.setReligion = selectedItemReligion;
-                        dateOfBirthController.text =
-                            dateOfBirthController.text.replaceAll("/", "-");
-                        userModel.setDob =
-                            "${dateOfBirthController.text}T00:00:00";
-                        //await ApiService().updateUser();
-                        showToast();
+                        userModel.setDob = "${dateOfBirthString}T00:00:00";
+                        userModel.setUuid = await GetUniqueId.getDeviceId();
+                        await ApiService().updateUser();
+                        //showToast();
                       },
                     ),
                   ),
