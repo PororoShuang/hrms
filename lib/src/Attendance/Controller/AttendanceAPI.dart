@@ -141,8 +141,39 @@ class AttendanceApiService {
       String shiftDate, String selectedSupposedEndTime) async {
     //get server time
     var serverDateTimeRetrieved = await getServerTime();
+    List<String> serverDTRSplitted = serverDateTimeRetrieved.split(" ");
+    //[0] "2022-12-22"
+    //[1]: "10:59:18"
+    List<String> serverTimeSplitted = serverDTRSplitted[1].split(":");
+    //[0] 10
+    //[1] 59
+    //[2] 18
+    serverTimeSplitted[0] = serverTimeSplitted[0].padLeft(2, "0");
+
+    //[0] "2022-12-22"
+    serverDateTimeRetrieved = serverDTRSplitted[0] +
+        " " +
+        serverTimeSplitted[0].padLeft(2, "0") +
+        ":" +
+        serverTimeSplitted[1].padLeft(2, "0") +
+        ":" +
+        serverTimeSplitted[2].padLeft(2, "0");
     DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
+
+    selectedSupposedEndTime = formatEndDTServer(selectedSupposedEndTime);
+    // List<String> selectedSETSplitted = selectedSupposedEndTime.split(":");
+    // selectedSETSplitted[0] = selectedSETSplitted[0].padLeft(2, "0");
+
+    List<String> shiftDateSplitted = shiftDate.split("/");
+    shiftDate = shiftDateSplitted[2] +
+        "-" +
+        shiftDateSplitted[0] +
+        "-" +
+        shiftDateSplitted[1];
+
+    //"2022-12-21 20:22:00"
     selectedSupposedEndTime = shiftDate + " " + selectedSupposedEndTime;
+
     DateTime shiftEndTime = DateTime.parse(selectedSupposedEndTime);
 
     //If serverTime is after ShiftEndTime, means can take attendance
@@ -167,11 +198,21 @@ class AttendanceApiService {
       bool shiftEnded) async {
     if (shiftEnded == true) {
       try {
+        //"2022-12-22T11:10:52"
         var serverDateTimeRetrieved = await getServerTime();
-        serverDateTimeRetrieved = serverDateTimeRetrieved.replaceAll(" ", "T");
+        //"2022-12-22T11:10:52"
+        serverDateTimeRetrieved =
+            serverDateTimeRetrieved.replaceAll(" ", "T"); //???? why
+
+        //"12-21-2022"
         selectedShiftDate = selectedShiftDate.replaceAll("\/", "\-");
+
+        //[0]:"12"
+        //[1]:"21"
+        //[2]:"2022"
         List splittedDate = selectedShiftDate.split("-");
         //Month Day Year
+        //"2022-12-21"
         selectedShiftDate =
             splittedDate[2] + "-" + splittedDate[0] + "-" + splittedDate[1];
 
@@ -180,11 +221,56 @@ class AttendanceApiService {
         //[0] 7
         //[1] 00
         //[2] 00 AM
-        selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
-        selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
-        selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
-        selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
 
+        //selected start time ="12/21/2022 11:52:56 PM"
+        List<String> splittedSST = selectedStartTime.split(" ");
+        //[0]12/21/2022
+        //[1]11:52:56 PM
+
+        //[0]12-21-2022
+        splittedSST[0] = splittedSST[0].replaceAll("\/", "\-");
+        List<String> splittedSupposedStartDate = splittedSST[0].split("-");
+        //2022
+        //12
+        //21
+        splittedSST[0] = splittedSupposedStartDate[2] +
+            "-" +
+            splittedSupposedStartDate[0] +
+            "-" +
+            splittedSupposedStartDate[1];
+
+        List<String> splittedSSTTime = splittedSST[1].split(":");
+        //[0]11
+        //[1]52
+        //[2]:56 PM
+
+        if (splittedSST[2].contains("PM")) {
+          int hour24 = int.parse(splittedSSTTime[0]);
+          hour24 = hour24 + 12;
+          splittedSSTTime[0] = hour24.toString();
+        }
+        selectedStartTime = splittedSST[0] +
+            " " +
+            splittedSSTTime[0] +
+            ":" +
+            splittedSSTTime[1] +
+            ":" +
+            splittedSSTTime[2];
+        //selectedStartTime = formatEndDTServer(selectedStartTime);
+
+        //"17:22:00"
+        selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
+
+        //"2022-12-21T23:52:56"
+        selectedStartTime = selectedStartTime.replaceAll(" ", "T");
+        selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
+        //"2022-12-21T17:22:00"
+        selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
+        //"2022-12-21T20:22:00"
+        selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
+        if (selectedLeaveId == "") {
+          selectedLeaveId = null;
+        }
         Attendance attendanceModel = new Attendance();
         var url = Uri.parse(
             'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
@@ -196,15 +282,15 @@ class AttendanceApiService {
             body: jsonEncode({
               "attendance_id": selectedAttendanceId,
               "staff_id": userModel.employeeId,
-              "shift_id ": selectedAttendanceId,
+              "shift_id": selectedShiftId,
               "start_time":
                   selectedStartTime, //use server time to log the check in timestamp to prevent time travel
-              "end_time": null,
-              "supposed_start ": selectedSupposedStart,
-              "suppose_end ": selectedSupposedEnd,
-              "validity ": selectedValidity,
-              "checkInValid ": selectedCheckInValid,
-              "checkOutValid ": "True",
+              "end_time": serverDateTimeRetrieved,
+              "supposed_start": selectedSupposedStart,
+              "suppose_end": selectedSupposedEnd,
+              "validity": selectedValidity,
+              "checkInValid": selectedCheckInValid,
+              "checkOutValid": "True",
               "leave_id": selectedLeaveId,
               "on_leave": selectedOnLeave,
             }));
