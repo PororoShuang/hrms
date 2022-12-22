@@ -135,44 +135,39 @@ class AttendanceApiService {
     }
   }
 
-  void updateCheckOutAttendance(
-    String selectedAttendanceId,
-    String selectedShiftId,
-    String selectedStartTime,
-    String selectedEndTime,
-    String selectedSupposedStart,
-    String selectedSupposedEnd,
-    String selectedValidity,
-    String selectedOnLeave,
-    String selectedCheckInValid,
-    String selectedLeaveId,
-    String selectedShiftDate,
-  ) async {
-    bool shiftEnded;
-    //Log check out Time
-    //Get serverTime for EndTime
-    //EndTime refers to the time the employee checks out
-    //serverCurrentTime = 2022-12-21 04:35:33
+//used to compare Server Time and Selected Supposed End Time
+//Prevent employee to check out before shift ends
+  Future<bool> checkSupposedEndTime(
+      String shiftDate, String selectedSupposedEndTime) async {
+    //get server time
     var serverDateTimeRetrieved = await getServerTime();
     DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
-    //Compare serverDT with current DateTime.Now to know if employee is late , then set validity
-    //Validity True = Not Late , False = Late
-    String currentDeviceTime = DateTime.now().year.toString() +
-        "-" +
-        DateTime.now().month.toString().padLeft(2, "0") +
-        "-" +
-        DateTime.now().day.toString().padLeft(2, "0") +
-        " " +
-        DateTime.now().hour.toString().padLeft(2, "0") +
-        ":" +
-        DateTime.now().minute.toString().padLeft(2, "0") +
-        ":" +
-        DateTime.now().millisecond.toString().padLeft(2, "0");
-    DateTime deviceTime = DateTime.parse(currentDeviceTime);
-    if (deviceTime.compareTo(serverTime) > 0 ||
-        deviceTime.compareTo(serverTime) == 0) {
-      shiftEnded = true; //Shift has ended
+    selectedSupposedEndTime = shiftDate + " " + selectedSupposedEndTime;
+    DateTime shiftEndTime = DateTime.parse(selectedSupposedEndTime);
+
+    //If serverTime is after ShiftEndTime, means can take attendance
+    if (serverTime.compareTo(shiftEndTime) > 0 ||
+        serverTime.compareTo(serverTime) == 0)
+      return true;
+    else
+      return false;
+  }
+
+  void updateCheckOutAttendance(
+      String selectedAttendanceId,
+      String selectedShiftId,
+      String selectedStartTime,
+      String selectedSupposedStart,
+      String selectedSupposedEnd,
+      String selectedValidity,
+      String selectedOnLeave,
+      String selectedCheckInValid,
+      String? selectedLeaveId,
+      String selectedShiftDate,
+      bool shiftEnded) async {
+    if (shiftEnded == true) {
       try {
+        var serverDateTimeRetrieved = await getServerTime();
         serverDateTimeRetrieved = serverDateTimeRetrieved.replaceAll(" ", "T");
         selectedShiftDate = selectedShiftDate.replaceAll("\/", "\-");
         List splittedDate = selectedShiftDate.split("-");
@@ -187,9 +182,6 @@ class AttendanceApiService {
         //[2] 00 AM
         selectedSupposedStart = formatStartDTServer(selectedSupposedStart);
         selectedSupposedEnd = formatEndDTServer(selectedSupposedEnd);
-
-//
-
         selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
         selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
 
@@ -222,8 +214,7 @@ class AttendanceApiService {
       } catch (e) {
         log(e.toString());
       }
-    } else
-      shiftEnded = false; //Late
+    }
   }
 
   String formatStartDTServer(String selectedSupposedStart) {
