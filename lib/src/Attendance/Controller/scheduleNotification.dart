@@ -153,38 +153,48 @@ class NotificationController {
 //[2]: "12/22/2022 10:47:00AM"
 //Convert these to the format of 2022-12-22 10:47:00 //24 hour format
       for (int i = 0; i < supposedStartTime.length; i++) {
-        //split Date Time
-        List<String> splittedStart = supposedStartTime[i]!.split(" ");
+        //[0]: "12/21/2022 5:22:00PM"
+        String? current = supposedStartTime[i];
 
-        //Split Date into
-        //Day
-        //Month
-        //Year
-        List<String> splittedDate = splittedStart[0].split("/");
+        //split Date Time
+        //[0]: "12/21/2022"
+        //[1]: "5:22:00PM"
+        List<String> splittedDT = current!.split(" ");
+
+        //SplittedDT : [0]: "12/21/2022"
+        //Day [0] 12
+        //Month [1] 21
+        //Year [2] 2022
+        List<String> splittedDate = splittedDT[0].split("/");
         //Rearrange into Year Month Day
-        splittedStart[0] = splittedDate[2] +
+        splittedDT[0] = splittedDate[2] +
             "-" +
             splittedDate[0] +
             "-" +
             splittedDate[1] +
             " ";
         //Split Time into Hour Minute Milliseconds
-        List<String> splittedTime = splittedStart[1].split(":");
+        List<String> splittedTime = splittedDT[1].split(":");
 
         //Splitted Time
         //[0] Hour
         //[1] Minute
         //[2] Millisecond
         if (splittedTime[2].contains("PM")) {
-          splittedTime[0] = (int.parse(splittedStart[0]) + 12).toString();
+          int hour24 = int.parse(splittedTime[0]) + 12;
+          splittedTime[0] = hour24.toString().padLeft(2, "0");
         }
         //After converted to 24 hour format
         //Combine the Hour Minute Millisecond back
-        splittedTime[i] = splittedTime[0] +
+        splittedTime[2] = splittedTime[2].substring(0, 2);
+        String time = splittedTime[0].padLeft(2, "0") +
             ":" +
             splittedTime[1] +
             ":" +
-            splittedTime[2].substring(0, 1);
+            splittedTime[2];
+
+        current = splittedDT[0] + " " + time;
+        supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
       List<DateTime> supposedET =
