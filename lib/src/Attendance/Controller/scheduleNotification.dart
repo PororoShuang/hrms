@@ -148,7 +148,7 @@ class NotificationController {
           String attendanceEndTime =
               attendance[i].shift_date_! + " " + attendance[i].supposed_end_!;
           supposedStartTime.add(attendanceStartTime);
-          supposedEndTime.add(attendanceEndTime);
+          supposedStartTime.add(attendanceEndTime);
         }
       }
 //[0]: "12/21/2022 5:22:00PM"
