@@ -197,8 +197,13 @@ class NotificationController {
         supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
+      List<int> duration;
+      DateTime serverTime = DateTime.parse(serverDT);
       List<DateTime> supposedET =
           supposedStartTime.map((element) => DateTime.parse(element!)).toList();
+      for (int i = 0; i < supposedStartTime.length; i++) {
+        //duration=supposedET[i].difference(other)
+      }
     }
 
 //[0]:"5:22:00PM"
