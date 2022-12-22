@@ -1,9 +1,9 @@
 class Payrolls {
   String? _payroll_id;
-  double? _month_salary;
-  double? _overtime_pay;
-  double? kwsp_tota;
-  double? zakat_total;
+  String? _month_salary;
+  String? _overtime_pay;
+  String? kwsp_total;
+  String? zakat_total;
   get payroll_id => this._payroll_id;
 
   set payroll_id(value) => this._payroll_id = value;
@@ -16,9 +16,9 @@ class Payrolls {
 
   set overtime_pay(value) => this._overtime_pay = value;
 
-  get kwsptota => this.kwsp_tota;
+  get kwsptotal => this.kwsp_total;
 
-  set kwsptota(value) => this.kwsp_tota = value;
+  set kwsptotal(value) => this.kwsp_total = value;
 
   get zakattotal => this.zakat_total;
 

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
@@ -63,59 +65,61 @@ class NotificationController {
   /// Request notification access
   static Future<bool> displayNotificationRationale() async {
     bool userAuthorized = false;
-    BuildContext context = navigatorKey.currentContext!;
-    await showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: Text('Get Notified!',
-                style: Theme.of(context).textTheme.titleLarge),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Image.asset(
-                        'assets/animated-bell.gif',
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        fit: BoxFit.fitWidth,
+    BuildContext? context = navigatorKey.currentContext;
+    if (context != null) {
+      await showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return AlertDialog(
+              title: Text('Get Notified!',
+                  style: Theme.of(context).textTheme.titleLarge),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Image.asset(
+                          'assets/animated-bell.gif',
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                    'Allow Awesome Notifications to send you beautiful notifications!'),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                      'Allow Awesome Notifications to send you beautiful notifications!'),
+                ],
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text(
+                      'Deny',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.red),
+                    )),
+                TextButton(
+                    onPressed: () async {
+                      userAuthorized = true;
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text(
+                      'Allow',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.deepPurple),
+                    )),
               ],
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text(
-                    'Deny',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: Colors.red),
-                  )),
-              TextButton(
-                  onPressed: () async {
-                    userAuthorized = true;
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text(
-                    'Allow',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: Colors.deepPurple),
-                  )),
-            ],
-          );
-        });
+            );
+          });
+    }
     return userAuthorized &&
         await AwesomeNotifications().requestPermissionToSendNotifications();
   }
@@ -130,12 +134,13 @@ class NotificationController {
     print("long task done");
   }
 
-  static Future<List<String?>> supposedStartTime() async {
+  static Future<List<int>> supposedStartTime() async {
     //"2022-12-22 12:21:55"
     String serverDT = await AttendanceApiService().getServerTime();
     List<Attendance>? attendance = await AttendanceApiService().getAttendance();
     List<String?> supposedStartTime = [];
     List<String?> supposedEndTime = [];
+    List<int> duration = [];
 
     if (attendance != null) {
       for (int i = 0; i < attendance.length; i++) {
@@ -145,13 +150,14 @@ class NotificationController {
           String attendanceEndTime =
               attendance[i].shift_date_! + " " + attendance[i].supposed_end_!;
           supposedStartTime.add(attendanceStartTime);
-          supposedEndTime.add(attendanceEndTime);
+          supposedStartTime.add(attendanceEndTime);
         }
       }
 //[0]: "12/21/2022 5:22:00PM"
 //[1]: "12/16/2022 1:00:00PM"
 //[2]: "12/22/2022 10:47:00AM"
 //Convert these to the format of 2022-12-22 10:47:00 //24 hour format
+
       for (int i = 0; i < supposedStartTime.length; i++) {
         //[0]: "12/21/2022 5:22:00PM"
         String? current = supposedStartTime[i];
@@ -197,19 +203,30 @@ class NotificationController {
         supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
+
+      DateTime serverTime = DateTime.parse(serverDT);
       List<DateTime> supposedET =
           supposedStartTime.map((element) => DateTime.parse(element!)).toList();
+      for (int i = 0; i < supposedStartTime.length; i++) {
+        //shift - server time
+        //12pm - 9am = 3 hour , set notification
+        //if shift starts at 9am, then now 12pm , no need set
+        if (!(supposedET[i].difference(serverTime).isNegative)) {
+          List<DateTime> shiftInFuture = [];
+          shiftInFuture.add(supposedET[i]);
+          for (int j = 0; j < shiftInFuture.length; j++) {
+            int secondValueTime =
+                shiftInFuture[j].difference(serverTime).inSeconds;
+            duration.add(secondValueTime);
+          }
+        }
+      }
     }
-
-//[0]:"5:22:00PM"
-//[1]:"1:00:00PM"
-//[2]: "10:47:00AM"
-
-    return supposedStartTime;
+    return duration;
   }
 
   ///NOTIFICATION CREATION METHODS
-  static Future<void> scheduleNewNotification() async {
+  static Future<void> scheduleNewNotification(List<int> durationTime) async {
     var shiftStartTime = supposedStartTime();
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) isAllowed = await displayNotificationRationale();
@@ -217,36 +234,39 @@ class NotificationController {
     int startTime = 0;
     int localTime = 0;
     int valueA = 2;
-    await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: -1, // -1 is replaced by a random number
-            channelKey: 'alerts',
-            title: "Remember to Check In / Check Out your shift!",
-            body: "Don't forget to Check In / Check Out for your shift!",
-            bigPicture:
-                'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
-            largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
-            notificationLayout: NotificationLayout.BigPicture,
-            payload: {'notificationId': '1234567890'}),
-        actionButtons: [
-          NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
-          NotificationActionButton(
-              key: 'DISMISS',
-              label: 'Dismiss',
-              actionType: ActionType.DismissAction,
-              isDangerousOption: true)
-        ],
-        schedule: NotificationCalendar.fromDate(
-            //valueA is the shift supposed start time - server current time AND
-            //shift supposed end time - server time
-            //Modulos to be positive value
-            date: DateTime.now().add(Duration(seconds: valueA))));
+    for (int i = 0; i < durationTime.length; i++) {
+      valueA = durationTime[i];
+      await AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: -1, // -1 is replaced by a random number
+              channelKey: 'alerts',
+              title: "Remember to Check In / Check Out your shift!",
+              body: "Don't forget to Check In / Check Out for your shift!",
+              bigPicture:
+                  'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
+              largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
+              notificationLayout: NotificationLayout.BigPicture,
+              payload: {'notificationId': '1234567890'}),
+          actionButtons: [
+            NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
+            NotificationActionButton(
+                key: 'DISMISS',
+                label: 'Dismiss',
+                actionType: ActionType.DismissAction,
+                isDangerousOption: true)
+          ],
+          schedule: NotificationCalendar.fromDate(
+              //valueA is the shift supposed start time - server current time AND
+              //shift supposed end time - server time
+              //Modulos to be positive value
+              date: DateTime.now().add(Duration(seconds: valueA - 600))));
+    }
   }
   //Get Attendance ID, if got 2 attendance ID ,for loop twice to schedule 2 notifications;
 
-  static Future<void> scheduleMultipleNotification() async {
-    for (int i = 0; i < 5; i++) {
-      scheduleNewNotification();
-    }
-  }
+  // static Future<void> scheduleMultipleNotification() async {
+  //   for (int i = 0; i < 5; i++) {
+  //     scheduleNewNotification();
+  //   }
+  // }
 }

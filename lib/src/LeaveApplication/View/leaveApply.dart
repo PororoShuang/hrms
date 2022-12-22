@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
 
 import '../Controller/LeaveAPI.dart';
@@ -288,52 +289,110 @@ class _ApplyLeave extends State<ApplyLeave> {
                           borderRadius: BorderRadius.circular(112)),
                     ),
                     onPressed: () {
-                      // if (startTimeString == null || endTimeString == null) {
-                      //   showDialog(
-                      //     context: context,
-                      //     builder: (context) => AlertDialog(
-                      //       title: Text('Error'),
-                      //       content: Text(
-                      //           'Please select leave start time or end time'),
-                      //       actions: [
-                      //         ElevatedButton(
-                      //             onPressed: () {
-                      //               Navigator.pop(context);
-                      //             },
-                      //             child: Text('OK'))
-                      //       ],
-                      //     ),
-                      //   );
-                      // } else if (dateFromString == null ||
-                      //     dateToString == null) {
-                      //   showDialog(
-                      //     context: context,
-                      //     builder: (context) => AlertDialog(
-                      //       title: Text('Error'),
-                      //       content: Text('Please select date'),
-                      //       actions: [
-                      //         ElevatedButton(
-                      //             onPressed: () {
-                      //               Navigator.pop(context);
-                      //             },
-                      //             child: Text('OK'))
-                      //       ],
-                      //     ),
-                      //   );
-                      // } else {
-                      String? leaveStart =
-                          "${dateFromString}T$startTimeString:00";
-                      String? leaveEnd = "${dateToString}T$endTimeString:00";
-                      LeaveApiService().postLeave(myLeaveList.length + 1,
-                          leaveStart, leaveEnd, leaveType, leaveReason.text);
-                      //  }
+                      if (startTimeString == null || endTimeString == null) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text(
+                                'Please select leave start time or end time'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'))
+                            ],
+                          ),
+                        );
+                      } else if (dateFromString == null ||
+                          dateToString == null) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text('Please select date'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'))
+                            ],
+                          ),
+                        );
+                      } else {
+                        String? leaveStart =
+                            "${dateFromString}T$startTimeString:00";
+                        String? leaveEnd = "${dateToString}T$endTimeString:00";
+                        LeaveApiService().postLeave(myLeaveList.length + 1,
+                            leaveStart, leaveEnd, leaveType, leaveReason.text);
+                      }
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
                       //         builder: (context) => const LeavePending()));
+                      Future.delayed(Duration(milliseconds: 600), () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LeavePending()));
+                      });
                     },
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                  child: Row(
+                    children: [
+                      Text('Total Paid Leave Left     : ',
+                          style: TextStyle(
+                              height: 2, fontSize: 18, color: Colors.black)),
+                      Text(userModel.paidLeaveHourLeft.toString() + " Hours",
+                          style: TextStyle(
+                              height: 2, fontSize: 18, color: Colors.black)),
+                    ],
+                  ),
+                ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                //   child: Row(
+                //     children: [
+                //       Text('Total Paid Leave Pending  : ',
+                //           style: TextStyle(
+                //               height: 2, fontSize: 18, color: Colors.black)),
+                //       Text(userModel.paidLeaveOnBargain.toString() + " Hours",
+                //           style: TextStyle(
+                //               height: 2, fontSize: 18, color: Colors.black)),
+                //     ],
+                //   ),
+                // ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                  child: Row(
+                    children: [
+                      Text('Total Sick Leave Left   : ',
+                          style: TextStyle(
+                              height: 2, fontSize: 18, color: Colors.black)),
+                      Text(userModel.sickLeaveHourLeft.toString() + " Hours",
+                          style: TextStyle(
+                              height: 2, fontSize: 18, color: Colors.black)),
+                    ],
+                  ),
+                ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
+                //   child: Row(
+                //     children: [
+                //       Text('Total Sick Leave Pending   : ',
+                //           style: TextStyle(
+                //               height: 2, fontSize: 18, color: Colors.black)),
+                //       Text(userModel.sickLeaveOnBargain.toString() + " Hours",
+                //           style: TextStyle(
+                //               height: 2, fontSize: 18, color: Colors.black)),
+                //     ],
+                //   ),
+                // ),
               ],
             )
           ],
