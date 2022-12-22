@@ -259,7 +259,7 @@ class NotificationController {
               //valueA is the shift supposed start time - server current time AND
               //shift supposed end time - server time
               //Modulos to be positive value
-              date: DateTime.now().add(Duration(seconds: valueA))));
+              date: DateTime.now().add(Duration(seconds: valueA - 600))));
     }
   }
   //Get Attendance ID, if got 2 attendance ID ,for loop twice to schedule 2 notifications;
