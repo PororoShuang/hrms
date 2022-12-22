@@ -21,9 +21,8 @@ class _AttendanceHistory extends State<AttendanceHistory> {
   late List<Attendance> myAttendanceList = [];
 
   void getData() async {
-    myAttendanceList = (await AttendanceApiService().getAttendance())!;
+    myAttendanceList = (await AttendanceApiService().getHistoryAttendance())!;
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-    late List<Attendance> approvedLeave = [];
   } //
 
   @override
@@ -36,13 +35,13 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 280.0),
-                        child: Text("Status:"),
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: Text("Is On Time:"),
                       ),
                       Container(
-                          //Need to compare API server time and Supposed Start Time to know(Optional)
-                          //child: Text(e.status!),
-                          ),
+                        //Validity True = Not Late , False = Late
+                        child: Text(e.validity),
+                      ),
                       SizedBox(
                         height: 30,
                       ),
@@ -62,7 +61,7 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                             ?
                             // Text(
                             //     "${DateFormat("HH:mm:ss").format(e.shiftTime!)}")
-                            Text(e.start_time_.toString())
+                            Text(e.supposed_start_.toString())
                             : Text("-"),
                       ),
                       SizedBox(
@@ -81,7 +80,7 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                             ?
                             // Text(
                             //     "${DateFormat('yyyy-MM-dd').format(e.shiftDate!)}")
-                            Text(e.start_time_.toString())
+                            Text(e.shift_date_.toString())
                             : Text("-"),
                       ),
                       SizedBox(
@@ -99,11 +98,11 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                         child: Text("Check In:"),
                       ),
                       Container(
-                        child: e.start_time_ != null
+                        child: e.check_in_valid_ != null
                             ?
                             // Text(
                             //     "${DateFormat('HH:mm:ss').format(e.start_time_!)}")
-                            Text((e.supposed_start_.toString()))
+                            Text((e.check_in_valid_.toString()))
                             : Text("-"),
                       ),
                       SizedBox(
@@ -118,7 +117,7 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                         child: Text("Check Out:"),
                       ),
                       Container(
-                        child: e.end_time_ != null
+                        child: e.check_out_valid_ != null
                             ?
                             // Text(
                             //     "${DateFormat('HH:mm:ss').format(e.end_time_!)}")

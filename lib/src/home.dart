@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/Payroll/View/payrollView.dart';
 
 import 'Attendance/Controller/scheduleNotification.dart';
 import 'Attendance/View/attendance.dart';
@@ -121,7 +122,7 @@ class _Home extends State<Home> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Payroll()));
+                                builder: (context) => const PayrollView()));
                       },
                       child: Card(
                         child: Container(
