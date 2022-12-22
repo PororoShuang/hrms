@@ -60,6 +60,11 @@ class _AccountBank extends State<AccountBank> {
                   userModel.setBankName = bankNameController.text;
                   userModel.setBankNo = bankNoController.text;
                   await ApiService().updateUser();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Modify Successfully'),
+                    ),
+                  );
                 },
               ),
             ),

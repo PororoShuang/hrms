@@ -415,6 +415,11 @@ class ProfileState extends State<Profile> {
                         userModel.setDob = "${dateOfBirthString}T00:00:00";
                         userModel.setUuid = await GetUniqueId.getDeviceId();
                         await ApiService().updateUser();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Modify Successfully'),
+                          ),
+                        );
                         //showToast();
                       },
                     ),

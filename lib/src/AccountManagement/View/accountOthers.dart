@@ -73,6 +73,11 @@ class _OtherAccount extends State<OtherAccount> {
                   userModel.setSoscoNo = socsoController.text;
                   userModel.setItaxNo = iTaxController.text;
                   await ApiService().updateUser();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Modify Successfully'),
+                    ),
+                  );
                 },
               ),
             ),
