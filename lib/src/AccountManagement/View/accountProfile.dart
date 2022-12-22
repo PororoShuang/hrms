@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import '../Controller/AccountAPI.dart';
+import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 
 enum GenderType { Male, Female }
 
@@ -38,6 +39,7 @@ class ProfileState extends State<Profile> {
       _isVisible = !_isVisible;
     });
   }
+
   String? dateOfBirthString;
 
   Employee emp = Employee();
@@ -219,9 +221,9 @@ class ProfileState extends State<Profile> {
                             dateOfBirth = newDate;
                             dateOfBirthString = dateOfBirth.year.toString() +
                                 "-" +
-                                dateOfBirth.month.toString() +
+                                dateOfBirth.month.toString().padLeft(2, "0") +
                                 "-" +
-                                dateOfBirth.day.toString();
+                                dateOfBirth.day.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -287,8 +289,8 @@ class ProfileState extends State<Profile> {
                                 BorderRadius.all(Radius.circular(4.0)),
                             //Padding = 4.0,
                             color: Colors.white70,
-                            border: Border.all(
-                                color: Colors.black45, width: 1)),
+                            border:
+                                Border.all(color: Colors.black45, width: 1)),
 
                         // ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
                         // disabledDropdownDecoration: BoxDecoration(
@@ -402,15 +404,18 @@ class ProfileState extends State<Profile> {
                             borderRadius: BorderRadius.circular(112)),
                       ),
                       onPressed: () async {
+                        Text(userModel.getEmail);
+                        String gender = _genderType.toString().substring(11);
+                        userModel.setGender = gender;
                         userModel.setIcNo = icController.text;
                         userModel.setPhoneNo = phoneController.text;
                         userModel.setEmail = emailController.text;
                         userModel.setNationality = countryValue;
                         userModel.setReligion = selectedItemReligion;
-                        userModel.setDob =
-                            convertDateTime(dateOfBirthController.text);
+                        userModel.setDob = "${dateOfBirthString}T00:00:00";
+                        userModel.setUuid = await GetUniqueId.getDeviceId();
                         await ApiService().updateUser();
-                        showToast();
+                        //showToast();
                       },
                     ),
                   ),

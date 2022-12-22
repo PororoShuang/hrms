@@ -10,7 +10,7 @@ import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/AccountManagement/View/accountProfile.dart';
 
-String? currentLoginID;
+String? currentLoginID, currentLoginPassword;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -117,19 +117,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               elementsOpacity: _elementsOpacity,
                               onTap: () async {
                                 currentLoginID = idController.text;
+                                currentLoginPassword = passwordController.text;
                                 //_userModel = (await ApiService().getUsers())!;
-                                (await ApiService().getUsers());
 
-                                setState(() {
-                                  _elementsOpacity = 0;
-                                  if (userModel == null) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Invalid ID or Password')),
-                                    );
-                                  }
-                                });
+                                (await ApiService().getUsers());
+                                if (userModel.getEmployeeId != currentLoginID ||
+                                    userModel.getAccPass !=
+                                        currentLoginPassword) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Invalid ID or Password')),
+                                  );
+                                  setState(() {
+                                    _elementsOpacity = 1;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _elementsOpacity = 0;
+                                  });
+                                }
+
+                                // setState(() {
+                                //   _elementsOpacity = 0;
+                                // });
                               },
                               onAnimatinoEnd: () async {
                                 await Future.delayed(

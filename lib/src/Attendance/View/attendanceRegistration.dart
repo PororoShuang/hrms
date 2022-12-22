@@ -201,34 +201,60 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                               } else if (selectedItem == 'QR Code') {
                                 var scaning = await BarcodeScanner.scan();
                                 String qrResult = scaning.rawContent;
-                                if (qrResult == attendanceId) {
-                                  String? deviceInfo =
-                                      await GetUniqueId.getDeviceId();
-                                  //Compare with database UUID
-                                  //if (deviceInfo == dbdeviceInfo) {
-                                  //verify Geofencing
-                                  String? positionHere =
-                                      await determinePositionState
-                                          .determinePosition();
-                                  if (determinePositionState.validPosition() ==
-                                      true) {
-                                    //take attendance , call api to register attendance
-                                    //  AttendanceApiService().updateAttendance();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'You are not within designated area!'),
-                                      ),
-                                    );
+                                String selectedAttId =
+                                    selectedItemShift!.substring(35);
+                                //Compare with <Attendance> itemShift , then pass in as argument
+                                for (int i = 0; i < itemsShift.length; i++) {
+                                  if (selectedAttId ==
+                                      itemsShift[i].attendance_id_) {
+                                    if (qrResult == itemsShift[i].shift_id_) {
+                                      String? deviceInfo =
+                                          await GetUniqueId.getDeviceId();
+                                      //Compare with database UUID
+                                      //if (deviceInfo == dbdeviceInfo) {
+                                      //verify Geofencing
+                                      String? positionHere =
+                                          await determinePositionState
+                                              .determinePosition();
+                                      // if (determinePositionState.validPosition() ==
+                                      //     true) {
+                                      //   //take attendance , call api to register attendance
+                                      //   //  AttendanceApiService().updateAttendance();
+                                      // } else {
+                                      //   ScaffoldMessenger.of(context).showSnackBar(
+                                      //     const SnackBar(
+                                      //       content: Text(
+                                      //           'You are not within designated area!'),
+                                      //     ),
+                                      //   );
+                                      // }
+                                      AttendanceApiService()
+                                          .updateCheckInAttendance(
+                                        itemsShift[i].attendance_id_.toString(),
+                                        itemsShift[i].shift_id_.toString(),
+                                        itemsShift[i].end_time_.toString(),
+                                        itemsShift[i]
+                                            .supposed_start_
+                                            .toString(),
+                                        itemsShift[i].supposed_end_.toString(),
+                                        itemsShift[i].validity_.toString(),
+                                        itemsShift[i].on_leave_.toString(),
+                                        itemsShift[i]
+                                            .check_out_valid_
+                                            .toString(),
+                                        itemsShift[i].leave_id_.toString(),
+                                        itemsShift[i].shift_date_.toString(),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'Invalid QR Code! Please try again'),
+                                        ),
+                                      );
+                                    }
                                   }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Invalid QR Code! Please try again'),
-                                    ),
-                                  );
                                 }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
