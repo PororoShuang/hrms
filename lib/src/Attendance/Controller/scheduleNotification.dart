@@ -193,7 +193,7 @@ class NotificationController {
             ":" +
             splittedTime[2];
 
-        current = splittedDT[0] + " " + time;
+        current = splittedDT[0] + time;
         supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
