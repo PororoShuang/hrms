@@ -9,6 +9,9 @@ import 'package:http/http.dart' as http;
 class AttendanceApiService {
   Future<List<Attendance>?> getAttendance() async {
     try {
+      //"2022-12-22 20:32:47"
+      var serverDateTimeRetrieved = await getServerTime();
+      DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
       List<Attendance> attendance = [];
       var url = Uri.parse(
           'https://finalyearproject20221212223004.azurewebsites.net/api/AttendanceAPI');
@@ -27,26 +30,61 @@ class AttendanceApiService {
           attendanceModel.staff_id_ = retrievedData[++i];
           if (attendanceModel.staff_id_ == userModel.employeeId) {
             attendanceModel.shift_id_ = retrievedData[++i];
+            //"12/21/2022 11:52:56 PM"
             attendanceModel.start_time_ = retrievedData[++i];
-            attendanceModel.end_time_ = retrievedData[++i];
 
-            String shiftDateTime = retrievedData[++i];
-            String shiftDate = shiftDateTime.split(" ")[0];
-            String shiftStart =
-                shiftDateTime.split(" ")[1] + shiftDateTime.split(" ")[2];
-            attendanceModel.shift_date_ = shiftDate;
-            attendanceModel.supposed_start_ = shiftStart;
-            //Assign into Supposed start to substring into Date and Start Time
-            String supposeEndTime = retrievedData[++i];
-            supposeEndTime = supposeEndTime.substring(11);
+            //if Shift Date == today's date , only will display
+            String? attStartTime = attendanceModel.start_time_;
 
-            attendanceModel.supposed_end_ = supposeEndTime;
-            attendanceModel.validity_ = retrievedData[++i];
-            attendanceModel.check_in_valid_ = retrievedData[++i];
-            attendanceModel.check_out_valid_ = retrievedData[++i];
-            attendanceModel.on_leave_ = retrievedData[++i];
-            attendanceModel.leave_id_ = retrievedData[++i];
-            attendance.add(attendanceModel);
+            if (attStartTime != null && attStartTime != "") {
+              List<String> splittedDateTime = attStartTime.split(" ");
+
+              List<String> splittedDate = splittedDateTime[0].split("/");
+              splittedDateTime[0] = splittedDate[2] +
+                  "-" +
+                  splittedDate[0] +
+                  "-" +
+                  splittedDate[1];
+
+              List<String> timeSplitted = splittedDateTime[1].split(":");
+              if (splittedDateTime[2].contains("PM")) {
+                int hour24 = int.parse(timeSplitted[0]);
+                hour24 = hour24 + 12;
+                timeSplitted[0] = hour24.toString().padLeft(2, "0");
+              }
+              timeSplitted[2] = timeSplitted[2].substring(0, 2);
+
+              attStartTime = splittedDateTime[0] +
+                  " " +
+                  timeSplitted[0] +
+                  ":" +
+                  timeSplitted[1] +
+                  ":" +
+                  timeSplitted[2];
+              DateTime startTime = DateTime.parse(attStartTime);
+              //13th <= 12th
+              if (serverTime.day == startTime.day) {
+                attendanceModel.end_time_ = retrievedData[++i];
+
+                String shiftDateTime = retrievedData[++i];
+                String shiftDate = shiftDateTime.split(" ")[0];
+                String shiftStart =
+                    shiftDateTime.split(" ")[1] + shiftDateTime.split(" ")[2];
+                attendanceModel.shift_date_ = shiftDate;
+                attendanceModel.supposed_start_ = shiftStart;
+                //Assign into Supposed start to substring into Date and Start Time
+                String supposeEndTime = retrievedData[++i];
+                supposeEndTime = supposeEndTime.substring(11);
+
+                attendanceModel.supposed_end_ = supposeEndTime;
+                attendanceModel.validity_ = retrievedData[++i];
+                attendanceModel.check_in_valid_ = retrievedData[++i];
+                attendanceModel.check_out_valid_ = retrievedData[++i];
+                attendanceModel.on_leave_ = retrievedData[++i];
+                attendanceModel.leave_id_ = retrievedData[++i];
+                attendance.add(attendanceModel);
+              }
+            }
           }
         }
       }
