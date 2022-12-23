@@ -216,20 +216,20 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                       String? positionHere =
                                           await determinePositionState
                                               .determinePosition();
-                                      if (determinePositionState
-                                              .validPosition() ==
-                                          true) {
-                                        //take attendance , call api to register attendance
-                                        //  AttendanceApiService().updateAttendance();
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'You are not within designated area!'),
-                                          ),
-                                        );
-                                      }
+                                      // if (determinePositionState
+                                      //         .validPosition() ==
+                                      //     true) {
+                                      //   //take attendance , call api to register attendance
+                                      //   //  AttendanceApiService().updateAttendance();
+                                      // } else {
+                                      //   ScaffoldMessenger.of(context)
+                                      //       .showSnackBar(
+                                      //     const SnackBar(
+                                      //       content: Text(
+                                      //           'You are not within designated area!'),
+                                      //     ),
+                                      //   );
+                                      // }
                                       AttendanceApiService()
                                           .updateCheckInAttendance(
                                         itemsShift[i].attendance_id_.toString(),
@@ -398,20 +398,20 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     String? positionHere =
                                         await determinePositionState
                                             .determinePosition();
-                                    if (determinePositionState
-                                            .validPosition() ==
-                                        true) {
-                                      //take attendance , call api to register attendance
-                                      //  AttendanceApiService().updateAttendance();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              'You are not within designated area!'),
-                                        ),
-                                      );
-                                    }
+                                    // if (determinePositionState
+                                    //         .validPosition() ==
+                                    //     true) {
+                                    //   //take attendance , call api to register attendance
+                                    //   //  AttendanceApiService().updateAttendance();
+                                    // } else {
+                                    //   ScaffoldMessenger.of(context)
+                                    //       .showSnackBar(
+                                    //     const SnackBar(
+                                    //       content: Text(
+                                    //           'You are not within designated area!'),
+                                    //     ),
+                                    //   );
+                                    // }
                                     bool shiftEnded =
                                         await AttendanceApiService()
                                             .checkSupposedEndTime(
