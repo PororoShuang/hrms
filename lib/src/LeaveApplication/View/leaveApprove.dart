@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../AccountManagement/Model/employee.dart';
 import '../Controller/LeaveAPI.dart';
 import '../Model/leave_information.dart';
 
@@ -22,7 +21,7 @@ class _LeaveApprove extends State<LeaveApprove> {
   void getData() async {
     late List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    //Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     late List<Leaves> approvedLeave = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status.toString().toLowerCase() ==
@@ -30,7 +29,10 @@ class _LeaveApprove extends State<LeaveApprove> {
         approvedLeave.add(myLeaveList[i]);
       }
     }
-    leaveDescendedApprovedList = approvedLeave.reversed.toList();
+
+    setState(() {
+      leaveDescendedApprovedList = approvedLeave.reversed.toList();
+    });
   } //
 
   @override
