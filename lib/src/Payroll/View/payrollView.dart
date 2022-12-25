@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/src/Payroll/Controller/PayrollApi.dart';
-import 'package:hrms/src/Payroll/View/payroll.dart';
 import 'package:hrms/src/Payroll/Model/payroll_information.dart';
 
 class PayrollView extends StatefulWidget {
@@ -26,6 +25,15 @@ class _PayrollView extends State<PayrollView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text('Payroll'),
+      backgroundColor: Colors.blueGrey[900],
+      centerTitle:true,
+      automaticallyImplyLeading: true,
+      leading: IconButton(icon:Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context); },),
+    ),
         body: myPayrollList == null || myPayrollList!.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView(
