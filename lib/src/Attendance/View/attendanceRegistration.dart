@@ -148,7 +148,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
 
                                   //Get Attendance ID from selected item shift
                                   String selectedAttId =
-                                      selectedItemShift!.substring(35);
+                                      selectedItemShift!.substring(36);
                                   //Compare with <Attendance> itemShift , then pass in as argument
                                   for (int i = 0; i < itemsShift.length; i++) {
                                     if (selectedAttId ==
