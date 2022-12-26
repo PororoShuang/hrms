@@ -48,7 +48,7 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
 
   Future<void> getData() async {
     List<EmployeeLeaves> myLeaveList = [];
-    myLeaveList = (await LeaveApiService().getLeave())!;
+    myLeaveList = (await EmployeeLeaveApiService().getLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     if (mounted) setState(() {});
     List<EmployeeLeaves> leavePendingList = [];
@@ -86,12 +86,6 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                   return Card(
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 8),
-                        ListTile(
-                          title: Text(
-                              leaveDescendedPendingList[index].staff_name ??
-                                  "-"),
-                        ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -99,21 +93,16 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                               MaterialPageRoute(
                                   builder: (context) => EmployeeLeaveDetails(
                                       myLeave:
-                                          leaveDescendedPendingList[index])),
+                                      leaveDescendedPendingList[index])),
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.symmetric(vertical: 3.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   " ",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[600],
-                                  ),
                                 ),
                                 Icon(
                                   Icons.density_medium,
@@ -121,7 +110,16 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                                 ),
                               ],
                             ),
+
                           ),
+                        ),
+                        ListTile(
+                          title: Text(
+                              leaveDescendedPendingList[index].staff_id ??
+                                  "-"),
+                          subtitle:Text(
+                              leaveDescendedPendingList[index].staff_name ??
+                                  "-"),
                         ),
                       ],
                     ),

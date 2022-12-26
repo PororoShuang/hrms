@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../navBar.dart';
+import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({super.key});
+  LoadingScreen(String? staffRole, {super.key});
+
+  String? staffRole;
 
   @override
   State<LoadingScreen> createState() => _LoadingScreen();
@@ -47,8 +50,11 @@ class _LoadingScreen extends State<LoadingScreen> {
               } else {
                 Future.delayed(Duration(milliseconds: 300), () {
                   setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const BottomNavigation()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                BottomNavigation(staffRole: widget.staffRole)));
                   });
                 });
               }
@@ -56,17 +62,16 @@ class _LoadingScreen extends State<LoadingScreen> {
             builder: (_, value, __) => Transform.scale(
               scale: value,
               child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: !stopScaleAnimtion
-                        ? Colors.black.withOpacity(0.8)
-                        : null,
-                    shape: BoxShape.circle,
-                  ),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color:
+                      !stopScaleAnimtion ? Colors.black.withOpacity(0.8) : null,
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
           ),
-        ),
         ),
       ],
     );

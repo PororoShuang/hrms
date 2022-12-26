@@ -42,10 +42,6 @@ class ApiServiceEmployeeInfo {
           String captureId = test[++i]; //
           //if (userModel.employeeId == captureId) {
             userModel.employeeId = captureId;
-
-
-
-          //model.employeeId = test[++i];
             userModel.setEmployeeIdByCompany = test[++i]; //
             userModel.employeeName = test[++i];
             userModel.setUserId = test[++i]; //
@@ -53,24 +49,12 @@ class ApiServiceEmployeeInfo {
             //model.company = test[++i];
             userModel.setStaffRole = test[++i]; //
             //model.role = test[++i];
-            String capturePassword = test[++i];
+            //String capturePassword = test[++i];
 
               employeeInfo.add(userModel);
           print("employeeAPI getUsers success add userId ${employeeInfo[index].userId}");
           print("employeeAPI getUsers success add employeeId ${employeeInfo[index].employeeId}");
-
           print("employeeAPI getUsers success add ${employeeInfo[index].employeeName}");
-
-              // break;
-            // } else {
-            //   userModel.setAccPass = capturePassword;
-            //   break;
-            // }
-         // }
-
-          // else {
-          //   continue;
-          // }
         }
 
         print("employeeAPI getUsers success ${employeeInfo.length}");
@@ -169,10 +153,3 @@ String? convertDateTime(String tempdob) {
   return convertedDT;
 }
 
-bool checkCurrentPassword(String currPassword) {
-  if (currPassword == userModel.getAccPass) {
-    return true;
-  } else {
-    return false;
-  }
-}

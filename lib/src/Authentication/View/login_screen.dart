@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../AccountManagement/View/forgotPassword.dart';
-import '../Widget/email_field.dart';
+import 'package:hrms/src/navBar.dart';
+import '../Widget/staffID_field.dart';
 import '../Widget/forgot_password_button.dart';
 import '../Widget/login_button.dart';
 import '../Widget/password_field.dart';
 import 'loading_screen.dart';
-import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
-import 'package:hrms/src/AccountManagement/View/accountProfile.dart';
+import 'package:hrms/src/AccountManagement/Model/employee.dart';
 
 String? currentLoginID, currentLoginPassword;
 
@@ -41,11 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         bottom: false,
-        child: loadingBallAppear
-            ? Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30.0),
-                child: LoadingScreen())
-            : Padding(
+        child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.0),
                 child: SingleChildScrollView(
                   child: Column(
@@ -90,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
                           children: [
-                            EmailField(
+                            StaffIDField(
                                 fadeEmail: _elementsOpacity == 0,
                                 emailController: idController),
                             SizedBox(height: 40),
@@ -134,7 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                 } else {
                                   setState(() {
+                                    print("gotStaffRole ${userModel.staffRole}");
                                     _elementsOpacity = 0;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BottomNavigation(staffRole: userModel.staffRole)));
                                   });
                                 }
 
