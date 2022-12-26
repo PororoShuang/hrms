@@ -11,7 +11,10 @@ import 'ShiftManagement/View/shift.dart';
 import 'Training/View/training.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+   Home({super.key, this.staffRole});
+
+  String? staffRole;
+
   @override
   State<Home> createState() => _Home();
 }
@@ -30,6 +33,7 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print("staffRole is ${widget.staffRole}");
     return Scaffold(
       //backgroundColor: Colors.blueGrey[900],
       backgroundColor: Colors.white,
@@ -242,22 +246,23 @@ class _Home extends State<Home> {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Expanded(
+                 Expanded(
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const EmployeeLeaveStatus()));
+                                const EmployeeLeaveStatus()));
                       },
-                      child: Card(
+                      child:
+                      Card(
                         child: Container(
                           height: 200,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               border:
-                                  Border.all(color: Colors.blueGrey.shade900),
+                              Border.all(color: Colors.blueGrey.shade900),
                               borderRadius: BorderRadius.circular(15.0),
                               image: DecorationImage(
                                   fit: BoxFit.none,
@@ -272,6 +277,38 @@ class _Home extends State<Home> {
                       ),
                     ),
                   ),
+
+                  // widget.staffRole == "R00001" ? Expanded(
+              //       child: GestureDetector(
+              //         onTap: () {
+              //           Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) =>
+              //                       const EmployeeLeaveStatus()));
+              //         },
+              //         child:
+              //         Card(
+              //           child: Container(
+              //             height: 200,
+              //             width: double.infinity,
+              //             decoration: BoxDecoration(
+              //                 border:
+              //                 Border.all(color: Colors.blueGrey.shade900),
+              //                 borderRadius: BorderRadius.circular(15.0),
+              //                 image: DecorationImage(
+              //                     fit: BoxFit.none,
+              //                     image: AssetImage('assets/employee.png'))),
+              //             child: Padding(
+              //               padding: const EdgeInsets.fromLTRB(8, 160, 0, 0),
+              //               child: Text('Employee Leave Application',
+              //                   textAlign: TextAlign.center,
+              //                   style: TextStyle(fontWeight: FontWeight.bold)),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ) : SizedBox.shrink(),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {},

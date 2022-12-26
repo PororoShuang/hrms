@@ -10,7 +10,7 @@ int counter = 0;
 Employee employee = new Employee();
 int status = 0;
 
-class LeaveApiService {
+class EmployeeLeaveApiService {
   Future<List<EmployeeLeaves>?> getTotalLeave() async {
     try {
       List<EmployeeLeaves> leaves = [];
@@ -88,44 +88,38 @@ class LeaveApiService {
 
 //"staff_id": employee.employeeId,
   //employeeDetails is the staff id who approves the leave, remain as null as we are only applying leave
-  void postLeave(int totalLeaveLength, String? leaveStart, String? leaveEnd,
-      String? leaveType, String? leaveReason) async {
-    String totalLengthString = totalLeaveLength.toString().padLeft(5, "0");
-    String leaveIdString = userModel.employeeId! + "\-L" + totalLengthString;
-    String dateNow = DateTime.now().year.toString() +
-        "-" +
-        DateTime.now().month.toString() +
-        "-" +
-        DateTime.now().day.toString() +
-        "T" +
-        DateTime.now().hour.toString().padLeft(2, "0") +
-        ":" +
-        DateTime.now().minute.toString().padLeft(2, "0") +
-        ":" +
-        DateTime.now().second.toString().padLeft(2, "0");
+  Future<void> approveOrRejectLeave(String? leaveId,
+      String? staffId,
+      String? leaveType,
+      String? leaveStart,
+      String? leaveEnd,
+      String? leaveReason,
+      String? responseMessage,
+      String? approvalStatus,) async {
     try {
       var url = Uri.parse(
-          'https://finalyearproject20221212223004.azurewebsites.net/api/LeaveAPI');
+          'https://finalyearproject20221212223004.azurewebsites.net/Staff/LeaveApprove/Decide/FinalYearProject.Models.Leave');
       Map<String, String> headers = new HashMap();
       headers['Accept'] = 'application/json';
       headers['Content-type'] = 'application/json';
+
       var response = await http.post(url,
           headers: headers,
           body: jsonEncode({
-            "leave_id": leaveIdString,
-            "staff_id": userModel.employeeId,
-            "employeeDetails": null,
-            "approval_status": null,
-            "approved_by": null,
-            "approvedByEmployee": null,
-            "date_created": dateNow,
+            "leave_id": leaveId,
+            "staff_id": staffId,
+            "leaveType": leaveType,
             "leave_start": leaveStart,
             "leave_end": leaveEnd,
             "leave_reason": leaveReason,
-            "doc_filepath": null,
-            "leaveType": leaveType
-          }));
+            "response_message": responseMessage,
+            "approval_status": approvalStatus,
+          },
+
+          ));
       print(response.statusCode);
+      print(response.isRedirect);
+
       print(response.body);
     } catch (e) {
       log(e.toString());

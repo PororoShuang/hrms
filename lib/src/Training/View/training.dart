@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/Training/View/trainingCertificate.dart';
-import 'package:hrms/src/Training/View/trainingLicense.dart';
 import 'package:hrms/src/Training/View/trainingProgram.dart';
 
 
@@ -18,7 +17,7 @@ class _Training extends State<Training>
   @override
   void initState(){
     super.initState();
-    controller=TabController(length: 3, vsync: this);
+    controller=TabController(length: 2, vsync: this);
   }
 
   @override
@@ -42,7 +41,6 @@ class _Training extends State<Training>
         controller: controller,
         tabs: [
           Tab(text:'Program'),
-          Tab(text:'License'),
           Tab(text:'Certificate'),
         ],
       ),
@@ -51,7 +49,6 @@ class _Training extends State<Training>
       controller: controller,
       children: [
         TrainingProgram(),
-        TrainingLicense(),
         TrainingCertificate(),
       ],
     ),

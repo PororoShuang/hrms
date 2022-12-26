@@ -1,17 +1,17 @@
 
 import 'package:flutter/material.dart';
 
-class EmailField extends StatefulWidget {
+class StaffIDField extends StatefulWidget {
   final bool fadeEmail;
   final TextEditingController emailController;
-  const EmailField(
+  const StaffIDField(
       {super.key, required this.emailController, required this.fadeEmail});
 
   @override
-  State<EmailField> createState() => _EmailFieldState();
+  State<StaffIDField> createState() => _StaffIDFieldState();
 }
 
-class _EmailFieldState extends State<EmailField>
+class _StaffIDFieldState extends State<StaffIDField>
     with SingleTickerProviderStateMixin {
   double bottomAnimationValue = 0;
   double opacityAnimationValue = 0;
@@ -60,7 +60,7 @@ class _EmailFieldState extends State<EmailField>
             child: TextFormField(
               controller: emailController,
               focusNode: node,
-              decoration: InputDecoration(hintText: "Email"),
+              decoration: InputDecoration(hintText: "Staff ID"),
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) async {
                 if (value.isNotEmpty) {
