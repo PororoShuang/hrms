@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/EmployeeLeaveManagement/Model/employee_information.dart';
 import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeaveDetails.dart';
+import '../Controller/accountAPI.dart';
 import '../Controller/employeeLeaveAPI.dart';
 import '../Model/employeeLeave_information.dart';
 
@@ -15,12 +17,36 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   @override
   void initState() {
     super.initState();
-    getData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getAccountData();
+      await getData();
+    });
   }
 
   List<EmployeeLeaves> leaveDescendedPendingList = [];
+  List<EmployeeInfo> employeeList = [];
 
-  void getData() async {
+  Future<void> getAccountData() async {
+    List<EmployeeInfo> myEmployeeList = [];
+
+    myEmployeeList =
+        await ApiServiceEmployeeInfo().getUsers() ?? <EmployeeInfo>[];
+
+    print("employeeList length  ${myEmployeeList.length}");
+
+    for (int i = 0; i < myEmployeeList.length; i++) {
+      print("looping $i");
+      employeeList.add(myEmployeeList[i]);
+      print("employeeList employee employeeId ${employeeList[i].employeeId}");
+    }
+
+    print("employeeList ${employeeList.length}");
+
+    if (mounted) setState(() {});
+  }
+
+  Future<void> getData() async {
     List<EmployeeLeaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -28,6 +54,21 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
     List<EmployeeLeaves> leavePendingList = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status == "") {
+        print("myLeaveList staff id ${myLeaveList[i].staff_id}");
+
+        for (int j = 0; j < employeeList.length; j++) {
+          print("myLeaveList employeeList userId ${employeeList[j].userId}");
+          print("myLeaveList employeeList aspId ${employeeList[j].aspId}");
+          print(
+              "myLeaveList employeeList employeeId ${employeeList[j].employeeId}");
+        }
+
+        for (int k = 0; k < employeeList.length; k++) {
+          if (employeeList[k].employeeId == myLeaveList[i].staff_id) {
+            myLeaveList[i].staff_name = employeeList[k].employeeName;
+          }
+        }
+
         leavePendingList.add(myLeaveList[i]);
       }
     }
@@ -47,15 +88,18 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                       children: <Widget>[
                         SizedBox(height: 8),
                         ListTile(
-                          title:Text(leaveDescendedPendingList[index].staff_id??"-"),
+                          title: Text(
+                              leaveDescendedPendingList[index].staff_name ??
+                                  "-"),
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      EmployeeLeaveDetails(myLeave:leaveDescendedPendingList[index])),
+                                  builder: (context) => EmployeeLeaveDetails(
+                                      myLeave:
+                                          leaveDescendedPendingList[index])),
                             );
                           },
                           child: Padding(

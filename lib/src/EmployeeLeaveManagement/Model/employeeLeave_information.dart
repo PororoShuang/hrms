@@ -1,6 +1,7 @@
 class EmployeeLeaves {
   String? leave_id;
   String? staff_id;
+  String? staff_name;
   String? approval_status;
   String? approved_by;
   String? date_created;
@@ -17,19 +18,21 @@ class EmployeeLeaves {
   // String toString() {
   //   return "($approval_status,$approved_by,$date_created,$leave_start,\n$leave_end,$leave_type,$leave_reason,$response_message)";
   // }
-  EmployeeLeaves(
-      {this.leave_start,
-        this.leave_end,
-        this.leave_type,
-        this.leave_reason,
-        this.leave_start_time,
-        this.leave_end_time,
-        this.date_created,
-        this.approval_status});
+  EmployeeLeaves({
+    this.leave_start,
+    this.leave_end,
+    this.leave_type,
+    this.leave_reason,
+    this.leave_start_time,
+    this.leave_end_time,
+    this.date_created,
+    this.approval_status,
+  });
 
   get leavetype => this.leave_type;
 
   set leavetype(value) => this.leave_type = value;
+
   get leaveid => this.leave_id;
 
   set leaveid(value) => this.leave_id = value;
@@ -69,4 +72,8 @@ class EmployeeLeaves {
   get responsemessage => this.response_message;
 
   set responsemessage(value) => this.response_message = value;
+
+  get staffname => this.staff_name;
+
+  set staffname(value) => this.staff_name = value;
 }
