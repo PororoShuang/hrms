@@ -22,6 +22,9 @@ class _AttendanceHistory extends State<AttendanceHistory> {
 
   void getData() async {
     myAttendanceList = (await AttendanceApiService().getHistoryAttendance())!;
+
+    myAttendanceList = myAttendanceList.reversed.toList();
+
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   } //
 

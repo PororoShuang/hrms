@@ -142,9 +142,10 @@ class AttendanceApiService {
             attendanceModel.supposed_end_ = supposeEndTime;
             attendanceModel.validity_ = retrievedData[++i];
             attendanceModel.check_in_valid_ = retrievedData[++i];
-            if (attendanceModel.check_in_valid_ != null ||
-                attendanceModel.check_in_valid_ != "" ||
-                attendanceModel.check_in_valid_ != "False") {
+            if (((attendanceModel.check_in_valid_ != null ||
+                    attendanceModel.check_in_valid_ != "") &&
+                attendanceModel.check_in_valid_.toString().toLowerCase() !=
+                    "false")) {
               attendanceModel.check_out_valid_ = retrievedData[++i];
               attendanceModel.on_leave_ = retrievedData[++i];
               attendanceModel.leave_id_ = retrievedData[++i];
