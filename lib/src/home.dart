@@ -26,7 +26,6 @@ class _Home extends State<Home> {
     setNotification();
   }
 
-  @override
   void setNotification() async {
     List<int> durationSecond = await NotificationController.supposedStartTime();
     NotificationController.scheduleNewNotification(durationSecond);

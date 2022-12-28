@@ -9,8 +9,18 @@ import 'package:http/http.dart' as http;
 class AttendanceApiService {
   Future<List<Attendance>?> getAttendance() async {
     try {
-      //"2022-12-22 20:32:47"
+      //"2022-12-23 9:55:39"
       var serverDateTimeRetrieved = await getServerTime();
+      List<String> splittedDateTimeServer = serverDateTimeRetrieved.split(" ");
+      List<String> splitTimeServer = splittedDateTimeServer[1].split(":");
+      splitTimeServer[0] = splitTimeServer[0].padLeft(2, "0");
+      serverDateTimeRetrieved = splittedDateTimeServer[0] +
+          " " +
+          splitTimeServer[0] +
+          ":" +
+          splitTimeServer[1] +
+          ":" +
+          splitTimeServer[2];
       DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
       List<Attendance> attendance = [];
       var url = Uri.parse(
@@ -133,7 +143,8 @@ class AttendanceApiService {
             attendanceModel.validity_ = retrievedData[++i];
             attendanceModel.check_in_valid_ = retrievedData[++i];
             if (attendanceModel.check_in_valid_ != null ||
-                attendanceModel.check_in_valid_ != "") {
+                attendanceModel.check_in_valid_ != "" ||
+                attendanceModel.check_in_valid_ != "False") {
               attendanceModel.check_out_valid_ = retrievedData[++i];
               attendanceModel.on_leave_ = retrievedData[++i];
               attendanceModel.leave_id_ = retrievedData[++i];

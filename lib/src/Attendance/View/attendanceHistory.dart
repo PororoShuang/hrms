@@ -102,7 +102,9 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                             ?
                             // Text(
                             //     "${DateFormat('HH:mm:ss').format(e.start_time_!)}")
-                            Text((e.check_in_valid_.toString()))
+                            Text((e.check_in_valid_.toString() +
+                                " " +
+                                e.start_time_.toString()))
                             : Text("-"),
                       ),
                       SizedBox(
@@ -121,7 +123,9 @@ class _AttendanceHistory extends State<AttendanceHistory> {
                             ?
                             // Text(
                             //     "${DateFormat('HH:mm:ss').format(e.end_time_!)}")
-                            Text(e.check_out_valid_.toString())
+                            Text(e.check_out_valid_.toString() +
+                                " " +
+                                e.end_time_.toString())
                             : Text("-"),
                       ),
                       SizedBox(
