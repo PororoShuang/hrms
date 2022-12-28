@@ -420,8 +420,13 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveStart =
                             "${dateFromString}T$startTimeString:00";
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
-                        LeaveApiService().postLeave(myLeaveList.length + 1,
-                            leaveStart, leaveEnd, leaveType, leaveReason.text);
+                        LeaveApiService().postLeave(
+                            myLeaveList.length + 1,
+                            leaveStart,
+                            leaveEnd,
+                            leaveType,
+                            leaveReason.text,
+                            image?.path);
                         Future.delayed(Duration(milliseconds: 600), () {
                           Navigator.push(
                               context,

@@ -32,7 +32,7 @@ class _TrainingProgram extends State<TrainingProgram> {
     myTrainingProgressList =
         await TrainingProgressApiService().getTrainingProgress() ??
             <TrainingProgress>[];
-    if (mounted) setState(() {});
+    //if (mounted) setState(() {});
     //List<TrainingProgress> trainingList = [];
     for (int i = 0; i < myTrainingProgressList.length; i++) {
       print("training progress ${myTrainingProgressList[i].staffID}");
@@ -40,41 +40,78 @@ class _TrainingProgram extends State<TrainingProgram> {
     }
   }
 
-   Future<void> getTrainingData() async {
+  Future<void> getTrainingData() async {
     List<Training> myTrainingList = [];
-     myTrainingList = (await TrainingApiService().getAllTraining())!;
-    if (mounted) setState(() {});
-     List<Training> trainingProgramList = [];
-     for (int i = 0; i < myTrainingList.length; i++) {
-       for (int k = 0; k < trainingProgressList.length; k++) {
-         if(trainingProgressList[k].trainingID == myTrainingList[i].trainingID){
-           myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
-         }
-          //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
+    myTrainingList = (await TrainingApiService().getAllTraining())!;
+    // if (mounted) setState(() {});
+    List<Training> trainingProgramList = [];
+    for (int i = 0; i < myTrainingList.length; i++) {
+      for (int k = 0; k < trainingProgressList.length; k++) {
+        if (trainingProgressList[k].trainingID ==
+            myTrainingList[i].trainingID) {
+          // myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
+          trainingProgramList.add(myTrainingList[i]);
+        }
+        //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
       }
-       trainingProgramList.add(myTrainingList[i]);
-     }
-     trainingList = trainingProgramList.toList();
-   }
+    }
+
+    setState(() {
+      trainingList = trainingProgressList.toList();
+    });
+    // trainingList = trainingProgramList.toList();
+  }
+
+  // @override
+  // Widget build(BuildContext context) => Scaffold(
+  //       body: trainingList == null || trainingList.isEmpty
+  //           ? const Center(child: CircularProgressIndicator())
+  //           : ListView.builder(
+  //               itemCount: trainingProgressList.length,
+  //               itemBuilder: (BuildContext context, int index) {
+  //                 return Card(
+  //                   child: Column(
+  //                     children: [
+  //                       new Row(
+  //                         children: [
+  //                           new Flexible(
+  //                             child: ListTile(
+  //                               title: Text(
+  //                                   trainingList[index].trainingID ??
+  //                                       "-"),
+  //                               subtitle: Text(
+  //                                   trainingList[index].completion ??
+  //                                       "-"),
+  //                             ),
+  //                           ),
+  //                           SizedBox(
+  //                             height: 30,
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 );
+  //               }),
+  //     );
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: trainingProgressList == null || trainingProgressList.isEmpty
+        body: trainingList == null || trainingList.isEmpty
             ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: trainingProgressList.length,
-                itemBuilder: (BuildContext context, int index) {
+            : ListView(
+                children: trainingList.map((e) {
                   return Card(
                     child: Column(
                       children: [
-                        new Row(
+                        Row(
                           children: [
-                            new Flexible(
-                              child: ListTile(
-                                title:
-                                    Text(trainingProgressList[index].trainingID ?? "-"),
-                                subtitle: Text(trainingProgressList[index].completion ?? "-"),
-                              ),
+                            Container(
+                              padding: EdgeInsets.only(left: 40.0),
+                              child: Text("Training Name:"),
+                            ),
+                            Container(
+                              child: Text(e.leave_start!),
                             ),
                             SizedBox(
                               height: 30,
@@ -84,6 +121,7 @@ class _TrainingProgram extends State<TrainingProgram> {
                       ],
                     ),
                   );
-                }),
+                }).toList(),
+              ),
       );
 }
