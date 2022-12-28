@@ -10,7 +10,7 @@ class DioUploadService {
       'files': files
     });
 
-    var response = await Dio().post('http://10.0.0.101:5000/profile/upload-mutiple', data: formData);
+    var response = await Dio().post('https://finalyearproject20221212223004.azurewebsites.net/api/documentAPI', data: formData);
     print('\n\n');
     print('RESPONSE WITH DIO');
     print(response.data);

@@ -32,12 +32,15 @@ class TrainingApiService{
           trainingModel.trainingName=retrievedData[++i];
           trainingModel.trainingDateTime=retrievedData[++i];
           trainingModel.duration=retrievedData[++i];
+          training.add(trainingModel);
         }
 
       };
+      print("get training success ${training.length}");
       return training;
     }
     catch (e) {
+      print("get training fail");
       log(e.toString());
     }
   }

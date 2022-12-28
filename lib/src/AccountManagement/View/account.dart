@@ -62,7 +62,7 @@ class _Account extends State<Account> {
                     width: 8,
                   ),
                   Text(
-                    "Edit Account",
+                    "Update Account",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
