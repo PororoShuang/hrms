@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/src/EmployeeLeaveManagement/Model/employee_information.dart';
-import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeaveDetails.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeavePendingDetails.dart';
+import '../../AccountManagement/Model/employee.dart';
+import '../../LeaveApplication/Controller/LeaveAPI.dart';
+import '../../LeaveApplication/Model/leave_information.dart';
 import '../Controller/accountAPI.dart';
 import '../Controller/employeeLeaveAPI.dart';
-import '../Model/employeeLeave_information.dart';
+
 
 class EmployeeLeavePending extends StatefulWidget {
   const EmployeeLeavePending({super.key});
@@ -14,6 +17,21 @@ class EmployeeLeavePending extends StatefulWidget {
 }
 
 class _EmployeeLeavePending extends State<EmployeeLeavePending> {
+  bool value = false;
+  void RefreshData(){
+    setState(() {
+      value=true;
+    });
+  }
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: 'Leave Rejected',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
+  }
   @override
   void initState() {
     super.initState();
@@ -24,14 +42,14 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
     });
   }
 
-  List<EmployeeLeaves> leaveDescendedPendingList = [];
-  List<EmployeeInfo> employeeList = [];
+  List<Leaves> leaveDescendedPendingList = [];
+  List<Employee> employeeList = [];
 
   Future<void> getAccountData() async {
-    List<EmployeeInfo> myEmployeeList = [];
+    List<Employee> myEmployeeList = [];
 
     myEmployeeList =
-        await ApiServiceEmployeeInfo().getUsers() ?? <EmployeeInfo>[];
+        await ApiServiceEmployeeInfo().getUsers() ?? <Employee>[];
 
     print("employeeList length  ${myEmployeeList.length}");
 
@@ -47,38 +65,36 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   }
 
   Future<void> getData() async {
-    List<EmployeeLeaves> myLeaveList = [];
-    myLeaveList = (await EmployeeLeaveApiService().getLeave())!;
+    List<Leaves> myLeaveList = [];
+    myLeaveList = (await EmployeeLeaveApiService().getTotalLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     if (mounted) setState(() {});
-    List<EmployeeLeaves> leavePendingList = [];
+    List<Leaves> leavePendingList = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status == "") {
         print("myLeaveList staff id ${myLeaveList[i].staff_id}");
 
-        for (int j = 0; j < employeeList.length; j++) {
-          print("myLeaveList employeeList userId ${employeeList[j].userId}");
-          print("myLeaveList employeeList aspId ${employeeList[j].aspId}");
-          print(
-              "myLeaveList employeeList employeeId ${employeeList[j].employeeId}");
-        }
+        // for (int j = 0; j < employeeList.length; j++) {
+        //   print("myLeaveList employeeList userId ${employeeList[j].userId}");
+        //   print("myLeaveList employeeList aspId ${employeeList[j].aspId}");
+        //   print("myLeaveList employeeList employeeId ${employeeList[j].employeeId}");
+        // }
 
         for (int k = 0; k < employeeList.length; k++) {
           if (employeeList[k].employeeId == myLeaveList[i].staff_id) {
             myLeaveList[i].staff_name = employeeList[k].employeeName;
           }
         }
-
         leavePendingList.add(myLeaveList[i]);
       }
     }
-    leaveDescendedPendingList = leavePendingList.reversed.toList();
+    leaveDescendedPendingList = leavePendingList.toList();
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedPendingList == null ||
-                leaveDescendedPendingList.isEmpty
+                leaveDescendedPendingList.isEmpty || value
             ? const Center(child: CircularProgressIndicator())
             : ListView.builder(
                 itemCount: leaveDescendedPendingList.length,
@@ -86,41 +102,76 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                   return Card(
                     child: Column(
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EmployeeLeaveDetails(
-                                      myLeave:
-                                      leaveDescendedPendingList[index])),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 3.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  " ",
-                                ),
-                                Icon(
-                                  Icons.density_medium,
-                                  color: Colors.indigo,
-                                ),
-                              ],
-                            ),
+                      Row(
+                        children: [
 
+                          Expanded(child:
+                          ListTile(
+                            title: Text(
+                                leaveDescendedPendingList[index].staff_id ??
+                                    "-"),
+                            subtitle:Text(
+                                leaveDescendedPendingList[index].staff_name ??
+                                    "-"),
                           ),
-                        ),
-                        ListTile(
-                          title: Text(
-                              leaveDescendedPendingList[index].staff_id ??
-                                  "-"),
-                          subtitle:Text(
-                              leaveDescendedPendingList[index].staff_name ??
-                                  "-"),
-                        ),
+                          ),
+                          // userModel.employeeId == "E00002"
+                          //     ?
+                              Expanded(child: GestureDetector(
+                                onTap: () async {
+                                  String refresh = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EmployeeLeavePendingDetails(
+                                                myLeave:
+                                                    leaveDescendedPendingList[
+                                                        index])),
+                                  );
+                                  if(refresh == 'refresh'){
+                                    RefreshData();
+                                    await EmployeeLeaveApiService().getTotalLeave();
+                                  }
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        " ",
+                                      ),
+                                      Icon(
+                                        Icons.density_medium,
+                                        color: Colors.indigo,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          //         :AlertDialog(
+                          //   title: const Text('Log Out'),
+                          //   content: const Text(
+                          //       'Are you confirm want to log out?'),
+                          //   actions: <Widget>[
+                          //     TextButton(
+                          //       onPressed: () =>
+                          //           Navigator.pop(context, 'Cancel'),
+                          //       child: const Text('Cancel'),
+                          //     ),
+                          //     TextButton(
+                          //       onPressed: () =>
+                          //           Navigator.pop(context, 'Cancel'),
+                          //       child: const Text('Cancel'),
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
+                      ),
+                       
                       ],
                     ),
                   );

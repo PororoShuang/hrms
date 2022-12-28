@@ -1,6 +1,7 @@
 class Leaves {
   String? leave_id;
   String? staff_id;
+  String? staff_name;
   String? approval_status;
   String? approved_by;
   String? date_created;
@@ -38,6 +39,10 @@ class Leaves {
 
   set staffid(value) => this.staff_id = value;
 
+  get staffname => this.staff_name;
+
+  set staffname(value) => this.staff_name = value;
+
   get approvalstatus => this.approval_status;
 
   set approvalstatus(value) => this.approval_status = value;
@@ -69,4 +74,5 @@ class Leaves {
   get responsemessage => this.response_message;
 
   set responsemessage(value) => this.response_message = value;
+
 }
