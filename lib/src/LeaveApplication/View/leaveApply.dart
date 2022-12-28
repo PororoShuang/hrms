@@ -348,25 +348,26 @@ class _ApplyLeave extends State<ApplyLeave> {
                       ), //if image not null show the image
                       //if image null show text
                       image != null
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  //to show image, you type like this.
-                                  File(image!.path),
-                                  fit: BoxFit.cover,
-                                  //width: MediaQuery.of(context).size.width,
-                                  width: 300,
-                                  height: 300,
-                                ),
+                          ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.file(
+                                //to show image, you type like this.
+                                File(image!.path),
+                                fit: BoxFit.cover,
+                                //width: MediaQuery.of(context).size.width,
+                                width: 150,
+                                height: 250,
                               ),
-                            )
-                          : Text(
-                              "No Image",
-                              style: TextStyle(fontSize: 20),
-                            )
+                            ),
+                      ) : Text(
+                        "No Image",
+                        style: TextStyle(fontSize: 20),
+                      )
+
+
+
                     ],
                   ),
                 ),
