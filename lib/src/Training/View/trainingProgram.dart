@@ -12,7 +12,7 @@ class TrainingProgram extends StatefulWidget {
 
 class _TrainingProgram extends State<TrainingProgram> {
   @override
-  void initstate() {
+  void initState() {
     super.initState();
     getTraining();
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -52,7 +52,7 @@ class _TrainingProgram extends State<TrainingProgram> {
                               child: Text("ID:"),
                             ),
                             Container(
-                              child: Text(e.trainingId!),
+                              child: Text(e.trainingID??"-"),
                             ),
                             SizedBox(
                               height: 30,
