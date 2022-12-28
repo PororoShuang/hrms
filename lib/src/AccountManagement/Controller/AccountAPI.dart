@@ -55,9 +55,12 @@ class ApiService {
               userModel.setEmployerId = test[++i]; //
               //userModel.employer = test[++i];
               tempDateTiime = test[++i];
-              //officialDT = convertDateTime(tempDateTiime);
-              //userModel.setEmploymentStartDate = officialDT; //
-              userModel.setEmploymentStartDate = tempDateTiime; //
+              if (tempDateTiime == "") {
+                officialDT = tempDateTiime;
+              } else {
+                officialDT = convertDateTime(tempDateTiime);
+              }
+              userModel.setEmploymentStartDate = officialDT; //
               //model.employmentStartDate = DateTime.parse(test[++i]);
               userModel.setTypesOfWages = test[++i];
               userModel.setWagesRate = test[++i];
@@ -71,8 +74,13 @@ class ApiService {
               userModel.setMonthlyDeduction = test[++i];
               //model.isActive = test[++i];
               userModel.setIcNo = test[++i];
+
               tempDateTiime = test[++i];
-              officialDT = convertDateTime(tempDateTiime);
+              if (tempDateTiime == "") {
+                officialDT = tempDateTiime;
+              } else {
+                officialDT = convertDateTime(tempDateTiime);
+              }
               userModel.setDob = officialDT;
               userModel.setGender = test[++i];
               userModel.setNationality = test[++i];
@@ -93,7 +101,11 @@ class ApiService {
               userModel.setSickLeaveOnBargain = test[++i]; //
               userModel.setUuid = test[++i]; //
               tempDateTiime = test[++i];
-              officialDT = convertDateTime(tempDateTiime);
+              if (tempDateTiime == "") {
+                officialDT = tempDateTiime;
+              } else {
+                officialDT = convertDateTime(tempDateTiime);
+              }
               userModel.setLeaveUpdate = officialDT; //
               employee.add(userModel);
               break;
@@ -135,7 +147,7 @@ class ApiService {
           "company": null,
           "staff_role": userModel.getStaffRole,
           "role": null,
-          "acc_pass": "555",
+          "acc_pass": userModel.getAccPass,
           "employer_id ": userModel.getEmployerId,
           "employment_start_date ": userModel.getEmploymentStartDate,
           "types_of_wages ": userModel.getTypesOfWages,
@@ -208,23 +220,29 @@ String? convertDateTime(String tempdob) {
     hour = int.parse(timeSplit[0]) + 12;
   } else
     hour = timeSplit[0];
-  convertedDT = dateSplit[2] +
+  convertedDT = dateSplit[2].padLeft(2, "0") +
       "-" +
-      dateSplit[0] +
+      dateSplit[0].padLeft(2, "0") +
       "-" +
-      dateSplit[1] +
+      dateSplit[1].padLeft(2, "0") +
       "T" +
-      hour.toString() +
+      hour.toString().padLeft(2, "0") +
       ":" +
-      timeSplit[1] +
+      timeSplit[1].padLeft(2, "0") +
       ":" +
-      timeSplit[2];
+      timeSplit[2].padLeft(2, "0");
   // } else {
   //   convertedDT =
   //       dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + "T00:00:00";
   // }
 
   return convertedDT;
+}
+
+String splitDoB(String DT) {
+  List<String> dobList;
+  dobList = userModel.getDob.toString().split("T");
+  return dobList[0];
 }
 
 bool checkCurrentPassword(String currPassword) {
