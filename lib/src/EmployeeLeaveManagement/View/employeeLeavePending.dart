@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeavePendingDetails.dart';
 import '../../AccountManagement/Model/employee.dart';
-import '../../LeaveApplication/Controller/LeaveAPI.dart';
 import '../../LeaveApplication/Model/leave_information.dart';
 import '../Controller/accountAPI.dart';
 import '../Controller/employeeLeaveAPI.dart';
@@ -54,7 +53,7 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
     print("employeeList length  ${myEmployeeList.length}");
 
     for (int i = 0; i < myEmployeeList.length; i++) {
-      print("looping $i");
+
       employeeList.add(myEmployeeList[i]);
       print("employeeList employee employeeId ${employeeList[i].employeeId}");
     }

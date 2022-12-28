@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../AccountManagement/Controller/AccountAPI.dart';
 import '../Controller/trainingAPI.dart';
 import '../Controller/trainingProgressAPI.dart';
 import '../Model/trainingProgress_information.dart';
@@ -40,26 +39,31 @@ class _TrainingProgram extends State<TrainingProgram> {
     }
   }
 
-   Future<void> getTrainingData() async {
+  Future<void> getTrainingData() async {
     List<Training> myTrainingList = [];
-     myTrainingList = (await TrainingApiService().getAllTraining())!;
+    myTrainingList = (await TrainingApiService().getAllTraining())!;
     if (mounted) setState(() {});
-     List<Training> trainingProgramList = [];
-     for (int i = 0; i < myTrainingList.length; i++) {
-       for (int k = 0; k < trainingProgressList.length; k++) {
-         if(trainingProgressList[k].trainingID == myTrainingList[i].trainingID){
-           myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
-         }
-          //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
+    List<Training> trainingProgramList = [];
+    for (int i = 0; i < myTrainingList.length; i++) {
+      for (int k = 0; k < trainingProgressList.length; k++) {
+        if (trainingProgressList[k].staffID ==
+            myTrainingList[i].staffID) {
+          myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
+        }
+        //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
+        //trainingProgramList.add(myTrainingList[i]);
       }
-       trainingProgramList.add(myTrainingList[i]);
-     }
-     trainingList = trainingProgramList.toList();
-   }
+
+      trainingProgramList.add(myTrainingList[i]);
+    }
+    trainingList = trainingProgramList.toList();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: trainingProgressList == null || trainingProgressList.isEmpty
+        body: trainingList == null ||
+                trainingList.isEmpty ||
+                trainingProgressList.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView.builder(
                 itemCount: trainingProgressList.length,
@@ -67,13 +71,23 @@ class _TrainingProgram extends State<TrainingProgram> {
                   return Card(
                     child: Column(
                       children: [
-                        new Row(
+                        Row(
                           children: [
-                            new Flexible(
+                            Expanded(
                               child: ListTile(
-                                title:
-                                    Text(trainingProgressList[index].trainingID ?? "-"),
-                                subtitle: Text(trainingProgressList[index].completion ?? "-"),
+                                title: Text(
+                                    trainingList[index].trainingName ?? "-"),
+                                subtitle: Text("Completion:" +
+                                        trainingProgressList[index]
+                                            .completion ??
+                                    "-"),
+                              ),
+                            ),
+                            Expanded(
+                              child: ListTile(
+                                subtitle: Text(
+                                    trainingList[index].trainingDateTime ??
+                                        "-"),
                               ),
                             ),
                             SizedBox(

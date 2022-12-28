@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Model/benefit_information.dart';
+
 
 class BenefitDetails extends StatefulWidget{
-  const BenefitDetails({super.key});
+
+  const BenefitDetails({super.key,required this.myBenefits});
+
+  final Benefits myBenefits;
+
   @override
   State<BenefitDetails> createState() => _BenefitDetails();
 }
@@ -24,7 +30,20 @@ class _BenefitDetails extends State<BenefitDetails> {
     body: SingleChildScrollView(
       child: Column(
           children:<Widget>[
-            Text('Benefit Details'),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 40.0),
+                  child: Text(" "),
+                ),
+                Container(
+                  child: Text(widget.myBenefits.benefitDesc ?? "-"),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
           ]
       ),
     ),

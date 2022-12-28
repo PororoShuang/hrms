@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Model/compensationInformation.dart';
+import '../Controller/CompensationAPI.dart';
+import '../Model/compensation_information.dart';
 
 class CompensationPending extends StatefulWidget {
   const CompensationPending({super.key});
@@ -10,19 +11,35 @@ class CompensationPending extends StatefulWidget {
 }
 
 class _CompensationPending extends State<CompensationPending> {
-  List<Compensations> myCompensationList = [
-    Compensations(
-      date: "27/7/2022",
-      category: "Lunch",
-      purpose: "Outstation",
-      status: "Pending",
-      approvedBy: "-",
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  List compensationDescendedPendingList = [];
+
+  void getData() async {
+    List<Compensations> myCompensationsList = [];
+    myCompensationsList = (await CompensationsApiService().getCompensations())!;
+    // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    if (mounted) setState(() {});
+    List<Compensations> compensationsPendingList = [];
+    for (int i = 0; i < myCompensationsList.length; i++) {
+      if (myCompensationsList[i].status == "Pending") {
+        compensationsPendingList.add(myCompensationsList[i]);
+      }
+    }
+    compensationDescendedPendingList = compensationsPendingList.toList();
+  } //
+
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: ListView(
-      children: myCompensationList.map((e) {
+    body: compensationDescendedPendingList == null ||
+        compensationDescendedPendingList.isEmpty
+        ? const Center(child: CircularProgressIndicator())
+        : ListView(
+      children: compensationDescendedPendingList.map((e) {
         return Card(
           child: Column(
             children: [
@@ -30,10 +47,10 @@ class _CompensationPending extends State<CompensationPending> {
                 children: [
                   Container(
                     padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Date:"),
+                    child: Text("Date Applied:"),
                   ),
                   Container(
-                    child: Text(e.date!),
+                    child: (Text(e.dateApplied??"-")),
                   ),
                   SizedBox(
                     height: 30,
@@ -47,7 +64,7 @@ class _CompensationPending extends State<CompensationPending> {
                     child: Text("Category of expenses:"),
                   ),
                   Container(
-                    child: Text(e.category!),
+                    child: Text(e.compensationType??"-"),
                   ),
                   SizedBox(
                     height: 30,
@@ -61,7 +78,7 @@ class _CompensationPending extends State<CompensationPending> {
                     child: Text("Purpose:"),
                   ),
                   Container(
-                    child: Text(e.purpose!),
+                    child: Text(e.compensationDesc??"-"),
                   ),
                   SizedBox(
                     height: 30,
@@ -75,7 +92,7 @@ class _CompensationPending extends State<CompensationPending> {
                     child: Text("Status:"),
                   ),
                   Container(
-                    child: Text(e.status!),
+                    child: Text(e.status??"-"),
                   ),
                   SizedBox(
                     height: 30,
@@ -89,13 +106,42 @@ class _CompensationPending extends State<CompensationPending> {
                     child: Text("Approved By:"),
                   ),
                   Container(
-                    child: Text(e.approvedBy!),
+                    child: Text(e.approvedBy??"-"),
                   ),
                   SizedBox(
                     height: 30,
                   ),
                 ],
               ),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 40.0),
+                    child: Text("Date Completed :"),
+                  ),
+                  Container(
+                    child: Text(e.dateCompleted??"-"),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 40.0),
+                    child: Text("Receipt :"),
+                  ),
+                  Container(
+                    child: Text(e.supportingDocuments??"-"),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ),
+
             ],
           ),
         );
