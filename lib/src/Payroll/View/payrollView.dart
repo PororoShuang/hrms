@@ -16,24 +16,27 @@ class _PayrollView extends State<PayrollView> {
     getData();
   }
 
-  late List<Payrolls> myPayrollList = [];
+  late List<Payrolls>? myPayrollList = [];
 
   void getData() async {
-    myPayrollList = (await PayrollApiService().getPayroll())!;
+    myPayrollList = (await PayrollApiService().getPayroll());
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text('Payroll'),
-      backgroundColor: Colors.blueGrey[900],
-      centerTitle:true,
-      automaticallyImplyLeading: true,
-      leading: IconButton(icon:Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context); },),
-    ),
+        appBar: AppBar(
+          title: Text('Payroll'),
+          backgroundColor: Colors.blueGrey[900],
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: myPayrollList == null || myPayrollList!.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView(
@@ -48,10 +51,27 @@ class _PayrollView extends State<PayrollView> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 40.0),
+                              child: Text("Date Created :"),
+                            ),
+                            Container(
+                              child:
+                                  Text(e.date_created.toString().split(" ")[0]),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 40.0),
                               child: Text("Month Salary :"),
                             ),
                             Container(
-                              //Validity True = Not Late , False = Late
                               child: Text(e.month_salary),
                             ),
                             SizedBox(

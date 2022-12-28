@@ -1,5 +1,6 @@
 class Payrolls {
   String? _payroll_id;
+  String? _date_created;
   String? _month_salary;
   String? _overtime_pay;
   String? kwsp_total;
@@ -7,6 +8,10 @@ class Payrolls {
   get payroll_id => this._payroll_id;
 
   set payroll_id(value) => this._payroll_id = value;
+
+  get date_created => this._date_created;
+
+  set date_created(value) => this._date_created = value;
 
   get month_salary => this._month_salary;
 

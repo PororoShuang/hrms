@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Controller/LeaveAPI.dart';
 import '../Model/leave_information.dart';
@@ -28,6 +30,16 @@ class _ApplyLeave extends State<ApplyLeave> {
     if (mounted) setState(() {});
   } //
 
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
+  }
+
   String? dateToString;
   String? dateFromString;
   String? startTimeString;
@@ -45,6 +57,51 @@ class _ApplyLeave extends State<ApplyLeave> {
   DateTime dateTo = DateTime.now();
   TimeOfDay StartTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay EndTime = TimeOfDay(hour: 00, minute: 00);
+
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button, user can upload image from gallery
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.gallery);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.image),
+                        Text('From Gallery'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.camera);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera),
+                        Text('From Camera'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -273,6 +330,43 @@ class _ApplyLeave extends State<ApplyLeave> {
                           });
                         },
                       ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          myAlert();
+                        },
+                        child: Text('Upload Photo'),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ), //if image not null show the image
+                      //if image null show text
+                      image != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  //to show image, you type like this.
+                                  File(image!.path),
+                                  fit: BoxFit.cover,
+                                  //width: MediaQuery.of(context).size.width,
+                                  width: 300,
+                                  height: 300,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              "No Image",
+                              style: TextStyle(fontSize: 20),
+                            )
                     ],
                   ),
                 ),

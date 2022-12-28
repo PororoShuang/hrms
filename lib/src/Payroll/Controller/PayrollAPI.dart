@@ -25,7 +25,7 @@ class PayrollApiService {
           payrollModel.payroll_id = retrievedData[++i];
           String capturedStaffId = retrievedData[++i];
           if (capturedStaffId == userModel.employeeId) {
-            String dateCreated = retrievedData[++i];
+            payrollModel.date_created = retrievedData[++i];
             payrollModel.month_salary = retrievedData[++i];
             payrollModel.overtime_pay = retrievedData[++i];
             payrollModel.kwsp_total = retrievedData[++i];
