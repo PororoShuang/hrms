@@ -12,7 +12,7 @@ class TrainingProgram extends StatefulWidget {
 
 class _TrainingProgram extends State<TrainingProgram> {
   @override
-  void initstate() {
+  void initState() {
     super.initState();
     getTraining();
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
