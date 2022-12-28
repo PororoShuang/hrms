@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
+import 'package:hrms/src/LeaveApplication/View/leaveStatus.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Controller/LeaveAPI.dart';
@@ -333,15 +334,16 @@ class _ApplyLeave extends State<ApplyLeave> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  child: Row(
+                 Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          myAlert();
-                        },
-                        child: Text('Upload Photo'),
+                      Container(
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            myAlert();
+                          },
+                            child: Text('Upload Photo'),
+                        ),
                       ),
                       SizedBox(
                         height: 10,
@@ -349,6 +351,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                       //if image null show text
                       image != null
                           ? Container(
+                            alignment:Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
@@ -364,13 +367,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                       ) : Text(
                         "No Image",
                         style: TextStyle(fontSize: 20),
-                      )
-
-
-
+                      ),
                     ],
                   ),
-                ),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 55,
@@ -422,17 +421,17 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
                         LeaveApiService().postLeave(myLeaveList.length + 1,
                             leaveStart, leaveEnd, leaveType, leaveReason.text);
+                        Future.delayed(Duration(milliseconds: 600), () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LeaveStatus()));
+                        });
                       }
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
                       //         builder: (context) => const LeavePending()));
-                      Future.delayed(Duration(milliseconds: 600), () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LeavePending()));
-                      });
                     },
                   ),
                 ),
