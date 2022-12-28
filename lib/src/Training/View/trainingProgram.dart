@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../AccountManagement/Controller/AccountAPI.dart';
 import '../Controller/trainingAPI.dart';
+import '../Controller/trainingProgressAPI.dart';
+import '../Model/trainingProgress_information.dart';
 import '../Model/training_information.dart';
 
 class TrainingProgram extends StatefulWidget {
@@ -14,45 +17,64 @@ class _TrainingProgram extends State<TrainingProgram> {
   @override
   void initState() {
     super.initState();
-    getTraining();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await getTrainingProgress();
-    //   await getData();
-    // });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getTraining();
+      await getTrainingData();
+    });
   }
 
   List trainingProgressList = [];
+  List trainingList = [];
 
-  //List trainingList = [];
-
-  void getTraining() async {
-    late List<Training> myTrainingList = [];
-    myTrainingList = (await TrainingApiService().getAllTraining())!;
+  Future<void> getTraining() async {
+    List<TrainingProgress> myTrainingProgressList = [];
+    myTrainingProgressList =
+        await TrainingProgressApiService().getTrainingProgress() ??
+            <TrainingProgress>[];
     if (mounted) setState(() {});
-    List<Training> trainingList = [];
-    for (int i = 0; i < myTrainingList.length; i++) {
-      trainingList.add(myTrainingList[i]);
+    //List<TrainingProgress> trainingList = [];
+    for (int i = 0; i < myTrainingProgressList.length; i++) {
+      print("training progress ${myTrainingProgressList[i].staffID}");
+      trainingProgressList.add(myTrainingProgressList[i]);
     }
-    trainingProgressList = trainingList.toList();
   }
+
+   Future<void> getTrainingData() async {
+    List<Training> myTrainingList = [];
+     myTrainingList = (await TrainingApiService().getAllTraining())!;
+    if (mounted) setState(() {});
+     List<Training> trainingProgramList = [];
+     for (int i = 0; i < myTrainingList.length; i++) {
+       for (int k = 0; k < trainingProgressList.length; k++) {
+         if(trainingProgressList[k].trainingID == myTrainingList[i].trainingID){
+           myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
+         }
+          //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
+      }
+       trainingProgramList.add(myTrainingList[i]);
+     }
+     trainingList = trainingProgramList.toList();
+   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: trainingProgressList == null || trainingProgressList.isEmpty
             ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                children: trainingProgressList.map((e) {
+            : ListView.builder(
+                itemCount: trainingProgressList.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Card(
                     child: Column(
                       children: [
-                        Row(
+                        new Row(
                           children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 40.0),
-                              child: Text("ID:"),
-                            ),
-                            Container(
-                              child: Text(e.trainingID??"-"),
+                            new Flexible(
+                              child: ListTile(
+                                title:
+                                    Text(trainingProgressList[index].trainingID ?? "-"),
+                                subtitle: Text(trainingProgressList[index].completion ?? "-"),
+                              ),
                             ),
                             SizedBox(
                               height: 30,
@@ -62,7 +84,6 @@ class _TrainingProgram extends State<TrainingProgram> {
                       ],
                     ),
                   );
-                }).toList(),
-              ),
+                }),
       );
 }

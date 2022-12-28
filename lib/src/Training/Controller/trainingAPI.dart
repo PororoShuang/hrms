@@ -33,8 +33,7 @@ class TrainingApiService {
           trainingModel.duration = retrievedData[++i];
           training.add(trainingModel);
         }
-      }
-      ;
+      };
       print(response.body);
       print(response.statusCode);
       print("get training success ${training.length}");

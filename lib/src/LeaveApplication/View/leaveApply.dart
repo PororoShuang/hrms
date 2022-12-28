@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
+import 'package:hrms/src/LeaveApplication/View/leaveStatus.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Controller/LeaveAPI.dart';
@@ -333,42 +334,42 @@ class _ApplyLeave extends State<ApplyLeave> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  child: Row(
-                    children: [
-                      ElevatedButton(
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 0.0),
+                      child: ElevatedButton(
                         onPressed: () {
                           myAlert();
                         },
                         child: Text('Upload Photo'),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ), //if image not null show the image
-                      //if image null show text
-                      image != null
-                          ? Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  //to show image, you type like this.
-                                  File(image!.path),
-                                  fit: BoxFit.cover,
-                                  //width: MediaQuery.of(context).size.width,
-                                  width: 150,
-                                  height: 250,
-                                ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ), //if image not null show the image
+                    //if image null show text
+                    image != null
+                        ? Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.file(
+                                //to show image, you type like this.
+                                File(image!.path),
+                                fit: BoxFit.cover,
+                                //width: MediaQuery.of(context).size.width,
+                                width: 150,
+                                height: 250,
                               ),
-                            )
-                          : Text(
-                              "No Image",
-                              style: TextStyle(fontSize: 20),
-                            )
-                    ],
-                  ),
+                            ),
+                          )
+                        : Text(
+                            "No Image",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                  ],
                 ),
                 SizedBox(height: 10),
                 SizedBox(
@@ -419,24 +420,19 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveStart =
                             "${dateFromString}T$startTimeString:00";
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
-                        LeaveApiService().postLeave(
-                            myLeaveList.length + 1,
-                            leaveStart,
-                            leaveEnd,
-                            leaveType,
-                            leaveReason.text,
-                            image?.path);
+                        LeaveApiService().postLeave(myLeaveList.length + 1,
+                            leaveStart, leaveEnd, leaveType, leaveReason.text);
+                        Future.delayed(Duration(milliseconds: 600), () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LeaveStatus()));
+                        });
                       }
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
                       //         builder: (context) => const LeavePending()));
-                      Future.delayed(Duration(milliseconds: 600), () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LeavePending()));
-                      });
                     },
                   ),
                 ),
