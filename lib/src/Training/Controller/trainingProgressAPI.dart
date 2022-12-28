@@ -31,10 +31,11 @@ class TrainingProgressApiService {
           trainingProgressModel.trainingID = retrievedData[++i];
           trainingProgressModel.completion = retrievedData[++i];
           trainingProgressModel.durationLeft = retrievedData[++i];
-          trainingProgressModel.certificateId = retrievedData[++i];
           trainingProgress.add(trainingProgressModel);
         }
       };
+      print(response.body);
+      print(response.statusCode);
       print("get training progress success ${trainingProgress.length}");
       return trainingProgress;
     }
@@ -66,7 +67,6 @@ class TrainingProgressApiService {
             trainingProgressModel.trainingID = retrievedData[++i];
             trainingProgressModel.completion = retrievedData[++i];
             trainingProgressModel.durationLeft = retrievedData[++i];
-            trainingProgressModel.certificateId = retrievedData[++i];
             trainingProgress.add(trainingProgressModel);
           }
         };
