@@ -333,6 +333,43 @@ class _ApplyLeave extends State<ApplyLeave> {
                     ],
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          myAlert();
+                        },
+                        child: Text('Upload Photo'),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ), //if image not null show the image
+                      //if image null show text
+                      image != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  //to show image, you type like this.
+                                  File(image!.path),
+                                  fit: BoxFit.cover,
+                                  //width: MediaQuery.of(context).size.width,
+                                  width: 300,
+                                  height: 300,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              "No Image",
+                              style: TextStyle(fontSize: 20),
+                            )
+                    ],
+                  ),
+                ),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 55,
@@ -450,44 +487,6 @@ class _ApplyLeave extends State<ApplyLeave> {
                 //     ],
                 //   ),
                 // ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          myAlert();
-                        },
-                        child: Text('Upload Photo'),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ), //if image not null show the image
-                      //if image null show text
-                      image != null
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  //to show image, you type like this.
-                                  File(image!.path),
-                                  fit: BoxFit.cover,
-                                  //width: MediaQuery.of(context).size.width,
-                                  width: 300,
-                                  height: 300,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              "No Image",
-                              style: TextStyle(fontSize: 20),
-                            )
-                    ],
-                  ),
-                ),
               ],
             )
           ],
