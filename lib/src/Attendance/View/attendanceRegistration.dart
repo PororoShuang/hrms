@@ -141,73 +141,58 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     await AuthService.authenticateUser();
                                 //Call server timestamp, verify UUID, verify Geofencing
                                 if (isAuthenticated) {
-                                  // Get Current UUID
-                                  String? deviceInfo =
-                                      await GetUniqueId.getDeviceId();
-                                  //Compare with database UUID
                                   bool validPosition =
                                       determinePositionState.validPosition();
-                                  if (deviceInfo == userModel.getUuid) {
-                                    if (validPosition) {
-                                      //if (deviceInfo == dbdeviceInfo) {
-                                      //verify Geofencing
-                                      String? positionHere =
-                                          await determinePositionState
-                                              .determinePosition();
-                                      // if (determinePositionState.validPosition() ==
-                                      //     true) {
+                                  if (validPosition) {
+                                    //if (deviceInfo == dbdeviceInfo) {
+                                    //verify Geofencing
+                                    String? positionHere =
+                                        await determinePositionState
+                                            .determinePosition();
+                                    // if (determinePositionState.validPosition() ==
+                                    //     true) {
 
-                                      //Get Attendance ID from selected item shift
-                                      String selectedAttId =
-                                          selectedItemShift!.split("&")[1];
-                                      //Compare with <Attendance> itemShift , then pass in as argument
-                                      for (int i = 0;
-                                          i < itemsShift.length;
-                                          i++) {
-                                        if (selectedAttId ==
-                                            itemsShift[i].attendance_id_) {
-                                          AttendanceApiService()
-                                              .updateCheckInAttendance(
-                                            itemsShift[i]
-                                                .attendance_id_
-                                                .toString(),
-                                            itemsShift[i].shift_id_.toString(),
-                                            itemsShift[i].end_time_.toString(),
-                                            itemsShift[i]
-                                                .supposed_start_
-                                                .toString(),
-                                            itemsShift[i]
-                                                .supposed_end_
-                                                .toString(),
-                                            itemsShift[i].validity_.toString(),
-                                            itemsShift[i].on_leave_.toString(),
-                                            itemsShift[i]
-                                                .check_out_valid_
-                                                .toString(),
-                                            itemsShift[i].leave_id_.toString(),
-                                            itemsShift[i]
-                                                .shift_date_
-                                                .toString(),
-                                          );
-                                        }
+                                    //Get Attendance ID from selected item shift
+                                    String selectedAttId =
+                                        selectedItemShift!.split("&")[1];
+                                    //Compare with <Attendance> itemShift , then pass in as argument
+                                    for (int i = 0;
+                                        i < itemsShift.length;
+                                        i++) {
+                                      if (selectedAttId ==
+                                          itemsShift[i].attendance_id_) {
+                                        AttendanceApiService()
+                                            .updateCheckInAttendance(
+                                          itemsShift[i]
+                                              .attendance_id_
+                                              .toString(),
+                                          itemsShift[i].shift_id_.toString(),
+                                          itemsShift[i].end_time_.toString(),
+                                          itemsShift[i]
+                                              .supposed_start_
+                                              .toString(),
+                                          itemsShift[i]
+                                              .supposed_end_
+                                              .toString(),
+                                          itemsShift[i].validity_.toString(),
+                                          itemsShift[i].on_leave_.toString(),
+                                          itemsShift[i]
+                                              .check_out_valid_
+                                              .toString(),
+                                          itemsShift[i].leave_id_.toString(),
+                                          itemsShift[i].shift_date_.toString(),
+                                        );
                                       }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              'You are NOT within designated area!'),
-                                        ),
-                                      );
                                     }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content:
-                                            Text('Do Not Use Others Device!'),
+                                        content: Text(
+                                            'You are NOT within designated area!'),
                                       ),
                                     );
                                   }
+
                                   //CALL API HERE TO SAVE INTO DB
                                   //take attendance , call api to register attendance
                                   //AttendanceApiService().
@@ -244,81 +229,66 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   if (selectedAttId ==
                                       itemsShift[i].attendance_id_) {
                                     if (qrResult == itemsShift[i].shift_id_) {
-                                      String? deviceInfo =
-                                          await GetUniqueId.getDeviceId();
-                                      //Compare with database UUID
                                       bool validPosition =
                                           determinePositionState
                                               .validPosition();
-                                      if (deviceInfo == userModel.getUuid) {
-                                        if (validPosition) {
-                                          //Compare with database UUID
-                                          //if (deviceInfo == dbdeviceInfo) {
-                                          //verify Geofencing
-                                          String? positionHere =
-                                              await determinePositionState
-                                                  .determinePosition();
-                                          // if (determinePositionState
-                                          //         .validPosition() ==
-                                          //     true) {
-                                          //   //take attendance , call api to register attendance
-                                          //   //  AttendanceApiService().updateAttendance();
-                                          // } else {
-                                          //   ScaffoldMessenger.of(context)
-                                          //       .showSnackBar(
-                                          //     const SnackBar(
-                                          //       content: Text(
-                                          //           'You are not within designated area!'),
-                                          //     ),
-                                          //   );
-                                          // }
-                                          AttendanceApiService()
-                                              .updateCheckInAttendance(
-                                            itemsShift[i]
-                                                .attendance_id_
-                                                .toString(),
-                                            itemsShift[i].shift_id_.toString(),
-                                            itemsShift[i].end_time_.toString(),
-                                            itemsShift[i]
-                                                .supposed_start_
-                                                .toString(),
-                                            itemsShift[i]
-                                                .supposed_end_
-                                                .toString(),
-                                            itemsShift[i].validity_.toString(),
-                                            itemsShift[i].on_leave_.toString(),
-                                            itemsShift[i]
-                                                .check_out_valid_
-                                                .toString(),
-                                            itemsShift[i].leave_id_.toString(),
-                                            itemsShift[i]
-                                                .shift_date_
-                                                .toString(),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content:
-                                                  Text('Check In Successfully'),
-                                            ),
-                                          );
-
-                                          break;
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'You are NOT within designated area!'),
-                                            ),
-                                          );
-                                        }
+                                      if (validPosition) {
+                                        //Compare with database UUID
+                                        //if (deviceInfo == dbdeviceInfo) {
+                                        //verify Geofencing
+                                        String? positionHere =
+                                            await determinePositionState
+                                                .determinePosition();
+                                        // if (determinePositionState
+                                        //         .validPosition() ==
+                                        //     true) {
+                                        //   //take attendance , call api to register attendance
+                                        //   //  AttendanceApiService().updateAttendance();
+                                        // } else {
+                                        //   ScaffoldMessenger.of(context)
+                                        //       .showSnackBar(
+                                        //     const SnackBar(
+                                        //       content: Text(
+                                        //           'You are not within designated area!'),
+                                        //     ),
+                                        //   );
+                                        // }
+                                        AttendanceApiService()
+                                            .updateCheckInAttendance(
+                                          itemsShift[i]
+                                              .attendance_id_
+                                              .toString(),
+                                          itemsShift[i].shift_id_.toString(),
+                                          itemsShift[i].end_time_.toString(),
+                                          itemsShift[i]
+                                              .supposed_start_
+                                              .toString(),
+                                          itemsShift[i]
+                                              .supposed_end_
+                                              .toString(),
+                                          itemsShift[i].validity_.toString(),
+                                          itemsShift[i].on_leave_.toString(),
+                                          itemsShift[i]
+                                              .check_out_valid_
+                                              .toString(),
+                                          itemsShift[i].leave_id_.toString(),
+                                          itemsShift[i].shift_date_.toString(),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content:
+                                                Text('Check In Successfully'),
+                                          ),
+                                        );
+                                        //test br
+                                        break;
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                                'Do Not Use Others Device!'),
+                                                'You are NOT within designated area!'),
                                           ),
                                         );
                                       }
@@ -364,90 +334,75 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   await AuthService.authenticateUser();
                               //Call server timestamp, verify UUID, verify Geofencing
                               if (isAuthenticated) {
-                                String? deviceInfo =
-                                    await GetUniqueId.getDeviceId();
-                                //Compare with database UUID
                                 bool validPosition =
                                     determinePositionState.validPosition();
-                                if (deviceInfo == userModel.getUuid) {
-                                  if (validPosition) {
-                                    //Compare with database UUID
-                                    //if (deviceInfo == dbdeviceInfo) {
-                                    //verify Geofencing
-                                    String? positionHere =
-                                        await determinePositionState
-                                            .determinePosition();
-                                    // if (determinePositionState.validPosition() ==
-                                    //     true) {
+                                if (validPosition) {
+                                  //if (deviceInfo == dbdeviceInfo) {
+                                  //verify Geofencing
+                                  String? positionHere =
+                                      await determinePositionState
+                                          .determinePosition();
+                                  // if (determinePositionState.validPosition() ==
+                                  //     true) {
 
-                                    //Get Attendance ID from selected item shift
-                                    String selectedAttId =
-                                        selectedItemShift!.split("&")[1];
-                                    //Compare with <Attendance> itemShift , then pass in as argument
-                                    for (int i = 0;
-                                        i < itemsShift.length;
-                                        i++) {
-                                      if (selectedAttId ==
-                                          itemsShift[i].attendance_id_) {
-                                        //check if can check out already or not
-                                        bool shiftEnded =
-                                            await AttendanceApiService()
-                                                .checkSupposedEndTime(
-                                                    itemsShift[i]
-                                                        .shift_date_
-                                                        .toString(),
-                                                    itemsShift[i]
-                                                        .supposed_end_
-                                                        .toString());
+                                  //Get Attendance ID from selected item shift
+                                  String selectedAttId =
+                                      selectedItemShift!.split("&")[1];
+                                  //Compare with <Attendance> itemShift , then pass in as argument
+                                  for (int i = 0; i < itemsShift.length; i++) {
+                                    if (selectedAttId ==
+                                        itemsShift[i].attendance_id_) {
+                                      //check if can check out already or not
+                                      bool shiftEnded =
+                                          await AttendanceApiService()
+                                              .checkSupposedEndTime(
+                                                  itemsShift[i]
+                                                      .shift_date_
+                                                      .toString(),
+                                                  itemsShift[i]
+                                                      .supposed_end_
+                                                      .toString());
 
-                                        AttendanceApiService()
-                                            .updateCheckOutAttendance(
-                                                itemsShift[i]
-                                                    .attendance_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .shift_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .start_time_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .supposed_start_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .supposed_end_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .validity_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .on_leave_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .check_in_valid_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .leave_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .shift_date_
-                                                    .toString(),
-                                                shiftEnded);
-                                      }
+                                      AttendanceApiService()
+                                          .updateCheckOutAttendance(
+                                              itemsShift[i]
+                                                  .attendance_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .shift_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .start_time_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .supposed_start_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .supposed_end_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .validity_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .on_leave_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .check_in_valid_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .leave_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .shift_date_
+                                                  .toString(),
+                                              shiftEnded);
                                     }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'You are NOT within designated area!'),
-                                      ),
-                                    );
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content:
-                                          Text('Do Not Use Others Device!'),
+                                      content: Text(
+                                          'You are NOT within designated area!'),
                                     ),
                                   );
                                 }
@@ -469,6 +424,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                 //     ),
                                 //   );
                                 // }
+
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -486,98 +442,84 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                 if (selectedAttId ==
                                     itemsShift[i].attendance_id_) {
                                   if (qrResult == itemsShift[i].shift_id_) {
-                                    String? deviceInfo =
-                                        await GetUniqueId.getDeviceId();
-                                    //Compare with database UUID
                                     bool validPosition =
                                         determinePositionState.validPosition();
-                                    if (deviceInfo == userModel.getUuid) {
-                                      if (validPosition) {
-                                        //Compare with database UUID
-                                        //if (deviceInfo == dbdeviceInfo) {
-                                        //verify Geofencing
-                                        String? positionHere =
-                                            await determinePositionState
-                                                .determinePosition();
-                                        // if (determinePositionState
-                                        //         .validPosition() ==
-                                        //     true) {
-                                        //   //take attendance , call api to register attendance
-                                        //   //  AttendanceApiService().updateAttendance();
-                                        // } else {
-                                        //   ScaffoldMessenger.of(context)
-                                        //       .showSnackBar(
-                                        //     const SnackBar(
-                                        //       content: Text(
-                                        //           'You are not within designated area!'),
-                                        //     ),
-                                        //   );
-                                        // }
-                                        bool shiftEnded =
-                                            await AttendanceApiService()
-                                                .checkSupposedEndTime(
-                                                    itemsShift[i]
-                                                        .shift_date_
-                                                        .toString(),
-                                                    itemsShift[i]
-                                                        .supposed_end_
-                                                        .toString());
-                                        AttendanceApiService()
-                                            .updateCheckOutAttendance(
-                                                itemsShift[i]
-                                                    .attendance_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .shift_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .start_time_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .supposed_start_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .supposed_end_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .validity_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .on_leave_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .check_in_valid_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .leave_id_
-                                                    .toString(),
-                                                itemsShift[i]
-                                                    .shift_date_
-                                                    .toString(),
-                                                shiftEnded);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content:
-                                                Text('Check Out Successfully'),
-                                          ),
-                                        );
-                                        break;
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'You are NOT within designated area!'),
-                                          ),
-                                        );
-                                      }
-                                    } else {
+                                    if (validPosition) {
+                                      //if (deviceInfo == dbdeviceInfo) {
+                                      //verify Geofencing
+                                      String? positionHere =
+                                          await determinePositionState
+                                              .determinePosition();
+                                      // if (determinePositionState
+                                      //         .validPosition() ==
+                                      //     true) {
+                                      //   //take attendance , call api to register attendance
+                                      //   //  AttendanceApiService().updateAttendance();
+                                      // } else {
+                                      //   ScaffoldMessenger.of(context)
+                                      //       .showSnackBar(
+                                      //     const SnackBar(
+                                      //       content: Text(
+                                      //           'You are not within designated area!'),
+                                      //     ),
+                                      //   );
+                                      // }
+                                      bool shiftEnded =
+                                          await AttendanceApiService()
+                                              .checkSupposedEndTime(
+                                                  itemsShift[i]
+                                                      .shift_date_
+                                                      .toString(),
+                                                  itemsShift[i]
+                                                      .supposed_end_
+                                                      .toString());
+                                      AttendanceApiService()
+                                          .updateCheckOutAttendance(
+                                              itemsShift[i]
+                                                  .attendance_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .shift_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .start_time_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .supposed_start_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .supposed_end_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .validity_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .on_leave_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .check_in_valid_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .leave_id_
+                                                  .toString(),
+                                              itemsShift[i]
+                                                  .shift_date_
+                                                  .toString(),
+                                              shiftEnded);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
                                           content:
-                                              Text('Do Not Use Others Device!'),
+                                              Text('Check Out Successfully'),
+                                        ),
+                                      );
+                                      break;
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'You are NOT within designated area!'),
                                         ),
                                       );
                                     }
