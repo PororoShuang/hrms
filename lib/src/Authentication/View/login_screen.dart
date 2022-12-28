@@ -1,5 +1,7 @@
+// import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/AccountManagement/View/account.dart';
 import 'package:hrms/src/home.dart';
 import 'package:hrms/src/navBar.dart';
@@ -110,11 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       LoginButton(
                         elementsOpacity: _elementsOpacity,
                         onTap: () async {
+                          String? deviceInfo = await GetUniqueId.getDeviceId();
                           currentLoginID = idController.text;
                           currentLoginPassword = passwordController.text;
                           //_userModel = (await ApiService().getUsers())!;
 
                           (await ApiService().getUsers());
+
                           if (userModel.getEmployeeId != currentLoginID ||
                               userModel.getAccPass != currentLoginPassword) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -134,12 +138,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Account()));
-                              } else {
+                              } else if (deviceInfo == userModel.getUuid) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => BottomNavigation(
                                             staffRole: userModel.staffRole)));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Do Not Use Others Device to Login!'),
+                                  ),
+                                );
+                                setState(() {
+                                  _elementsOpacity = 1;
+                                });
                               }
                             });
                           }

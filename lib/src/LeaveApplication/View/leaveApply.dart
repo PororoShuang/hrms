@@ -334,42 +334,43 @@ class _ApplyLeave extends State<ApplyLeave> {
                     ],
                   ),
                 ),
-                 Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 0.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            myAlert();
-                          },
-                            child: Text('Upload Photo'),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ), //if image not null show the image
-                      //if image null show text
-                      image != null
-                          ? Container(
-                            alignment:Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.file(
-                                //to show image, you type like this.
-                                File(image!.path),
-                                fit: BoxFit.cover,
-                                //width: MediaQuery.of(context).size.width,
-                                width: 150,
-                                height: 250,
-                              ),
-                            ),
-                      ) : Text(
-                        "No Image",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
+                // Column(
+                //   children: [
+                //     Container(
+                //       padding: const EdgeInsets.only(left: 0.0),
+                //       child: ElevatedButton(
+                //         onPressed: () {
+                //           myAlert();
+                //         },
+                //         child: Text('Upload Photo'),
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 10,
+                //     ), //if image not null show the image
+                //     //if image null show text
+                //     image != null
+                //         ? Container(
+                //             alignment: Alignment.centerLeft,
+                //             padding: const EdgeInsets.symmetric(horizontal: 20),
+                //             child: ClipRRect(
+                //               borderRadius: BorderRadius.circular(8),
+                //               child: Image.file(
+                //                 //to show image, you type like this.
+                //                 File(image!.path),
+                //                 fit: BoxFit.cover,
+                //                 //width: MediaQuery.of(context).size.width,
+                //                 width: 150,
+                //                 height: 250,
+                //               ),
+                //             ),
+                //           )
+                //         : Text(
+                //             "No Image",
+                //             style: TextStyle(fontSize: 20),
+                //           ),
+                //   ],
+                // ),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 55,
@@ -419,15 +420,46 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveStart =
                             "${dateFromString}T$startTimeString:00";
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
-                        LeaveApiService().postLeave(myLeaveList.length + 1,
-                            leaveStart, leaveEnd, leaveType, leaveReason.text);
-                        Future.delayed(Duration(milliseconds: 600), () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LeaveStatus()));
-                        });
+
+                        DateTime leaveStartDT =
+                            DateTime.parse(leaveStart.replaceAll("T", " "));
+                        DateTime leaveEndDT =
+                            DateTime.parse(leaveEnd.replaceAll("T", " "));
+
+                        //if leaveEnd Date Time is earlier than Leave Start, got error
+                        if (leaveEndDT.compareTo(leaveStartDT) < 0) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text(
+                                  'Invalid Leave Start Time and Leave End Time'),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('OK'))
+                              ],
+                            ),
+                          );
+                        } else {
+                          LeaveApiService().postLeave(
+                            myLeaveList.length + 1,
+                            leaveStart,
+                            leaveEnd,
+                            leaveType,
+                            leaveReason.text,
+                          );
+                          Future.delayed(Duration(milliseconds: 600), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LeaveStatus()));
+                          });
+                        }
                       }
+
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
+import 'package:hrms/src/AccountManagement/View/account.dart';
 import 'package:image/image.dart';
 import '../../navBar.dart';
 import '../Controller/AccountAPI.dart';
@@ -186,8 +187,6 @@ class ProfileState extends State<Profile> {
                                   )),
                                   labelText: "NRIC No"),
                               validator: Employee.validateIC(icController.text),
-
-                              //labelText: userModel.icNo),
                             )),
                       ),
                       Container(
@@ -423,53 +422,83 @@ class ProfileState extends State<Profile> {
                           height: 55,
                           width: 300,
                           child: TextButton(
-                            child: Text("Save", style: TextStyle(fontSize: 19)),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.indigo[900],
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(112)),
-                            ),
-                            onPressed: () async {
-                              if (_genderType == null) {
-                                setState(() {
-                                  _isVisible = true;
-                                });
-                              } else {
-                                setState(() {
-                                  _isVisible = false;
-                                });
-                              }
-
-                              if (_formKey.currentState!.validate() &&
-                                  userModel.getIcNo == "") {
-                                // If the form is valid, display a snackbar. In the real world,
-                                // you'd often call a server or save the information in a database.
-                                String gender =
-                                    _genderType.toString().substring(11);
-                                userModel.setGender = gender;
-                                userModel.setIcNo = icController.text;
-                                userModel.setPhoneNo = phoneController.text;
-                                userModel.setEmail = emailController.text;
-                                userModel.setNationality = countryValue;
-                                userModel.setReligion = selectedItemReligion;
-                                userModel.setDob =
-                                    "${dateOfBirthString}T00:00:00";
-                                userModel.setUuid =
-                                    await GetUniqueId.getDeviceId();
-                                await ApiService().updateUser();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Modify Successfully'),
-                                  ),
-                                );
-                              } else {
-                                print("nonono");
-                              }
-
-                              //showToast();
-                            },
-                          ),
+                              child:
+                                  Text("Save", style: TextStyle(fontSize: 19)),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.indigo[900],
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(112)),
+                              ),
+                              onPressed: () {
+                                if (_genderType == null) {
+                                  setState(() {
+                                    _isVisible = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _isVisible = false;
+                                  });
+                                }
+                                if (_formKey.currentState!.validate()) {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: const Text(
+                                          'Update Profile Infomation'),
+                                      content: const Text(
+                                          'Are you confirm want to update profile infomation?\nYou can only update once'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                            onPressed: () async {
+                                              // If the form is valid, display a snackbar. In the real world,
+                                              // you'd often call a server or save the information in a database.
+                                              String gender = _genderType
+                                                  .toString()
+                                                  .substring(11);
+                                              userModel.setGender = gender;
+                                              userModel.setIcNo =
+                                                  icController.text;
+                                              userModel.setPhoneNo =
+                                                  phoneController.text;
+                                              userModel.setEmail =
+                                                  emailController.text;
+                                              userModel.setNationality =
+                                                  countryValue;
+                                              userModel.setReligion =
+                                                  selectedItemReligion;
+                                              userModel.setDob =
+                                                  "${dateOfBirthString}T00:00:00";
+                                              userModel.setUuid =
+                                                  await GetUniqueId
+                                                      .getDeviceId();
+                                              await ApiService().updateUser();
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Update Successfully'),
+                                                ),
+                                              );
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Account()));
+                                              //return;
+                                            },
+                                            child: const Text('Confirm')),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }),
                         ),
                       ),
                       SizedBox(height: 30),
