@@ -349,25 +349,24 @@ class _ApplyLeave extends State<ApplyLeave> {
                       //if image null show text
                       image != null
                           ? Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.file(
-                                //to show image, you type like this.
-                                File(image!.path),
-                                fit: BoxFit.cover,
-                                //width: MediaQuery.of(context).size.width,
-                                width: 150,
-                                height: 250,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  //to show image, you type like this.
+                                  File(image!.path),
+                                  fit: BoxFit.cover,
+                                  //width: MediaQuery.of(context).size.width,
+                                  width: 150,
+                                  height: 250,
+                                ),
                               ),
-                            ),
-                      ) : Text(
-                        "No Image",
-                        style: TextStyle(fontSize: 20),
-                      )
-
-
-
+                            )
+                          : Text(
+                              "No Image",
+                              style: TextStyle(fontSize: 20),
+                            )
                     ],
                   ),
                 ),
@@ -420,8 +419,13 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveStart =
                             "${dateFromString}T$startTimeString:00";
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
-                        LeaveApiService().postLeave(myLeaveList.length + 1,
-                            leaveStart, leaveEnd, leaveType, leaveReason.text);
+                        LeaveApiService().postLeave(
+                            myLeaveList.length + 1,
+                            leaveStart,
+                            leaveEnd,
+                            leaveType,
+                            leaveReason.text,
+                            image?.path);
                       }
                       // Navigator.push(
                       //     context,
