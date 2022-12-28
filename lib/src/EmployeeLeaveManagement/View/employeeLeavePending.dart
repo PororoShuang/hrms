@@ -104,7 +104,6 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                       children: <Widget>[
                       Row(
                         children: [
-
                           Expanded(child:
                           ListTile(
                             title: Text(
