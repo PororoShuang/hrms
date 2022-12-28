@@ -1,21 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/EmployeeLeaveManagement/Controller/employeeLeaveAPI.dart';
-import 'package:hrms/src/EmployeeLeaveManagement/Model/employeeLeave_information.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
-import 'package:hrms/src/LeaveApplication/Controller/LeaveAPI.dart';
+import '../../LeaveApplication/Model/leave_information.dart';
 
-class EmployeeLeaveDetails extends StatefulWidget {
-  const EmployeeLeaveDetails({super.key, required this.myLeave});
+class EmployeeLeavePendingDetails extends StatefulWidget {
+  const EmployeeLeavePendingDetails({super.key, required this.myLeave});
 
-  final EmployeeLeaves myLeave;
+  final Leaves myLeave;
 
   @override
-  State<EmployeeLeaveDetails> createState() => _EmployeeLeaveDetails();
+  State<EmployeeLeavePendingDetails> createState() => _EmployeeLeavePendingDetails();
 }
 
-class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
-  TextEditingController managerleaveReason = new TextEditingController();
+class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
+  TextEditingController managerLeaveReason = new TextEditingController();
+
+  void showToastApproved() {
+    Fluttertoast.showToast(
+        msg: 'Leave Approved',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.teal,
+        textColor: Colors.white);
+  }
+
+  void showToastRejected() {
+    Fluttertoast.showToast(
+        msg: 'Leave Rejected',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -84,34 +104,34 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Start Time:"),
-                  ),
-                  Container(
-                    child: Text(widget.myLeave.leave_start_time ?? "-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("End Time:"),
-                  ),
-                  Container(
-                    child: Text(widget.myLeave.leave_end_time ?? "-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       padding: EdgeInsets.only(left: 40.0),
+              //       child: Text("Start Time:"),
+              //     ),
+              //     Container(
+              //       child: Text(widget.myLeave.leave_start_time ?? "-"),
+              //     ),
+              //     SizedBox(
+              //       height: 30,
+              //     ),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       padding: EdgeInsets.only(left: 40.0),
+              //       child: Text("End Time:"),
+              //     ),
+              //     Container(
+              //       child: Text(widget.myLeave.leave_end_time ?? "-"),
+              //     ),
+              //     SizedBox(
+              //       height: 30,
+              //     ),
+              //   ],
+              // ),
               Row(
                 children: [
                   Container(
@@ -126,7 +146,6 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                   ),
                 ],
               ),
-              Text("Leave ID is ${widget.myLeave.leave_id}"),
               SizedBox(height: 15),
               Row(
                 children: [
@@ -142,12 +161,22 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.only(right: 270.0),
-                child: Text(userModel.getEmployeeId),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 40.0),
+                    child: Text("Approved By:"),
+                  ),
+                  Container(
+                    child: Text(userModel.getEmployeeId),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
               ),
               Container(
-                padding: EdgeInsets.only(right: 270.0),
+                padding: EdgeInsets.only(right: 280.0),
                 child: Text("Reason:"),
               ),
               Container(
@@ -157,7 +186,7 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                     SizedBox(
                         width: 330,
                         child: TextFormField(
-                          controller: managerleaveReason,
+                          controller: managerLeaveReason,
                           maxLines: 3,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -187,17 +216,23 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                         ),
                         onPressed: () async {
                           await EmployeeLeaveApiService().approveOrRejectLeave(
-                              widget.myLeave.leave_id,
-                              widget.myLeave.staff_id,
-                              widget.myLeave.leave_type,
-                              widget.myLeave.leave_start,
-                              widget.myLeave.leave_end,
-                              widget.myLeave.leave_reason,
-                              "Approved",
-                              managerleaveReason.text);
+                            widget.myLeave.leave_id,
+                            widget.myLeave.staff_id,
+                            widget.myLeave.leave_type,
+                            widget.myLeave.leave_start,
+                            widget.myLeave.leave_end,
+                            widget.myLeave.leave_reason,
+                            "Approved",
+                            managerLeaveReason.text,
+                            widget.myLeave.doc_file_path,
+                          );
 
-                          await LeaveApiService().getLeave();
-
+                          showToastApproved();
+                          Future.delayed(Duration(milliseconds: 600), () {
+                            Navigator.pop(
+                              context,'refresh'
+                            );
+                          });
                         },
                       ),
                     ),
@@ -215,7 +250,26 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(112)),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await EmployeeLeaveApiService().approveOrRejectLeave(
+                            widget.myLeave.leave_id,
+                            widget.myLeave.staff_id,
+                            widget.myLeave.leave_type,
+                            widget.myLeave.leave_start,
+                            widget.myLeave.leave_end,
+                            widget.myLeave.leave_reason,
+                            "Rejected",
+                            managerLeaveReason.text,
+                            widget.myLeave.doc_file_path,
+                          );
+
+                          showToastRejected();
+                          Future.delayed(Duration(milliseconds: 600), () {
+                            Navigator.pop(
+                              context,true
+                            );
+                          });
+                        },
                       ),
                     ),
                   ),

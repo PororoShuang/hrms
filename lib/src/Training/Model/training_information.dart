@@ -26,4 +26,5 @@ class Training{
 
   set training_duration(value) => this.duration=value;
 
+
 }

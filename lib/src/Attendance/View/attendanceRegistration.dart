@@ -1,5 +1,4 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/Attendance/Controller/AttendanceAPI.dart';
@@ -22,14 +21,14 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
 
   List<String> shiftTime = [];
   List<Attendance> itemsShift = [];
+  String shiftDate = "";
 
   void getData() async {
     itemsShift = (await AttendanceApiService().getAttendance())!;
 
     for (int i = 0; i < itemsShift.length; i++) {
-      shiftTime.add(itemsShift[i].shift_date_.toString() +
-          "\n " +
-          itemsShift[i].supposed_start_.toString() +
+      shiftDate = itemsShift[i].shift_date_.toString();
+      shiftTime.add(itemsShift[i].supposed_start_.toString() +
           " - " +
           itemsShift[i].supposed_end_.toString() +
           "&" +
@@ -61,6 +60,13 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                   Column(
                     children: [
                       Align(
+                          alignment: Alignment(0.8, 1.2),
+                          child: Text('Shift Date :' + shiftDate,
+                              style: TextStyle(
+                                height: 2,
+                                fontSize: 20,
+                              ))),
+                      Align(
                           alignment: Alignment(-0.65, 1.2),
                           child: Text('Select Shift',
                               style: TextStyle(
@@ -77,7 +83,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           items: shiftTime
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
-                                    child: Text(item.substring(0, 34),
+                                    child: Text(item.substring(0, 22),
                                         style: TextStyle(
                                             fontSize: 19,
                                             fontStyle: FontStyle.italic)),
@@ -148,7 +154,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
 
                                   //Get Attendance ID from selected item shift
                                   String selectedAttId =
-                                      selectedItemShift!.substring(35);
+                                      selectedItemShift!.split("&")[1];
                                   //Compare with <Attendance> itemShift , then pass in as argument
                                   for (int i = 0; i < itemsShift.length; i++) {
                                     if (selectedAttId ==
@@ -202,7 +208,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                 var scaning = await BarcodeScanner.scan();
                                 String qrResult = scaning.rawContent;
                                 String selectedAttId =
-                                    selectedItemShift!.substring(35);
+                                    selectedItemShift!.split("&")[1];
                                 //Compare with <Attendance> itemShift , then pass in as argument
                                 for (int i = 0; i < itemsShift.length; i++) {
                                   if (selectedAttId ==
@@ -311,7 +317,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
 
                                 //Get Attendance ID from selected item shift
                                 String selectedAttId =
-                                    selectedItemShift!.substring(35);
+                                    selectedItemShift!.split("&")[1];
                                 //Compare with <Attendance> itemShift , then pass in as argument
                                 for (int i = 0; i < itemsShift.length; i++) {
                                   if (selectedAttId ==
@@ -384,7 +390,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                               var scaning = await BarcodeScanner.scan();
                               String qrResult = scaning.rawContent;
                               String selectedAttId =
-                                  selectedItemShift!.substring(35);
+                                  selectedItemShift!.split("&")[1];
                               //Compare with <Attendance> itemShift , then pass in as argument
                               for (int i = 0; i < itemsShift.length; i++) {
                                 if (selectedAttId ==

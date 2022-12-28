@@ -2,15 +2,13 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:hrms/src/Authentication/View/login_screen.dart';
+import '../../AccountManagement/Model/employee.dart';
 
-import '../Model/employee_information.dart';
-
-EmployeeInfo userModel = new EmployeeInfo();
-List<EmployeeInfo> employeeInfo = [];
+Employee userModel = new Employee();
+List<Employee> employeeInfo = [];
 
 class ApiServiceEmployeeInfo {
-  Future<List<EmployeeInfo>?> getUsers() async {
+  Future<List<Employee>?> getUsers() async {
     try {
       //var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
       String? tempDateTiime, officialDT;
@@ -30,7 +28,7 @@ class ApiServiceEmployeeInfo {
 
         //infoList.forEach((element) {
         for (var element in infoList) {
-          EmployeeInfo userModel = new EmployeeInfo();
+          Employee userModel = new Employee();
 
           var index = infoList.indexOf(element);
 
