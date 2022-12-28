@@ -196,8 +196,7 @@ class _EmployeeLeaveDetails extends State<EmployeeLeaveDetails> {
                               "Approved",
                               managerleaveReason.text);
 
-                          await LeaveApiService().getLeave();
-
+                          //await LeaveApiService().getLeave();
                         },
                       ),
                     ),
