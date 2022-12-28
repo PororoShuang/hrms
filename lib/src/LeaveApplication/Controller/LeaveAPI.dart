@@ -88,28 +88,28 @@ class LeaveApiService {
     }
   }
 
-  Future postImage(String? imagePath) async {
-    try {
-      var url = Uri.parse(
-          'https://finalyearproject20221212223004.azurewebsites.net/api/FileApi');
-      Map<String, String> headers = new HashMap();
-      headers['Accept'] = 'application/json';
-      headers['Content-type'] = 'application/json';
-      var response = await http.post(url,
-          headers: headers, body: jsonEncode({"image": imagePath}));
-      print(response.statusCode);
-      print(response.body);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  // Future postImage(String? imagePath) async {
+  //   try {
+  //     var url = Uri.parse(
+  //         'https://finalyearproject20221212223004.azurewebsites.net/api/FileApi');
+  //     Map<String, String> headers = new HashMap();
+  //     headers['Accept'] = 'application/json';
+  //     headers['Content-type'] = 'application/json';
+  //     var response = await http.post(url,
+  //         headers: headers, body: jsonEncode({"image": imagePath}));
+  //     print(response.statusCode);
+  //     print(response.body);
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
 //"staff_id": employee.employeeId,
   //employeeDetails is the staff id who approves the leave, remain as null as we are only applying leave
   void postLeave(int totalLeaveLength, String? leaveStart, String? leaveEnd,
-      String? leaveType, String? leaveReason, String? imagePath) async {
+      String? leaveType, String? leaveReason) async {
     //String img_File = postImage(imagePath);
-    await postImage(imagePath);
+
     String totalLengthString = totalLeaveLength.toString().padLeft(5, "0");
     String leaveIdString = userModel.employeeId! + "\-L" + totalLengthString;
     String dateNow = DateTime.now().year.toString() +
