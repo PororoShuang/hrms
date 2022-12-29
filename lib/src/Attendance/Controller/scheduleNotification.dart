@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
@@ -89,7 +87,7 @@ class NotificationController {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                      'Allow Awesome Notifications to send you beautiful notifications!'),
+                      'Allow Notifications to remind you to check in/out!'),
                 ],
               ),
               actions: [
