@@ -129,39 +129,33 @@ class _LoginScreenState extends State<LoginScreen> {
                               _elementsOpacity = 1;
                             });
                           } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        BottomNavigation()));
+                            setState(() {
+                              print("gotStaffRole ${userModel.staffRole}");
+                              _elementsOpacity = 0;
 
-                            // setState(() {
-                            //   print("gotStaffRole ${userModel.staffRole}");
-                            //   _elementsOpacity = 0;
-                            //
-                            //   if (userModel.getIcNo == "") {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => Account()));
-                            //   } else if (deviceInfo == userModel.getUuid) {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => BottomNavigation(
-                            //                 staffRole: userModel.staffRole)));
-                            //   } else {
-                            //     ScaffoldMessenger.of(context).showSnackBar(
-                            //       const SnackBar(
-                            //         content: Text(
-                            //             'Do Not Use Others Device to Login!'),
-                            //       ),
-                            //     );
-                            //     setState(() {
-                            //       _elementsOpacity = 1;
-                            //     });
-                            //   }
-                            // });
+                              if (userModel.getUuid == "") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Account()));
+                              } else if (deviceInfo == userModel.getUuid) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BottomNavigation(
+                                            staffRole: userModel.staffRole)));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Do Not Use Others Device to Login!'),
+                                  ),
+                                );
+                                setState(() {
+                                  _elementsOpacity = 1;
+                                });
+                              }
+                            });
                           }
 
                           // setState(() {
