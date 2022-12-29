@@ -148,7 +148,7 @@ class NotificationController {
           String attendanceEndTime =
               attendance[i].shift_date_! + " " + attendance[i].supposed_end_!;
           supposedStartTime.add(attendanceStartTime);
-          supposedStartTime.add(attendanceEndTime);
+          // supposedStartTime.add(attendanceEndTime);
         }
       }
 //[0]: "12/21/2022 5:22:00PM"
@@ -229,8 +229,6 @@ class NotificationController {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) isAllowed = await displayNotificationRationale();
     if (!isAllowed) return;
-    int startTime = 0;
-    int localTime = 0;
     int valueA = 2;
     for (int i = 0; i < durationTime.length; i++) {
       valueA = durationTime[i];
