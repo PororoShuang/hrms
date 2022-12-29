@@ -31,7 +31,7 @@ class determinePositionState {
         Company companyModel = new Company();
 
         companyModel.company_id = retrievedData[++i];
-        if (userModel.parentCompany == companyModel.company_name) {
+        if (userModel.parentCompany == companyModel.company_id) {
           companyModel.company_name = retrievedData[++i];
           companyModel.current_admin = retrievedData[++i];
           companyModel.address = retrievedData[++i];
@@ -51,7 +51,7 @@ class determinePositionState {
   static double companyLatitude = 3.217215;
   static double companyLongitude = 101.727817;
 
-  static Future<String?> determinePosition() async {
+  static Future<double> determinePosition() async {
     List<Company>? companyInfo = await getCompanyData();
     if (companyInfo != null) {
       for (int i = 0; i < companyInfo.length; i++) {
@@ -103,11 +103,12 @@ class determinePositionState {
     print(distanceBetween(position.latitude, position.longitude,
             companyLatitude, companyLongitude)
         .toDouble());
-    return distance.toString();
+    return distance;
   }
 
-  static bool validPosition() {
-    if (distance <= setRadius) {
+  static Future<bool> validPosition() async {
+    double distanceHere = await determinePosition();
+    if (distanceHere <= setRadius) {
       return true;
     } else
       return false;
