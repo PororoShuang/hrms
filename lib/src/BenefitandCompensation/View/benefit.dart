@@ -1,36 +1,90 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hrms/src/BenefitandCompensation/Controller/BenefitAPI.dart';
+import 'package:hrms/src/BenefitandCompensation/Model/benefit_information.dart';
 import 'benefitDetails.dart';
 
-
-class Benefit extends StatefulWidget{
+class Benefit extends StatefulWidget {
   const Benefit({super.key});
+
   @override
   State<Benefit> createState() => _Benefit();
 }
 
 class _Benefit extends State<Benefit> {
+  @override
+  void initState() {
+    super.initState();
+    getBenefit();
+  }
+
+  List benefitList = [];
+
+  void getBenefit() async {
+    List<Benefits> myBenefitList = [];
+    myBenefitList = await BenefitApiService().getBenefit() ?? <Benefits>[];
+    if (mounted) setState(() {});
+    List<Benefits> benefitDetailList = [];
+    for (int i = 0; i < myBenefitList.length; i++) {
+      benefitDetailList.add(myBenefitList[i]);
+    }
+    benefitList = benefitDetailList.toList();
+  }
 
   @override
-  Widget build(BuildContext context)=> Scaffold(
-    body: SingleChildScrollView(
-      child: Column(
-          children:<Widget>[
-            Card(child:ListTile(
-                onTap: (){Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const BenefitDetails()));},
-                title: Text("Insurans Plan"),
-                subtitle: Text("20/07/2022"))),
-            Card(child:ListTile(
-                onTap: (){Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const BenefitDetails()));},
-                title: Text("Leave"),
-                subtitle: Text("10/06/2022"))),
-          ]
-      ),
-    ),
+  Widget build(BuildContext context) => Scaffold(
+        body: benefitList == null || benefitList.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: benefitList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ListTile(
+                                title:
+                                    Text(benefitList[index].benefitType ?? "-"),
+                              ),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BenefitDetails(
+                                                myBenefits:benefitList[index])),
+                                  );
 
-  );
-
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        " ",
+                                      ),
+                                      Icon(
+                                        Icons.density_medium,
+                                        color: Colors.indigo,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+      );
 }

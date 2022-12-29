@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeavePendingDetails.dart';
 import '../../AccountManagement/Model/employee.dart';
-import '../../LeaveApplication/Controller/LeaveAPI.dart';
 import '../../LeaveApplication/Model/leave_information.dart';
 import '../Controller/accountAPI.dart';
 import '../Controller/employeeLeaveAPI.dart';
 
-
 class EmployeeLeavePending extends StatefulWidget {
-  const EmployeeLeavePending({super.key});
+  EmployeeLeavePending({super.key, required this.currentLoginID});
+
+  String? currentLoginID;
 
   @override
   State<EmployeeLeavePending> createState() => _EmployeeLeavePending();
@@ -18,11 +18,13 @@ class EmployeeLeavePending extends StatefulWidget {
 
 class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   bool value = false;
-  void RefreshData(){
+
+  void RefreshData() {
     setState(() {
-      value=true;
+      value = true;
     });
   }
+
   void showToast() {
     Fluttertoast.showToast(
         msg: 'Leave Rejected',
@@ -32,6 +34,7 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
         backgroundColor: Colors.red[400],
         textColor: Colors.white);
   }
+
   @override
   void initState() {
     super.initState();
@@ -48,13 +51,11 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   Future<void> getAccountData() async {
     List<Employee> myEmployeeList = [];
 
-    myEmployeeList =
-        await ApiServiceEmployeeInfo().getUsers() ?? <Employee>[];
+    myEmployeeList = await ApiServiceEmployeeInfo().getUsers() ?? <Employee>[];
 
     print("employeeList length  ${myEmployeeList.length}");
 
     for (int i = 0; i < myEmployeeList.length; i++) {
-      print("looping $i");
       employeeList.add(myEmployeeList[i]);
       print("employeeList employee employeeId ${employeeList[i].employeeId}");
     }
@@ -94,7 +95,8 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedPendingList == null ||
-                leaveDescendedPendingList.isEmpty || value
+                leaveDescendedPendingList.isEmpty ||
+                value
             ? const Center(child: CircularProgressIndicator())
             : ListView.builder(
                 itemCount: leaveDescendedPendingList.length,
@@ -102,75 +104,58 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                   return Card(
                     child: Column(
                       children: <Widget>[
-                      Row(
-                        children: [
-                          Expanded(child:
-                          ListTile(
-                            title: Text(
-                                leaveDescendedPendingList[index].staff_id ??
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ListTile(
+                                title: Text(
+                                    leaveDescendedPendingList[index].staff_id ??
+                                        "-"),
+                                subtitle: Text(leaveDescendedPendingList[index]
+                                        .staff_name ??
                                     "-"),
-                            subtitle:Text(
-                                leaveDescendedPendingList[index].staff_name ??
-                                    "-"),
-                          ),
-                          ),
-                          // userModel.employeeId == "E00002"
-                          //     ?
-                              Expanded(child: GestureDetector(
-                                onTap: () async {
-                                  String refresh = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            EmployeeLeavePendingDetails(
-                                                myLeave:
-                                                    leaveDescendedPendingList[
-                                                        index])),
-                                  );
-                                  if(refresh == 'refresh'){
-                                    RefreshData();
-                                    await EmployeeLeaveApiService().getTotalLeave();
-                                  }
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        " ",
-                                      ),
-                                      Icon(
-                                        Icons.density_medium,
-                                        color: Colors.indigo,
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ),
-                            )
-                          //         :AlertDialog(
-                          //   title: const Text('Log Out'),
-                          //   content: const Text(
-                          //       'Are you confirm want to log out?'),
-                          //   actions: <Widget>[
-                          //     TextButton(
-                          //       onPressed: () =>
-                          //           Navigator.pop(context, 'Cancel'),
-                          //       child: const Text('Cancel'),
-                          //     ),
-                          //     TextButton(
-                          //       onPressed: () =>
-                          //           Navigator.pop(context, 'Cancel'),
-                          //       child: const Text('Cancel'),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                       
+                            ),
+                             Expanded(
+                                    child:GestureDetector(
+
+                                      onTap: () async {
+                                        String refresh = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmployeeLeavePendingDetails(
+                                                      myLeave:
+                                                          leaveDescendedPendingList[
+                                                              index])),
+                                        );
+                                        if (refresh == 'refresh') {
+                                          RefreshData();
+                                          await EmployeeLeaveApiService()
+                                              .getTotalLeave();
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              " ",
+                                            ),
+                                            Icon(
+                                              Icons.density_medium,
+                                              color: Colors.indigo,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                             ),
+                          ],
+                        ),
                       ],
                     ),
                   );

@@ -46,7 +46,7 @@ class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
           automaticallyImplyLeading: true,
         ),
         body: SingleChildScrollView(
-          child: Column(
+          child: userModel.employeeId=="R00019"? Column(
             children: [
               Row(
                 children: [
@@ -276,7 +276,23 @@ class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
                 ],
               )
             ],
-          ),
+          ): AlertDialog(
+            title: const Text('Notice'),
+             content: const Text(
+                'Yor are not allow to approve or reject the leave by yourself'),
+             actions: <Widget>[
+              TextButton(
+                 onPressed: () =>
+                     Navigator.pop(context, 'Cancel'),
+                 child: const Text('Cancel'),
+               ),
+               TextButton(
+                 onPressed: () =>
+                     Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+               ),
+             ],
+           ),
         ),
       );
 }

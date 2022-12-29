@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../AccountManagement/Controller/AccountAPI.dart';
 import '../Controller/trainingAPI.dart';
 import '../Controller/trainingProgressAPI.dart';
 import '../Model/trainingProgress_information.dart';
@@ -32,7 +31,7 @@ class _TrainingProgram extends State<TrainingProgram> {
     myTrainingProgressList =
         await TrainingProgressApiService().getTrainingProgress() ??
             <TrainingProgress>[];
-    //if (mounted) setState(() {});
+    if (mounted) setState(() {});
     //List<TrainingProgress> trainingList = [];
     for (int i = 0; i < myTrainingProgressList.length; i++) {
       print("training progress ${myTrainingProgressList[i].staffID}");
@@ -43,75 +42,53 @@ class _TrainingProgram extends State<TrainingProgram> {
   Future<void> getTrainingData() async {
     List<Training> myTrainingList = [];
     myTrainingList = (await TrainingApiService().getAllTraining())!;
-    // if (mounted) setState(() {});
+    if (mounted) setState(() {});
     List<Training> trainingProgramList = [];
     for (int i = 0; i < myTrainingList.length; i++) {
       for (int k = 0; k < trainingProgressList.length; k++) {
-        if (trainingProgressList[k].trainingID ==
-            myTrainingList[i].trainingID) {
-          // myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
-          trainingProgramList.add(myTrainingList[i]);
+        if (trainingProgressList[k].staffID ==
+            myTrainingList[i].staffID) {
+          myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
         }
         //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
+        //trainingProgramList.add(myTrainingList[i]);
       }
+
+      trainingProgramList.add(myTrainingList[i]);
     }
-
-    setState(() {
-      trainingList = trainingProgressList.toList();
-    });
-    // trainingList = trainingProgramList.toList();
+    trainingList = trainingProgramList.toList();
   }
-
-  // @override
-  // Widget build(BuildContext context) => Scaffold(
-  //       body: trainingList == null || trainingList.isEmpty
-  //           ? const Center(child: CircularProgressIndicator())
-  //           : ListView.builder(
-  //               itemCount: trainingProgressList.length,
-  //               itemBuilder: (BuildContext context, int index) {
-  //                 return Card(
-  //                   child: Column(
-  //                     children: [
-  //                       new Row(
-  //                         children: [
-  //                           new Flexible(
-  //                             child: ListTile(
-  //                               title: Text(
-  //                                   trainingList[index].trainingID ??
-  //                                       "-"),
-  //                               subtitle: Text(
-  //                                   trainingList[index].completion ??
-  //                                       "-"),
-  //                             ),
-  //                           ),
-  //                           SizedBox(
-  //                             height: 30,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 );
-  //               }),
-  //     );
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: trainingList == null || trainingList.isEmpty
+        body: trainingList == null ||
+                trainingList.isEmpty ||
+                trainingProgressList.isEmpty
             ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                children: trainingList.map((e) {
+            : ListView.builder(
+                itemCount: trainingProgressList.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Card(
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 40.0),
-                              child: Text("Training Name:"),
+                            Expanded(
+                              child: ListTile(
+                                title: Text(
+                                    trainingList[index].trainingName ?? "-"),
+                                subtitle: Text("Completion:" +
+                                        trainingProgressList[index]
+                                            .completion ??
+                                    "-"),
+                              ),
                             ),
-                            Container(
-                              child: Text(e.leave_start!),
+                            Expanded(
+                              child: ListTile(
+                                subtitle: Text(
+                                    trainingList[index].trainingDateTime ??
+                                        "-"),
+                              ),
                             ),
                             SizedBox(
                               height: 30,
@@ -121,7 +98,6 @@ class _TrainingProgram extends State<TrainingProgram> {
                       ],
                     ),
                   );
-                }).toList(),
-              ),
+                }),
       );
 }

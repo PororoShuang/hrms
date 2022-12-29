@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/AccountManagement/Model/employee.dart';
+import 'package:hrms/src/AccountManagement/View/account.dart';
 
 class OtherAccount extends StatefulWidget {
   const OtherAccount({super.key});
@@ -22,7 +23,7 @@ class _OtherAccount extends State<OtherAccount> {
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
-      body: (userModel.getIcNo == "")
+      body: (userModel.getEpfNo == "")
           ? SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -73,27 +74,55 @@ class _OtherAccount extends State<OtherAccount> {
                     height: 55,
                     width: 300,
                     child: TextButton(
-                      child: Text("Save", style: TextStyle(fontSize: 19)),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.indigo[900],
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(112)),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          userModel.setEpfNo = epfController.text;
-                          userModel.setSoscoNo = socsoController.text;
-                          userModel.setItaxNo = iTaxController.text;
-                          await ApiService().updateUser();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Modify Successfully'),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                        child: Text("Save", style: TextStyle(fontSize: 19)),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.indigo[900],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(112)),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                    'Update Other Account Infomation'),
+                                content: const Text(
+                                    'Are you confirm want to update others infomation?\nYou can only Update Once'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                      onPressed: () async {
+                                        userModel.setEpfNo = epfController.text;
+                                        userModel.setSoscoNo =
+                                            socsoController.text;
+                                        userModel.setItaxNo =
+                                            iTaxController.text;
+                                        await ApiService().updateUser();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content:
+                                                Text('Update Successfully'),
+                                          ),
+                                        );
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Account()));
+                                      },
+                                      child: const Text('Confirm')),
+                                ],
+                              ),
+                            );
+                          }
+                        }),
                   ),
                 ]),
               ),
