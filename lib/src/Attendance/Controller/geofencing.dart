@@ -1,11 +1,50 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
+import 'package:hrms/src/AccountManagement/Model/company_information.dart';
+import 'package:http/http.dart' as http;
 
 /// Determine the current position of the device.
 ///
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
 
+//https://finalyearproject20221212223004.azurewebsites.net/api/companyapi
+
 class determinePositionState {
+  static Future<List<Company>?> getCompanyData() async {
+    List<Company> company = [];
+
+    var url = Uri.parse(
+        'https://finalyearproject20221212223004.azurewebsites.net/api/companyapi');
+    // var response = await http.put(url,
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      String infoString = response.body;
+      infoString = infoString.substring(2, infoString.length - 2);
+      List<String> infoList;
+      infoList = infoString.split("\",\"");
+
+      for (var element in infoList) {
+        List<String> retrievedData = element.split(",");
+        int i = -1;
+        Company companyModel = new Company();
+
+        companyModel.company_id = retrievedData[++i];
+        if (userModel.parentCompany == companyModel.company_name) {
+          companyModel.company_name = retrievedData[++i];
+          companyModel.current_admin = retrievedData[++i];
+          companyModel.address = retrievedData[++i];
+          companyModel.longitude = retrievedData[++i];
+          companyModel.latitude = retrievedData[++i];
+          company.add(companyModel);
+        }
+      }
+      return company;
+    }
+    return null;
+  }
+
   //Call API to retrieve radius
   static double setRadius = 110;
   static double distance = 100;
@@ -13,6 +52,13 @@ class determinePositionState {
   static double companyLongitude = 101.727817;
 
   static Future<String?> determinePosition() async {
+    List<Company>? companyInfo = await getCompanyData();
+    if (companyInfo != null) {
+      for (int i = 0; i < companyInfo.length; i++) {
+        companyLatitude = double.parse(companyInfo[i].latitude!);
+        companyLongitude = double.parse(companyInfo[i].longitude!);
+      }
+    }
     bool serviceEnabled;
     LocationPermission permission;
 

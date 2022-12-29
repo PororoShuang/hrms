@@ -6,7 +6,10 @@ import 'employeeLeavePending.dart';
 import 'employeeLeaveReject.dart';
 
 class EmployeeLeaveStatus extends StatefulWidget{
-  const EmployeeLeaveStatus({super.key});
+
+  EmployeeLeaveStatus({super.key,this.currentLoginID});
+  String? currentLoginID;
+
   @override
   State<EmployeeLeaveStatus> createState() => _EmployeeLeaveStatus();
 }
@@ -45,7 +48,7 @@ class _EmployeeLeaveStatus extends State<EmployeeLeaveStatus>
     body: TabBarView(
       controller: controller,
       children: [
-        EmployeeLeavePending(),
+        EmployeeLeavePending(currentLoginID:widget.currentLoginID),
         EmployeeLeaveApprove(),
         EmployeeLeaveReject(),
       ],

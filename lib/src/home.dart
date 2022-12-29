@@ -11,9 +11,9 @@ import 'ShiftManagement/View/shift.dart';
 import 'Training/View/training.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key, this.staffRole});
+  Home({super.key, this.staffRole,this.currentLoginID});
 
-  String? staffRole;
+  String? staffRole,currentLoginID;
 
   @override
   State<Home> createState() => _Home();
@@ -33,7 +33,7 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print("staffRole is ${widget.staffRole}");
+
     return Scaffold(
       //backgroundColor: Colors.blueGrey[900],
       backgroundColor: Colors.white,
@@ -238,15 +238,16 @@ class _Home extends State<Home> {
               SizedBox(height: 20),
               Row(
                 children: [
-                  widget.staffRole == "R00001"
-                      ? Expanded(
+                  //widget.staffRole == "R00001"
+                     // ?
+              Expanded(
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const EmployeeLeaveStatus()));
+                                          EmployeeLeaveStatus()));
                             },
                             child: Card(
                               child: Container(
@@ -271,8 +272,8 @@ class _Home extends State<Home> {
                               ),
                             ),
                           ),
-                        )
-                      : SizedBox.shrink(),
+                        ),
+                      //: SizedBox.shrink(),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {},
