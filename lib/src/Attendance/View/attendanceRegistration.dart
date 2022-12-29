@@ -6,6 +6,7 @@ import 'package:hrms/src/Attendance/Controller/AttendanceAPI.dart';
 import 'package:hrms/src/Attendance/Controller/auth.dart';
 import 'package:hrms/src/Attendance/Controller/geofencing.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
+import 'package:hrms/src/Attendance/View/attendanceHistory.dart';
 
 class AttendanceRegistration extends StatefulWidget {
   const AttendanceRegistration({super.key});
@@ -255,6 +256,14 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                                 Text('Check In Successfully'),
                                           ),
                                         );
+                                        Future.delayed(
+                                            Duration(milliseconds: 600), () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const AttendanceHistory()));
+                                        });
                                         //test br
                                         break;
                                       } else {
@@ -369,6 +378,22 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                                   .shift_date_
                                                   .toString(),
                                               shiftEnded);
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'You are within designated area!'),
+                                        ),
+                                      );
+                                      Future.delayed(
+                                          Duration(milliseconds: 600), () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const AttendanceHistory()));
+                                      });
                                     }
                                   }
                                 } else {
@@ -379,25 +404,6 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     ),
                                   );
                                 }
-                                //CALL API HERE TO SAVE INTO DB
-                                //take attendance , call api to register attendance
-                                //AttendanceApiService().
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('You are within designated area!'),
-                                  ),
-                                );
-                                // } else {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //     const SnackBar(
-                                //       content: Text(
-                                //           'You are not within designated area!'),
-                                //     ),
-                                //   );
-                                // }
-
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
