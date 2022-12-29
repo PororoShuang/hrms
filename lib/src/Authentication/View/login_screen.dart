@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               print("gotStaffRole ${userModel.staffRole}");
                               _elementsOpacity = 0;
 
-                              if (userModel.getIcNo == "") {
+                              if (userModel.getUuid == "") {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -58,7 +58,7 @@ class ProfileState extends State<Profile> {
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
-      body: (userModel.getIcNo == "")
+      body: (userModel.getUuid == "")
           ? Container(
               padding: EdgeInsets.only(left: 16, top: 25, right: 16),
               child: Form(
