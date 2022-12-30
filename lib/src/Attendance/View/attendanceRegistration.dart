@@ -180,10 +180,17 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     }
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text(
-                                            'You are within designated area!'),
+                                        content: Text('Check In Successfully!'),
                                       ),
                                     );
+                                    Future.delayed(Duration(milliseconds: 600),
+                                        () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AttendanceHistory()));
+                                    });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -382,8 +389,8 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              'You are within designated area!'),
+                                          content:
+                                              Text('Check Out Successfully!'),
                                         ),
                                       );
                                       Future.delayed(

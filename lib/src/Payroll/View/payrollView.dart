@@ -69,7 +69,7 @@ class _PayrollView extends State<PayrollView> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 40.0),
-                              child: Text("Month Salary :"),
+                              child: Text("Month Salary : RM "),
                             ),
                             Container(
                               child: Text(e.month_salary),
@@ -86,7 +86,7 @@ class _PayrollView extends State<PayrollView> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 40.0),
-                              child: Text("Overtime Pay :"),
+                              child: Text("Overtime Pay : RM "),
                             ),
                             Container(
                               //child:Text("${DateFormat('yyyy-MM-dd kk:mm').format(e.shiftTime!)}")
@@ -96,7 +96,7 @@ class _PayrollView extends State<PayrollView> {
                                   ?
                                   // Text(
                                   //     "${DateFormat("HH:mm:ss").format(e.shiftTime!)}")
-                                  Text(e.overtime_pay.toString())
+                                  Text(e.overtime_pay.toString() + " / hour")
                                   : Text("-"),
                             ),
                             SizedBox(
@@ -111,7 +111,7 @@ class _PayrollView extends State<PayrollView> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 40.0),
-                              child: Text("Total KWSP :"),
+                              child: Text("Total KWSP : RM"),
                             ),
                             Container(
                               child: e.kwsp_total != null
@@ -133,7 +133,7 @@ class _PayrollView extends State<PayrollView> {
                           children: [
                             Container(
                               padding: EdgeInsets.only(left: 40.0),
-                              child: Text("Total Zakat :"),
+                              child: Text("Total Zakat : RM "),
                             ),
                             Container(
                               child: e.zakat_total != null
