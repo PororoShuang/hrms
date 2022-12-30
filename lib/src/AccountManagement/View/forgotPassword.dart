@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/emailOTP.dart';
+import 'package:hrms/src/AccountManagement/Model/employee.dart';
 import 'package:hrms/src/AccountManagement/View/verifyEmail.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ForgotPassword extends State<ForgotPassword> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: TextField(
+              child: TextFormField(
                 controller: emailAddressController,
                 decoration: InputDecoration(
                   hintText: 'Enter your Email',
@@ -45,6 +46,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                       TextStyle(fontSize: 19, fontStyle: FontStyle.italic),
                   border: OutlineInputBorder(),
                 ),
+                validator: Employee.validateEmail(emailAddressController.text),
               ),
             ),
             SizedBox(height: 260),
@@ -54,7 +56,7 @@ class _ForgotPassword extends State<ForgotPassword> {
               child: TextButton(
                 child: Text("Send", style: TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor:Colors.indigo[900],
+                  backgroundColor: Colors.indigo[900],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),
@@ -65,11 +67,6 @@ class _ForgotPassword extends State<ForgotPassword> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => VerifyEmail(
                           emailAddressPassed: emailAddressController.text)));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => const VerifyEmail()),
-                  // );
                 },
               ),
             ),
