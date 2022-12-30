@@ -200,7 +200,8 @@ class AttendanceApiService {
       selectedSupposedStart = selectedShiftDate + "T" + selectedSupposedStart;
       selectedSupposedEnd = selectedShiftDate + "T" + selectedSupposedEnd;
 
-      DateTime serverTime = DateTime.parse(serverDateTimeRetrieved);
+      DateTime serverTime =
+          DateTime.parse(serverDateTimeRetrieved.replaceAll("T", " "));
       //Compare serverDT with current SupposedStartTime to know if employee is late , then set validity
       //Validity True = Not Late , False = Late
       selectedValidity = checkValidity(serverTime, selectedSupposedStart);

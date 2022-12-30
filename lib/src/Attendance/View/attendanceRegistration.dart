@@ -85,7 +85,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           items: shiftTime
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
-                                    child: Text(item.substring(0, 22),
+                                    child: Text(item.split("&")[0],
                                         style: TextStyle(
                                             fontSize: 19,
                                             fontStyle: FontStyle.italic)),
