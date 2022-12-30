@@ -201,6 +201,15 @@ class NotificationController {
         supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
+      List serverTimeFormat = serverDT.split(" ");
+      List serverTimeSplitted = serverTimeFormat[1].toString().split(":");
+      serverDT = serverTimeFormat[0] +
+          " " +
+          serverTimeSplitted[0].toString().padLeft(2, "0") +
+          ":" +
+          serverTimeSplitted[1].toString().padLeft(2, "0") +
+          ":" +
+          serverTimeSplitted[2].toString().padLeft(2, "0");
 
       DateTime serverTime = DateTime.parse(serverDT);
       List<DateTime> supposedET =
