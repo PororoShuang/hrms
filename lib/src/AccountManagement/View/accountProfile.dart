@@ -10,8 +10,6 @@ import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 
 enum GenderType { Male, Female }
 
-//Employee employee = new Employee();
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -26,6 +24,16 @@ class ProfileState extends State<Profile> {
   final icController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
+  DateTime dateOfBirth = DateTime.now();
+  String? dateOfBirthString;
+  String? selectedItemNationality = 'Select a Nationality';
+  List<String> itemsReligion = [
+    'Select a Religion',
+    'Muslim',
+    'Non-Muslim',
+  ];
+  String? selectedItemReligion = 'Select a Religion';
+  GenderType? _genderType;
 
   @override
   void initState() {
@@ -36,19 +44,6 @@ class ProfileState extends State<Profile> {
   void _getData() async {
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
-
-  List<String> dobList = [];
-  DateTime dateOfBirth = DateTime.now();
-  String? dateOfBirthString;
-  String? formattedDob;
-  String? selectedItemNationality = 'Select a Nationality';
-  List<String> itemsReligion = [
-    'Select a Religion',
-    'Muslim',
-    'Non-Muslim',
-  ];
-  String? selectedItemReligion = 'Select a Religion';
-  GenderType? _genderType;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -75,27 +70,27 @@ class ProfileState extends State<Profile> {
                       Center(
                         child: Stack(
                           children: [
-                            Container(
-                              width: 130,
-                              height: 130,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 4,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        spreadRadius: 2,
-                                        blurRadius: 10,
-                                        color: Colors.black.withOpacity(0.1),
-                                        offset: Offset(0, 10))
-                                  ],
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          'assets/logoProfile.png'))),
-                            ),
+                            // Container(
+                            //   width: 130,
+                            //   height: 130,
+                            //   decoration: BoxDecoration(
+                            //       border: Border.all(
+                            //           width: 4,
+                            //           color: Theme.of(context)
+                            //               .scaffoldBackgroundColor),
+                            //       boxShadow: [
+                            //         BoxShadow(
+                            //             spreadRadius: 2,
+                            //             blurRadius: 10,
+                            //             color: Colors.black.withOpacity(0.1),
+                            //             offset: Offset(0, 10))
+                            //       ],
+                            //       shape: BoxShape.circle,
+                            //       image: DecorationImage(
+                            //           fit: BoxFit.cover,
+                            //           image: AssetImage(
+                            //               'assets/logoProfile.png'))),
+                            // ),
                             Positioned(
                                 bottom: 0,
                                 right: 0,
@@ -173,22 +168,19 @@ class ProfileState extends State<Profile> {
                           ),
                         ),
                       ),
-                      Visibility(
-                        // visible: _isVisible,
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 5),
-                            child: TextFormField(
-                              controller: icController,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                    color: Colors.teal,
-                                  )),
-                                  labelText: "NRIC No"),
-                              validator: Employee.validateIC(icController.text),
-                            )),
-                      ),
+                      Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                          child: TextFormField(
+                            controller: icController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Colors.teal,
+                                )),
+                                labelText: "NRIC No"),
+                            validator: Employee.validateIC(icController.text),
+                          )),
                       Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -263,30 +255,6 @@ class ProfileState extends State<Profile> {
                             validator: Employee.validatePhoneNumber(
                                 phoneController.text),
                           )),
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                      //   child: SizedBox(
-                      //     width: 250,
-                      //     child: DropdownButtonFormField<String>(
-                      //       decoration: InputDecoration(
-                      //         border: OutlineInputBorder(),
-                      //       ),
-                      //       value: selectedItemNationality,
-                      //       items: itemsNationality
-                      //           .map((item) => DropdownMenuItem<String>(
-                      //                 value: item,
-                      //                 child: Text(item,
-                      //                     style: TextStyle(
-                      //                         fontSize: 19,
-                      //                         fontStyle: FontStyle.italic,
-                      //                         color: Colors.black45)),
-                      //               ))
-                      //           .toList(),
-                      //       onChanged: (item) =>
-                      //           setState(() => selectedItemNationality = item),
-                      //     ),
-                      //   ),
-                      // ),
                       Container(
                         padding:
                             EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -315,13 +283,6 @@ class ProfileState extends State<Profile> {
                                   border: Border.all(
                                       color: Colors.black45, width: 1)),
 
-                              // ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
-                              // disabledDropdownDecoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.all(Radius.circular(10)),
-                              //     color: Colors.grey.shade300,
-                              //     border: Border.all(
-                              //         color: Colors.grey.shade300, width: 1)),
-
                               ///placeholders for dropdown search field
                               countrySearchPlaceholder: "Country",
 
@@ -331,33 +292,6 @@ class ProfileState extends State<Profile> {
                               ///Default Country
                               defaultCountry: DefaultCountry.Malaysia,
 
-                              ///Disable country dropdown (Note: use it with default country)
-                              //disableCountry: true,
-
-                              ///selected item style [OPTIONAL PARAMETER]
-                              // selectedItemStyle: TextStyle(
-                              //   color: Colors.black,
-                              //   fontSize: 14,
-                              // ),
-
-                              ///DropdownDialog Heading style [OPTIONAL PARAMETER]
-                              // dropdownHeadingStyle: TextStyle(
-                              //     color: Colors.black,
-                              //     fontSize: 17,
-                              //     fontWeight: FontWeight.bold),
-
-                              ///DropdownDialog Item style [OPTIONAL PARAMETER]
-                              // dropdownItemStyle: TextStyle(
-                              //   color: Colors.black,
-                              //   fontSize: 14,
-                              // ),
-
-                              ///Dialog box radius [OPTIONAL PARAMETER]
-                              //dropdownDialogRadius: 10.0,
-
-                              ///Search bar radius [OPTIONAL PARAMETER]
-                              //searchBarRadius: 10.0,
-
                               ///triggers once country selected in dropdown
                               onCountryChanged: (value) {
                                 setState(() {
@@ -366,26 +300,7 @@ class ProfileState extends State<Profile> {
                                 });
                               },
                             ),
-                          ]
-                              // child: DropdownButtonFormField<String>(
-                              //   decoration: InputDecoration(
-                              //     border: OutlineInputBorder(),
-                              //   ),
-                              //   value: selectedItemNationality,
-                              //   items: itemsNationality
-                              //       .map((item) => DropdownMenuItem<String>(
-                              //             value: item,
-                              //             child: Text(item,
-                              //                 style: TextStyle(
-                              //                     fontSize: 19,
-                              //                     fontStyle: FontStyle.italic,
-                              //                     color: Colors.black45)),
-                              //           ))
-                              //       .toList(),
-                              //   onChanged: (item) =>
-                              //       setState(() => selectedItemNationality = item),
-                              // ),
-                              ),
+                          ]),
                         ),
                       ),
                       Container(
@@ -413,7 +328,6 @@ class ProfileState extends State<Profile> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 30),
                       Container(
                         padding:
@@ -523,27 +437,6 @@ class ProfileState extends State<Profile> {
                       Center(
                         child: Stack(
                           children: [
-                            Container(
-                              width: 130,
-                              height: 130,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 4,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        spreadRadius: 2,
-                                        blurRadius: 10,
-                                        color: Colors.black.withOpacity(0.1),
-                                        offset: Offset(0, 10))
-                                  ],
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          'assets/logoProfile.png'))),
-                            ),
                             Positioned(
                                 bottom: 0,
                                 right: 0,
@@ -635,8 +528,7 @@ class ProfileState extends State<Profile> {
                                     fontSize: 18,
                                     color: Colors.black45)),
                             Text(
-                              splitDoB(userModel.getDob),
-                              // '${dateOfBirth.year}/${dateOfBirth.month}/${dateOfBirth.day}',
+                              splitDT(userModel.getDob),
                               style: TextStyle(
                                   height: 1, fontSize: 18, color: Colors.black),
                             ),
