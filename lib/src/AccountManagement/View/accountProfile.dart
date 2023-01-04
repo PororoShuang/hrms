@@ -316,11 +316,13 @@ class ProfileState extends State<Profile> {
                             items: itemsReligion
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
-                                      child: Text(item,
-                                          style: TextStyle(
-                                              fontSize: 19,
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.black45)),
+                                      child: new SizedBox(
+                              width: 200.0,
+                              child: Text(item,
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      fontStyle: FontStyle.italic)),
+                            ),
                                     ))
                                 .toList(),
                             onChanged: (item) =>

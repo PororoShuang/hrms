@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../Controller/CompensationAPI.dart';
 import '../Model/compensation_information.dart';
 
@@ -17,9 +18,11 @@ class _CompensationPending extends State<CompensationPending> {
     getData();
   }
 
-  List compensationDescendedPendingList = [];
+  List<Compensations> compensationDescendedPendingList = [];
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     List<Compensations> myCompensationsList = [];
     myCompensationsList = (await CompensationsApiService().getCompensations())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -31,121 +34,121 @@ class _CompensationPending extends State<CompensationPending> {
       }
     }
     compensationDescendedPendingList = compensationsPendingList.toList();
+    isLoading = true;
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: compensationDescendedPendingList == null ||
-        compensationDescendedPendingList.isEmpty
-        ? const Center(child: CircularProgressIndicator())
-        : ListView(
-      children: compensationDescendedPendingList.map((e) {
-        return Card(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Date Applied:"),
+      body: compensationDescendedPendingList == null ||
+              compensationDescendedPendingList.isEmpty
+          ? (isLoading
+              ? Image.asset(
+                  "assets/noDataFound.png",
+                  height: 500,
+                  width: 1000,
+                )
+              : const Center(child: CircularProgressIndicator()))
+          : ListView.builder(
+              itemCount: compensationDescendedPendingList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 40.0),
+                            child: Text("Date Applied:"),
+                          ),
+                          Container(
+                            child: (Text(compensationDescendedPendingList[index]
+                                    .date_applied ??
+                                "-")),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 40.0),
+                            child: Text("Category of expenses:"),
+                          ),
+                          Container(
+                            child: Text(compensationDescendedPendingList[index]
+                                    .comp_type ??
+                                "-"),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 40.0),
+                            child: Text("Purpose:"),
+                          ),
+                          Container(
+                            child: Text(compensationDescendedPendingList[index]
+                                    .comp_desc ??
+                                "-"),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 40.0),
+                            child: Text("Status:"),
+                          ),
+                          Container(
+                            child: Text(compensationDescendedPendingList[index]
+                                    .status ??
+                                "-"),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 40.0),
+                            child: Text("Receipt :"),
+                          ),
+                          TextButton.icon(
+                            // <-- TextButton
+                            onPressed: () async {
+                              await launchUrlString(
+                                "https://finalyearproject20221212223004.azurewebsites.net/" +
+                                    (compensationDescendedPendingList[index]
+                                            .supporting_document ??
+                                        "-"),
+                                mode: LaunchMode.externalApplication,
+                              );
+                            },
+                            icon: Icon(
+                              Icons.download,
+                              size: 24.0,
+                              color: Colors.indigo[900],
+                            ),
+                            label: Text(''),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Container(
-                    child: (Text(e.dateApplied??"-")),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Category of expenses:"),
-                  ),
-                  Container(
-                    child: Text(e.compensationType??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Purpose:"),
-                  ),
-                  Container(
-                    child: Text(e.compensationDesc??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Status:"),
-                  ),
-                  Container(
-                    child: Text(e.status??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Approved By:"),
-                  ),
-                  Container(
-                    child: Text(e.approvedBy??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Date Completed :"),
-                  ),
-                  Container(
-                    child: Text(e.dateCompleted??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 40.0),
-                    child: Text("Receipt :"),
-                  ),
-                  Container(
-                    child: Text(e.supportingDocuments??"-"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
-
-            ],
-          ),
-        );
-      }).toList(),
-    ),
-  );
+                );
+              }));
 }

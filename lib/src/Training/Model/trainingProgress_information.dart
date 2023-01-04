@@ -4,12 +4,15 @@ class TrainingProgress {
   String? trainingName;
   String? completion;
   String? durationLeft;
+  String? certID;
 
   TrainingProgress(
       {this.staffID,
         this.trainingID,
         this.completion,
-        this.durationLeft});
+        this.durationLeft,
+        this.certID,
+  });
 
   get staff_ID => this.staffID;
 
@@ -30,4 +33,8 @@ class TrainingProgress {
   get training_duration_left => this.durationLeft;
 
   set training_duration_left(value) => this.durationLeft = value;
+
+  get cert_id => this.certID;
+
+  set cert_id(value) => this.certID = value;
 }

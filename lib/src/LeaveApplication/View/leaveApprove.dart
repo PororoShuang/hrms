@@ -5,6 +5,7 @@ import '../Model/leave_information.dart';
 
 class LeaveApprove extends StatefulWidget {
   const LeaveApprove({super.key});
+
   @override
   State<LeaveApprove> createState() => _LeaveApprove();
 }
@@ -17,8 +18,10 @@ class _LeaveApprove extends State<LeaveApprove> {
   }
 
   List leaveDescendedApprovedList = [];
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     late List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     //Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -32,6 +35,7 @@ class _LeaveApprove extends State<LeaveApprove> {
 
     setState(() {
       leaveDescendedApprovedList = approvedLeave.reversed.toList();
+      isLoading = true;
     });
   } //
 
@@ -39,7 +43,13 @@ class _LeaveApprove extends State<LeaveApprove> {
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedApprovedList == null ||
                 leaveDescendedApprovedList.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView(
                 children: leaveDescendedApprovedList.map((e) {
                   return Card(

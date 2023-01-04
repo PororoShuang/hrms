@@ -33,6 +33,7 @@ class _BottomNavigation extends State<BottomNavigation> {
         data: NavigationBarThemeData(
             labelTextStyle: MaterialStateProperty.all(
           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+
         )),
         child: NavigationBar(
           height: 60,

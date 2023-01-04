@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'benefitAndCompensation.dart';
+import 'package:hrms/src/BenefitandCompensation/View/benefit.dart';
+import 'compensationApply.dart';
 import 'compensationStatus.dart';
 
 
@@ -31,7 +32,7 @@ class _Compensation extends State<Compensation> {
               children: [
                 GestureDetector(
                   onTap:(){Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const BenefitAndCompensation()));},
+                      MaterialPageRoute(builder: (context) => const ApplyClaims()));},
                   child: Card(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -53,6 +54,23 @@ class _Compensation extends State<Compensation> {
                           children:[
                             ListTile(
                               title: Text('View Compensation Status'),),
+                          ],
+                        ),),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap:(){Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const Benefit()));},
+                      child: Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children:[
+                            ListTile(
+                              title: Text('View Benefit'),),
                           ],
                         ),),
                     ),

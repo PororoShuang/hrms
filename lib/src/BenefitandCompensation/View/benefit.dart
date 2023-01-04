@@ -19,8 +19,10 @@ class _Benefit extends State<Benefit> {
   }
 
   List benefitList = [];
+  bool isLoading = false;
 
   void getBenefit() async {
+    isLoading = false;
     List<Benefits> myBenefitList = [];
     myBenefitList = await BenefitApiService().getBenefit() ?? <Benefits>[];
     if (mounted) setState(() {});
@@ -29,12 +31,28 @@ class _Benefit extends State<Benefit> {
       benefitDetailList.add(myBenefitList[i]);
     }
     benefitList = benefitDetailList.toList();
+    isLoading = true;
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text('Benefit'),
+      backgroundColor: Colors.blueGrey[900],
+      centerTitle:true,
+      automaticallyImplyLeading: true,
+      leading: IconButton(icon:Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context); },),
+    ),
         body: benefitList == null || benefitList.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView.builder(
                 itemCount: benefitList.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -55,11 +73,9 @@ class _Benefit extends State<Benefit> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            BenefitDetails(
-                                                myBenefits:benefitList[index])),
+                                        builder: (context) => BenefitDetails(
+                                            myBenefits: benefitList[index])),
                                   );
-
                                 },
                                 child: Padding(
                                   padding:

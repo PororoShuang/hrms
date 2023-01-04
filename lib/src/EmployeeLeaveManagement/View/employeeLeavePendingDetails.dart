@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/EmployeeLeaveManagement/Controller/employeeLeaveAPI.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
+import 'package:hrms/src/EmployeeLeaveManagement/View/employeeLeaveStatus.dart';
 import '../../LeaveApplication/Model/leave_information.dart';
 
 class EmployeeLeavePendingDetails extends StatefulWidget {
@@ -46,7 +47,7 @@ class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
           automaticallyImplyLeading: true,
         ),
         body: SingleChildScrollView(
-          child: userModel.employeeId=="R00019"? Column(
+          child: widget.myLeave.staff_id!=userModel.getEmployeeId? Column(
             children: [
               Row(
                 children: [
@@ -104,34 +105,7 @@ class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
                   ),
                 ],
               ),
-              // Row(
-              //   children: [
-              //     Container(
-              //       padding: EdgeInsets.only(left: 40.0),
-              //       child: Text("Start Time:"),
-              //     ),
-              //     Container(
-              //       child: Text(widget.myLeave.leave_start_time ?? "-"),
-              //     ),
-              //     SizedBox(
-              //       height: 30,
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     Container(
-              //       padding: EdgeInsets.only(left: 40.0),
-              //       child: Text("End Time:"),
-              //     ),
-              //     Container(
-              //       child: Text(widget.myLeave.leave_end_time ?? "-"),
-              //     ),
-              //     SizedBox(
-              //       height: 30,
-              //     ),
-              //   ],
-              // ),
+
               Row(
                 children: [
                   Container(
@@ -226,12 +200,12 @@ class _EmployeeLeavePendingDetails extends State<EmployeeLeavePendingDetails> {
                             managerLeaveReason.text,
                             widget.myLeave.doc_file_path,
                           );
-
                           showToastApproved();
                           Future.delayed(Duration(milliseconds: 600), () {
-                            Navigator.pop(
-                              context,'refresh'
-                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EmployeeLeaveStatus()));
                           });
                         },
                       ),

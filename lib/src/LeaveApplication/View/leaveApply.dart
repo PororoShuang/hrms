@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
 import 'package:hrms/src/LeaveApplication/View/leaveStatus.dart';
@@ -59,7 +60,16 @@ class _ApplyLeave extends State<ApplyLeave> {
   TimeOfDay StartTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay EndTime = TimeOfDay(hour: 00, minute: 00);
 
-//Could implement in future as enhancement
+  void showToastSubmitted() {
+    Fluttertoast.showToast(
+        msg: 'Leave Submitted',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.teal,
+        textColor: Colors.white);
+  }
+  //Could implement in future as enhancement
   // void myAlert() {
   //   showDialog(
   //       context: context,
@@ -438,9 +448,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
 
                         DateTime leaveStartDT =
-                            DateTime.parse(leaveStart.replaceAll("T", " "));
+                        DateTime.parse(leaveStart.replaceAll("T", " "));
                         DateTime leaveEndDT =
-                            DateTime.parse(leaveEnd.replaceAll("T", " "));
+                        DateTime.parse(leaveEnd.replaceAll("T", " "));
 
                         //if leaveEnd Date Time is earlier than Leave Start, got error
                         if (leaveEndDT.compareTo(leaveStartDT) < 0) {
@@ -468,6 +478,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                             leaveType,
                             leaveReason.text,
                           );
+                          showToastSubmitted();
                           Future.delayed(Duration(milliseconds: 600), () {
                             Navigator.push(
                                 context,
@@ -484,6 +495,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                     },
                   ),
                 ),
+
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
                   child: Row(

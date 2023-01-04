@@ -5,6 +5,7 @@ import '../Model/leave_information.dart';
 
 class LeavePending extends StatefulWidget {
   const LeavePending({super.key});
+
   @override
   State<LeavePending> createState() => _LeavePending();
 }
@@ -17,8 +18,10 @@ class _LeavePending extends State<LeavePending> {
   }
 
   List leaveDescendedPendingList = [];
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     List<Leaves> myLeaveList = [];
     myLeaveList = (await LeaveApiService().getLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -30,13 +33,20 @@ class _LeavePending extends State<LeavePending> {
       }
     }
     leaveDescendedPendingList = leavePendingList.reversed.toList();
+    isLoading = true;
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedPendingList == null ||
                 leaveDescendedPendingList.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView(
                 children: leaveDescendedPendingList.map((e) {
                   return Card(

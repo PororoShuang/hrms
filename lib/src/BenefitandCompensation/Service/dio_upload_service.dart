@@ -10,7 +10,7 @@ class DioUploadService {
       'files': files
     });
 
-    var response = await Dio().post('https://finalyearproject20221212223004.azurewebsites.net/api/documentAPI', data: formData);
+    var response = await Dio().post('https://finalyearproject20221212223004.azurewebsites.net/api/compensationAPI/upload', data: formData);
     print('\n\n');
     print('RESPONSE WITH DIO');
     print(response.data);
