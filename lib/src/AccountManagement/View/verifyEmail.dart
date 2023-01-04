@@ -185,7 +185,7 @@ class _VerifyEmail extends State<VerifyEmail> {
               child: TextButton(
                 child: Text("Verify", style: TextStyle(fontSize: 19)),
                 style: TextButton.styleFrom(
-                  backgroundColor:Colors.indigo[900],
+                  backgroundColor: Colors.indigo[900],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),

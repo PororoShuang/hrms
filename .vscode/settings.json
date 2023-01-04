@@ -1,3 +1,7 @@
 {
-    "sqltools.connections": []
+    "sqltools.connections": [],
+    "dataworkspace.excludedProjects": [
+        "lib/hrms/hrms.sqlproj",
+        "hrms/hrms.sqlproj"
+    ]
 }

@@ -6,6 +6,7 @@ import 'package:hrms/src/Attendance/Controller/AttendanceAPI.dart';
 import 'package:hrms/src/Attendance/Controller/auth.dart';
 import 'package:hrms/src/Attendance/Controller/geofencing.dart';
 import 'package:hrms/src/Attendance/Model/attendance_information.dart';
+import 'package:hrms/src/Attendance/View/attendanceHistory.dart';
 
 class AttendanceRegistration extends StatefulWidget {
   const AttendanceRegistration({super.key});
@@ -97,7 +98,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                           items: shiftTime
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
-                                    child: Text(item.substring(0, 22),
+                                    child: Text(item.split("&")[0],
                                         style: TextStyle(
                                             fontSize: 19,
                                             fontStyle: FontStyle.italic)),
@@ -152,19 +153,12 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                               if (selectedItem == 'Biometric Authentication') {
                                 bool isAuthenticated =
                                     await AuthService.authenticateUser();
-                                //Call server timestamp, verify UUID, verify Geofencing
+                                //Call server timestamp, verify Geofencing
                                 if (isAuthenticated) {
                                   bool validPosition =
-                                      determinePositionState.validPosition();
+                                      await determinePositionState
+                                          .validPosition();
                                   if (validPosition) {
-                                    //if (deviceInfo == dbdeviceInfo) {
-                                    //verify Geofencing
-                                    String? positionHere =
-                                        await determinePositionState
-                                            .determinePosition();
-                                    // if (determinePositionState.validPosition() ==
-                                    //     true) {
-
                                     //Get Attendance ID from selected item shift
                                     String selectedAttId =
                                         selectedItemShift!.split("&")[1];
@@ -197,6 +191,19 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                         );
                                       }
                                     }
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Check In Successfully!'),
+                                      ),
+                                    );
+                                    Future.delayed(Duration(milliseconds: 600),
+                                        () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AttendanceHistory()));
+                                    });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -210,12 +217,7 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                   //take attendance , call api to register attendance
                                   //AttendanceApiService().
                                   //can remove below?
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'You are within designated area!'),
-                                    ),
-                                  );
+
                                   // } else {
                                   //   ScaffoldMessenger.of(context).showSnackBar(
                                   //     const SnackBar(
@@ -243,29 +245,9 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                       itemsShift[i].attendance_id_) {
                                     if (qrResult == itemsShift[i].shift_id_) {
                                       bool validPosition =
-                                          determinePositionState
+                                          await determinePositionState
                                               .validPosition();
                                       if (validPosition) {
-                                        //Compare with database UUID
-                                        //if (deviceInfo == dbdeviceInfo) {
-                                        //verify Geofencing
-                                        String? positionHere =
-                                            await determinePositionState
-                                                .determinePosition();
-                                        // if (determinePositionState
-                                        //         .validPosition() ==
-                                        //     true) {
-                                        //   //take attendance , call api to register attendance
-                                        //   //  AttendanceApiService().updateAttendance();
-                                        // } else {
-                                        //   ScaffoldMessenger.of(context)
-                                        //       .showSnackBar(
-                                        //     const SnackBar(
-                                        //       content: Text(
-                                        //           'You are not within designated area!'),
-                                        //     ),
-                                        //   );
-                                        // }
                                         AttendanceApiService()
                                             .updateCheckInAttendance(
                                           itemsShift[i]
@@ -294,6 +276,14 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                                 Text('Check In Successfully'),
                                           ),
                                         );
+                                        Future.delayed(
+                                            Duration(milliseconds: 600), () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const AttendanceHistory()));
+                                        });
                                         //test br
                                         break;
                                       } else {
@@ -348,13 +338,12 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                               //Call server timestamp, verify UUID, verify Geofencing
                               if (isAuthenticated) {
                                 bool validPosition =
-                                    determinePositionState.validPosition();
+                                    await determinePositionState
+                                        .validPosition();
                                 if (validPosition) {
                                   //if (deviceInfo == dbdeviceInfo) {
                                   //verify Geofencing
-                                  String? positionHere =
-                                      await determinePositionState
-                                          .determinePosition();
+
                                   // if (determinePositionState.validPosition() ==
                                   //     true) {
 
@@ -409,6 +398,22 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                                   .shift_date_
                                                   .toString(),
                                               shiftEnded);
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Check Out Successfully!'),
+                                        ),
+                                      );
+                                      Future.delayed(
+                                          Duration(milliseconds: 600), () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const AttendanceHistory()));
+                                      });
                                     }
                                   }
                                 } else {
@@ -419,25 +424,6 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     ),
                                   );
                                 }
-                                //CALL API HERE TO SAVE INTO DB
-                                //take attendance , call api to register attendance
-                                //AttendanceApiService().
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('You are within designated area!'),
-                                  ),
-                                );
-                                // } else {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //     const SnackBar(
-                                //       content: Text(
-                                //           'You are not within designated area!'),
-                                //     ),
-                                //   );
-                                // }
-
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -456,13 +442,12 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
                                     itemsShift[i].attendance_id_) {
                                   if (qrResult == itemsShift[i].shift_id_) {
                                     bool validPosition =
-                                        determinePositionState.validPosition();
+                                        await determinePositionState
+                                            .validPosition();
                                     if (validPosition) {
                                       //if (deviceInfo == dbdeviceInfo) {
                                       //verify Geofencing
-                                      String? positionHere =
-                                          await determinePositionState
-                                              .determinePosition();
+
                                       // if (determinePositionState
                                       //         .validPosition() ==
                                       //     true) {

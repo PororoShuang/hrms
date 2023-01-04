@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 
 import '../../Authentication/View/login_screen.dart';
 
@@ -11,6 +12,8 @@ class CreateNewPassword extends StatefulWidget {
 class _CreateNewPassword extends State<CreateNewPassword> {
   bool _obscureText1 = true;
   bool _obscureText2 = true;
+  final newPassController = TextEditingController();
+  final confirmPassController = TextEditingController();
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -27,8 +30,9 @@ class _CreateNewPassword extends State<CreateNewPassword> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: TextField(
+                controller: newPassController,
                 decoration: InputDecoration(
-                  hintText: 'Enter 8 digit new password',
+                  hintText: 'Enter a new password',
                   hintStyle:
                       TextStyle(fontSize: 19, fontStyle: FontStyle.italic),
                   border: OutlineInputBorder(),
@@ -53,6 +57,7 @@ class _CreateNewPassword extends State<CreateNewPassword> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: TextField(
+                controller: confirmPassController,
                 decoration: InputDecoration(
                   hintText: 'Enter new password again',
                   hintStyle:
@@ -84,11 +89,26 @@ class _CreateNewPassword extends State<CreateNewPassword> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(112)),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
+                onPressed: () async {
+                  if (newPassController.text == confirmPassController.text) {
+                    userModel.setAccPass = newPassController.text;
+                    await ApiService().updateUser();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Successfully Change Password')),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text(
+                              'Confirm password not match with new password')),
+                    );
+                  }
                 },
               ),
             ),

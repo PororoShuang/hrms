@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
@@ -89,7 +87,7 @@ class NotificationController {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                      'Allow Awesome Notifications to send you beautiful notifications!'),
+                      'Allow Notifications to remind you to check in/out!'),
                 ],
               ),
               actions: [
@@ -150,7 +148,7 @@ class NotificationController {
           String attendanceEndTime =
               attendance[i].shift_date_! + " " + attendance[i].supposed_end_!;
           supposedStartTime.add(attendanceStartTime);
-          supposedStartTime.add(attendanceEndTime);
+          // supposedStartTime.add(attendanceEndTime);
         }
       }
 //[0]: "12/21/2022 5:22:00PM"
@@ -203,6 +201,15 @@ class NotificationController {
         supposedStartTime[i] = current;
       }
       //Can get a list of DateTime
+      List serverTimeFormat = serverDT.split(" ");
+      List serverTimeSplitted = serverTimeFormat[1].toString().split(":");
+      serverDT = serverTimeFormat[0] +
+          " " +
+          serverTimeSplitted[0].toString().padLeft(2, "0") +
+          ":" +
+          serverTimeSplitted[1].toString().padLeft(2, "0") +
+          ":" +
+          serverTimeSplitted[2].toString().padLeft(2, "0");
 
       DateTime serverTime = DateTime.parse(serverDT);
       List<DateTime> supposedET =
@@ -231,8 +238,6 @@ class NotificationController {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) isAllowed = await displayNotificationRationale();
     if (!isAllowed) return;
-    int startTime = 0;
-    int localTime = 0;
     int valueA = 2;
     for (int i = 0; i < durationTime.length; i++) {
       valueA = durationTime[i];
