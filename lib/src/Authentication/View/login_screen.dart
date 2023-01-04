@@ -129,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _elementsOpacity = 1;
                             });
                           } else {
+
                             setState(() {
                               print("gotStaffRole ${userModel.staffRole}");
                               _elementsOpacity = 0;
@@ -138,7 +139,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Account()));
+
                               } else if (deviceInfo == userModel.getUuid) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('Welcome ${userModel.employeeName}')),
+                                );
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

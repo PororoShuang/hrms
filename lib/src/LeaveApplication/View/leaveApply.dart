@@ -69,51 +69,51 @@ class _ApplyLeave extends State<ApplyLeave> {
         backgroundColor: Colors.teal,
         textColor: Colors.white);
   }
-
-  void myAlert() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button, user can upload image from gallery
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.gallery);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.image),
-                        Text('From Gallery'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.camera);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  //Could implement in future as enhancement
+  // void myAlert() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           shape:
+  //               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //           title: Text('Please choose media to select'),
+  //           content: Container(
+  //             height: MediaQuery.of(context).size.height / 6,
+  //             child: Column(
+  //               children: [
+  //                 ElevatedButton(
+  //                   //if user click this button, user can upload image from gallery
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     getImage(ImageSource.gallery);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.image),
+  //                       Text('From Gallery'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 ElevatedButton(
+  //                   //if user click this button. user can upload image from camera
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     getImage(ImageSource.camera);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.camera),
+  //                       Text('From Camera'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -417,7 +417,22 @@ class _ApplyLeave extends State<ApplyLeave> {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: Text('Error'),
-                            content: Text('Please select date'),
+                            content: Text('Please Select Date'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'))
+                            ],
+                          ),
+                        );
+                      } else if (leaveType!.toLowerCase() == "select a type") {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text('Please Select a Leave Type'),
                             actions: [
                               ElevatedButton(
                                   onPressed: () {
@@ -433,9 +448,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                         String? leaveEnd = "${dateToString}T$endTimeString:00";
 
                         DateTime leaveStartDT =
-                            DateTime.parse(leaveStart.replaceAll("T", " "));
+                        DateTime.parse(leaveStart.replaceAll("T", " "));
                         DateTime leaveEndDT =
-                            DateTime.parse(leaveEnd.replaceAll("T", " "));
+                        DateTime.parse(leaveEnd.replaceAll("T", " "));
 
                         //if leaveEnd Date Time is earlier than Leave Start, got error
                         if (leaveEndDT.compareTo(leaveStartDT) < 0) {
@@ -454,7 +469,8 @@ class _ApplyLeave extends State<ApplyLeave> {
                               ],
                             ),
                           );
-                        } else {
+                        } else if (leaveEndDT.compareTo(leaveStartDT) == 0 ||
+                            leaveEndDT.compareTo(leaveStartDT) > 0) {
                           LeaveApiService().postLeave(
                             myLeaveList.length + 1,
                             leaveStart,
@@ -462,7 +478,6 @@ class _ApplyLeave extends State<ApplyLeave> {
                             leaveType,
                             leaveReason.text,
                           );
-                          showToastSubmitted();
                           Future.delayed(Duration(milliseconds: 600), () {
                             Navigator.push(
                                 context,
@@ -479,6 +494,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                     },
                   ),
                 ),
+
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 1),
                   child: Row(
