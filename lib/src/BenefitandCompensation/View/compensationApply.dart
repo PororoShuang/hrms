@@ -2,7 +2,12 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hrms/src/BenefitandCompensation/Controller/CompensationAPI.dart';
+import 'package:hrms/src/BenefitandCompensation/View/compensationStatus.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../Model/compensation_information.dart';
 
 class ApplyClaims extends StatefulWidget {
   const ApplyClaims({super.key});
@@ -12,7 +17,21 @@ class ApplyClaims extends StatefulWidget {
 }
 
 class _ApplyClaims extends State<ApplyClaims> {
-  List<String> items = [
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  late List<Compensations> myCompensationList = [];
+
+  void getData() async {
+    myCompensationList =
+    (await CompensationsApiService().getAllCompensations())!;
+    if (mounted) setState(() {});
+  }
+
+  List<String> itemsType = [
     'Select a expenses',
     'Mileage',
     'Petro Allowance',
@@ -25,6 +44,7 @@ class _ApplyClaims extends State<ApplyClaims> {
 
   XFile? image;
   final ImagePicker picker = ImagePicker();
+  TextEditingController purpose = new TextEditingController();
 
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
@@ -33,7 +53,15 @@ class _ApplyClaims extends State<ApplyClaims> {
       image = img;
     });
   }
-
+  void showToastSubmitted() {
+    Fluttertoast.showToast(
+        msg: 'Claim Submitted',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.teal,
+        textColor: Colors.white);
+  }
   void myReceipt() {
     showDialog(
         context: context,
@@ -81,6 +109,15 @@ class _ApplyClaims extends State<ApplyClaims> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text('Apply Claims'),
+      backgroundColor: Colors.blueGrey[900],
+      centerTitle:true,
+      automaticallyImplyLeading: true,
+      leading: IconButton(icon:Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context); },),
+    ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -100,7 +137,7 @@ class _ApplyClaims extends State<ApplyClaims> {
                         border: OutlineInputBorder(),
                       ),
                       value: selectedItem,
-                      items: items
+                      items: itemsType
                           .map((item) => new DropdownMenuItem<String>(
                               value: item,
                               child: new SizedBox(
@@ -125,10 +162,14 @@ class _ApplyClaims extends State<ApplyClaims> {
                       ))),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                child: TextField(
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                child: new SizedBox(
+                  width: 350.0,
+                  child: TextField(
+                    controller: purpose,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
               ),
@@ -195,7 +236,21 @@ class _ApplyClaims extends State<ApplyClaims> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(112)),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    CompensationsApiService().uploadClaimDetails(
+                        myCompensationList.length + 1,
+                        selectedItem,
+                        purpose.text,
+                        //await image?.readAsBytes(),
+                        );
+                    showToastSubmitted();
+                    Future.delayed(Duration(milliseconds: 600), () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CompensationStatus()));
+                    });
+                  },
                 ),
               ),
               SizedBox(height: 30),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import 'package:hrms/src/LeaveApplication/View/leavePending.dart';
 import 'package:hrms/src/LeaveApplication/View/leaveStatus.dart';
@@ -58,6 +59,16 @@ class _ApplyLeave extends State<ApplyLeave> {
   DateTime dateTo = DateTime.now();
   TimeOfDay StartTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay EndTime = TimeOfDay(hour: 00, minute: 00);
+
+  void showToastSubmitted() {
+    Fluttertoast.showToast(
+        msg: 'Leave Submitted',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.teal,
+        textColor: Colors.white);
+  }
 
   void myAlert() {
     showDialog(
@@ -451,6 +462,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                             leaveType,
                             leaveReason.text,
                           );
+                          showToastSubmitted();
                           Future.delayed(Duration(milliseconds: 600), () {
                             Navigator.push(
                                 context,

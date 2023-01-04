@@ -1,6 +1,7 @@
 // import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/src/AccountManagement/Controller/deviceUUID.dart';
 import 'package:hrms/src/AccountManagement/View/account.dart';
 import 'package:hrms/src/home.dart';
@@ -29,6 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool loadingBallAppear = false;
   double loadingBallSize = 1;
   //late List<Employee> _userModel = [];
+
+  void showToastLogin() {
+    Fluttertoast.showToast(
+        msg: 'Login Successfully',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
+  }
 
   @override
   void initState() {
@@ -129,11 +140,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               _elementsOpacity = 1;
                             });
                           } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Welcome ${userModel.employeeName}')),
+                            );
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        BottomNavigation()));
+                                        BottomNavigation(staffRole:userModel.staffRole)));
+
 
                             // setState(() {
                             //   print("gotStaffRole ${userModel.staffRole}");

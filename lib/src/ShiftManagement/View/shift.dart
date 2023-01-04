@@ -5,6 +5,7 @@ import '../../Attendance/Model/attendance_information.dart';
 
 class Shift extends StatefulWidget {
   const Shift({super.key});
+
   @override
   State<Shift> createState() => _Shift();
 }
@@ -18,8 +19,10 @@ class _Shift extends State<Shift> {
 
   List<String> shiftTime = [];
   List<Attendance> itemsShift = [];
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     itemsShift = (await AttendanceApiService().getAttendance())!;
 
     // for (int i = 0; i < itemsShift.length; i++) {
@@ -31,7 +34,9 @@ class _Shift extends State<Shift> {
     //       "&" +
     //       itemsShift[i].attendance_id_.toString());
     // }
-    Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {}));
+    Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {
+          isLoading = true;
+        }));
   }
 
   @override
@@ -48,62 +53,70 @@ class _Shift extends State<Shift> {
             },
           ),
         ),
-        body: ListView(
-          children: itemsShift.map((e) {
-            return Card(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 40.0),
-                        child: Text("Shift Date:"),
-                      ),
-                      Container(
-                        child: Text(e.shiftdate_),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 40.0),
-                        child: Text("Shift Time:"),
-                      ),
-                      Container(
-                        child: (Text(" " +
-                            e.supposed_start_! +
-                            " - " +
-                            e.supposed_end_!)),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                ],
+        body: itemsShift.isEmpty || itemsShift == null
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
+            : ListView(
+                children: itemsShift.map((e) {
+                  return Card(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 40.0),
+                              child: Text("Shift Date:"),
+                            ),
+                            Container(
+                              child: Text(e.shiftdate_),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 40.0),
+                              child: Text("Shift Time:"),
+                            ),
+                            Container(
+                              child: (Text(" " +
+                                  e.supposed_start_! +
+                                  " - " +
+                                  e.supposed_end_!)),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                // children: itemsShift.map((e) {
+                //   return Card(
+                //     child: Column(children: <Widget>[
+                //       SizedBox(height: 30),
+                //       // Text("Monday",
+                //       //     style: TextStyle(
+                //       //         height: 2, fontSize: 20, color: Colors.black45)),
+                //       Card(
+                //           child:
+                //               ListTile(title: Text(itemsShift), subtitle: Text("Time"))),
+                //       Card(
+                //           child:
+                //               ListTile(title: Text("Date"), subtitle: Text("Time"))),
+                //     ]),
+                //   );
+                // }).toList(),
               ),
-            );
-          }).toList(),
-          // children: itemsShift.map((e) {
-          //   return Card(
-          //     child: Column(children: <Widget>[
-          //       SizedBox(height: 30),
-          //       // Text("Monday",
-          //       //     style: TextStyle(
-          //       //         height: 2, fontSize: 20, color: Colors.black45)),
-          //       Card(
-          //           child:
-          //               ListTile(title: Text(itemsShift), subtitle: Text("Time"))),
-          //       Card(
-          //           child:
-          //               ListTile(title: Text("Date"), subtitle: Text("Time"))),
-          //     ]),
-          //   );
-          // }).toList(),
-        ),
       );
 }

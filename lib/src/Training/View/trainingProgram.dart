@@ -18,15 +18,16 @@ class _TrainingProgram extends State<TrainingProgram> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getTraining();
+      await getTrainingProgress();
       await getTrainingData();
     });
   }
 
-  List trainingProgressList = [];
-  List trainingList = [];
+  List<TrainingProgress> trainingProgressList = [];
+  List<Training> trainingList = [];
+  bool isLoading = false;
 
-  Future<void> getTraining() async {
+  Future<void> getTrainingProgress() async {
     List<TrainingProgress> myTrainingProgressList = [];
     myTrainingProgressList =
         await TrainingProgressApiService().getTrainingProgress() ??
@@ -40,23 +41,26 @@ class _TrainingProgram extends State<TrainingProgram> {
   }
 
   Future<void> getTrainingData() async {
+    isLoading = false;
     List<Training> myTrainingList = [];
     myTrainingList = (await TrainingApiService().getAllTraining())!;
     if (mounted) setState(() {});
     List<Training> trainingProgramList = [];
     for (int i = 0; i < myTrainingList.length; i++) {
       for (int k = 0; k < trainingProgressList.length; k++) {
-        if (trainingProgressList[k].staffID ==
-            myTrainingList[i].staffID) {
-          myTrainingList[i].trainingName = trainingProgressList[k].trainingName;
-        }
-        //myTrainingList[i].trainingID = trainingProgressList[k].trainingID;
-        //trainingProgramList.add(myTrainingList[i]);
-      }
+        if (trainingProgressList[k].trainingID ==
+            myTrainingList[i].trainingID) {
+          print(
+              "trainingProgressList trainingID ${trainingProgressList[k].trainingID}");
+          print(
+              "myTrainingList trainingID ${myTrainingList[i].trainingID} trainingName ${myTrainingList[i].trainingName}");
 
-      trainingProgramList.add(myTrainingList[i]);
+          trainingProgramList.add(myTrainingList[i]);
+        }
+      }
     }
-    trainingList = trainingProgramList.toList();
+    trainingList = trainingProgramList;
+    isLoading = true;
   }
 
   @override
@@ -64,7 +68,13 @@ class _TrainingProgram extends State<TrainingProgram> {
         body: trainingList == null ||
                 trainingList.isEmpty ||
                 trainingProgressList.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView.builder(
                 itemCount: trainingProgressList.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -78,9 +88,8 @@ class _TrainingProgram extends State<TrainingProgram> {
                                 title: Text(
                                     trainingList[index].trainingName ?? "-"),
                                 subtitle: Text("Completion:" +
-                                        trainingProgressList[index]
-                                            .completion ??
-                                    "-"),
+                                    (trainingProgressList[index].completion ??
+                                        "-")),
                               ),
                             ),
                             Expanded(

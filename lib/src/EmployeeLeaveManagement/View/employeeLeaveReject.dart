@@ -25,6 +25,7 @@ class _EmployeeLeaveReject extends State<EmployeeLeaveReject> {
 
   List<Leaves> leaveDescendedRejectList = [];
   List<Employee> employeeList = [];
+  bool isLoading = false;
 
   Future<void> getAccountData() async {
     List<Employee> myEmployeeList = [];
@@ -45,6 +46,7 @@ class _EmployeeLeaveReject extends State<EmployeeLeaveReject> {
   }
 
   Future<void> getData() async {
+    isLoading = false;
     List<Leaves> myLeaveList = [];
     myLeaveList = (await EmployeeLeaveApiService().getTotalLeave())!;
     // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -72,13 +74,20 @@ class _EmployeeLeaveReject extends State<EmployeeLeaveReject> {
       }
     }
     leaveDescendedRejectList = leaveRejectList.toList();
+    isLoading = true;
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedRejectList == null ||
                 leaveDescendedRejectList.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView.builder(
                 itemCount: leaveDescendedRejectList.length,
                 itemBuilder: (BuildContext context, int index) {

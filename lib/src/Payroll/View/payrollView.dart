@@ -17,10 +17,12 @@ class _PayrollView extends State<PayrollView> {
   }
 
   late List<Payrolls>? myPayrollList = [];
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     myPayrollList = (await PayrollApiService().getPayroll());
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {   isLoading = true;}));
   } //
 
   @override
@@ -38,7 +40,13 @@ class _PayrollView extends State<PayrollView> {
           ),
         ),
         body: myPayrollList == null || myPayrollList!.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? (isLoading
+            ? Image.asset(
+          "assets/noDataFound.png",
+          height: 500,
+          width: 1000,
+        )
+            : const Center(child: CircularProgressIndicator()))
             : ListView(
                 children: myPayrollList!.map((e) {
                   return Card(

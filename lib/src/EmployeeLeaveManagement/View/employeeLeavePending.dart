@@ -10,30 +10,13 @@ import '../Controller/employeeLeaveAPI.dart';
 class EmployeeLeavePending extends StatefulWidget {
   EmployeeLeavePending({super.key, required this.currentLoginID});
 
-  String? currentLoginID;
+  final String? currentLoginID;
 
   @override
   State<EmployeeLeavePending> createState() => _EmployeeLeavePending();
 }
 
 class _EmployeeLeavePending extends State<EmployeeLeavePending> {
-  bool value = false;
-
-  void RefreshData() {
-    setState(() {
-      value = true;
-    });
-  }
-
-  void showToast() {
-    Fluttertoast.showToast(
-        msg: 'Leave Rejected',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red[400],
-        textColor: Colors.white);
-  }
 
   @override
   void initState() {
@@ -47,6 +30,7 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
 
   List<Leaves> leaveDescendedPendingList = [];
   List<Employee> employeeList = [];
+  bool isLoading = false;
 
   Future<void> getAccountData() async {
     List<Employee> myEmployeeList = [];
@@ -66,20 +50,15 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
   }
 
   Future<void> getData() async {
+    isLoading = false;
     List<Leaves> myLeaveList = [];
     myLeaveList = (await EmployeeLeaveApiService().getTotalLeave())!;
-    // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+
     if (mounted) setState(() {});
     List<Leaves> leavePendingList = [];
     for (int i = 0; i < myLeaveList.length; i++) {
       if (myLeaveList[i].approval_status == "") {
         print("myLeaveList staff id ${myLeaveList[i].staff_id}");
-
-        // for (int j = 0; j < employeeList.length; j++) {
-        //   print("myLeaveList employeeList userId ${employeeList[j].userId}");
-        //   print("myLeaveList employeeList aspId ${employeeList[j].aspId}");
-        //   print("myLeaveList employeeList employeeId ${employeeList[j].employeeId}");
-        // }
 
         for (int k = 0; k < employeeList.length; k++) {
           if (employeeList[k].employeeId == myLeaveList[i].staff_id) {
@@ -90,14 +69,20 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
       }
     }
     leaveDescendedPendingList = leavePendingList.toList();
+    isLoading = true;
   } //
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: leaveDescendedPendingList == null ||
-                leaveDescendedPendingList.isEmpty ||
-                value
-            ? const Center(child: CircularProgressIndicator())
+                leaveDescendedPendingList.isEmpty
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : ListView.builder(
                 itemCount: leaveDescendedPendingList.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -116,44 +101,38 @@ class _EmployeeLeavePending extends State<EmployeeLeavePending> {
                                     "-"),
                               ),
                             ),
-                             Expanded(
-                                    child:GestureDetector(
-
-                                      onTap: () async {
-                                        String refresh = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EmployeeLeavePendingDetails(
-                                                      myLeave:
-                                                          leaveDescendedPendingList[
-                                                              index])),
-                                        );
-                                        if (refresh == 'refresh') {
-                                          RefreshData();
-                                          await EmployeeLeaveApiService()
-                                              .getTotalLeave();
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              " ",
-                                            ),
-                                            Icon(
-                                              Icons.density_medium,
-                                              color: Colors.indigo,
-                                            ),
-                                          ],
-                                        ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EmployeeLeavePendingDetails(
+                                                myLeave:
+                                                    leaveDescendedPendingList[
+                                                        index])),
+                                  );
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        " ",
                                       ),
-                                    )
-                             ),
+                                      Icon(
+                                        Icons.density_medium,
+                                        color: Colors.indigo,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ],

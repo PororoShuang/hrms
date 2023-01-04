@@ -1,67 +1,64 @@
 class Compensations{
- String? compensationId;
- String? userId;
- String? compensationType;
- String? compensationDesc;
- String? dateApplied;
- String? approvedBy;
+ String? comp_id;
+ String? user_id;
+ String? comp_type;
+ String? comp_desc;
+ String? date_applied;
+ String? approved_by;
  String? status;
- String? rejectReason;
- String? supportingDocuments;
- String? dateCompleted;
+ String? reject_reason;
+ String? supporting_document;
+ String? date_completed;
 
  Compensations({
-   this.compensationId,
-   this.userId,
-   this.compensationType,
-   this.compensationDesc,
-   this.dateApplied,
-   this.approvedBy,
+   this.comp_id,
+   this.user_id,
+   this.comp_type,
+   this.comp_desc,
+   this.date_applied,
    this.status,
-   this.rejectReason,
-   this.supportingDocuments,
-   this.dateCompleted
+   this.supporting_document,
 });
 
- get compensation_ID => this.compensationId;
+ get compensation_ID => this.comp_id;
 
- set compensation_ID(value) => this.compensationId=value;
+ set compensation_ID(value) => this.comp_id=value;
 
- get user_ID => this.userId;
+ get user_ID => this.user_id;
 
- set user_ID(value) => this.userId=value;
+ set user_ID(value) => this.user_id=value;
 
- get compensation_type => this.compensationType;
+ get compensation_type => this.comp_type;
 
- set compensation_type(value) => this.compensationType=value;
+ set compensation_type(value) => this.comp_type=value;
 
- get compensation_desc => this.compensationDesc;
+ get compensation_desc => this.comp_desc;
 
- set compensation_desc(value) => this.compensationDesc=value;
+ set compensation_desc(value) => this.comp_desc=value;
 
- get date_applied => this.dateApplied;
+ get dateApplied => this.date_applied;
 
- set date_applied(value) => this.dateApplied=value;
+ set dateApplied(value) => this.date_applied=value;
 
- get approved_by => this.approvedBy;
+ get approvedBy => this.approved_by;
 
- set approved_by(value) => this.approvedBy=value;
+ set approvedBy(value) => this.approved_by=value;
 
  get compensation_status => this.status;
 
  set compensation_status(value) => this.status=value;
 
- get reject_reason => this.rejectReason;
+ get rejectReason => this.reject_reason;
 
- set reject_reason(value) => this.rejectReason=value;
+ set rejectReason(value) => this.reject_reason=value;
 
- get supporting_documents => this.supportingDocuments;
+ get supportingDocument => this.supporting_document;
 
- set supporting_documents(value) => this.supportingDocuments=value;
+ set supportingDocument(value) => this.supporting_document=value;
 
- get date_completed => this.dateCompleted;
+ get dateCompleted => this.date_completed;
 
- set date_completed(value) => this.dateCompleted=value;
+ set dateCompleted(value) => this.date_completed=value;
 
 
 }

@@ -9,6 +9,7 @@ import 'package:hrms/src/Attendance/Model/attendance_information.dart';
 
 class AttendanceRegistration extends StatefulWidget {
   const AttendanceRegistration({super.key});
+
   @override
   State<AttendanceRegistration> createState() => _AttendanceRegistration();
 }
@@ -23,8 +24,10 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
   List<String> shiftTime = [];
   List<Attendance> itemsShift = [];
   String shiftDate = "";
+  bool isLoading = false;
 
   void getData() async {
+    isLoading = false;
     itemsShift = (await AttendanceApiService().getAttendance())!;
 
     for (int i = 0; i < itemsShift.length; i++) {
@@ -35,7 +38,9 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
           "&" +
           itemsShift[i].attendance_id_.toString());
     }
-    Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {}));
+    Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {
+          isLoading = true;
+        }));
   }
 
   String? attendanceId;
@@ -46,16 +51,24 @@ class _AttendanceRegistration extends State<AttendanceRegistration> {
     'Biometric Authentication',
     'QR Code'
   ];
+
   //String? selectedItem = 'Select a method';
   String? selectedItem = 'Select a method';
 
   //API called to store the database UUID, to do validation upon registering attendance
   String? dbdeviceInfo;
   String position = "";
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: shiftTime.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+        body: shiftTime.isEmpty || shiftTime == null
+            ? (isLoading
+                ? Image.asset(
+                    "assets/noDataFound.png",
+                    height: 500,
+                    width: 1000,
+                  )
+                : const Center(child: CircularProgressIndicator()))
             : SingleChildScrollView(
                 child: Column(children: <Widget>[
                   Column(
