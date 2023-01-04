@@ -160,9 +160,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                             dateFrom = newDate;
                             dateFromString = dateFrom.year.toString() +
                                 "-" +
-                                dateFrom.month.toString() +
+                                dateFrom.month.toString().padLeft(2, "0") +
                                 "-" +
-                                dateFrom.day.toString();
+                                dateFrom.day.toString().padLeft(2, "0");
                           });
                         },
                       ),
@@ -197,9 +197,9 @@ class _ApplyLeave extends State<ApplyLeave> {
                             dateTo = newDate;
                             dateToString = dateTo.year.toString() +
                                 "-" +
-                                dateTo.month.toString() +
+                                dateTo.month.toString().padLeft(2, "0") +
                                 "-" +
-                                dateTo.day.toString();
+                                dateTo.day.toString().padLeft(2, "0");
                           });
                         },
                       ),

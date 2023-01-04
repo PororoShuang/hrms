@@ -1,8 +1,0 @@
-d:\FYP\hrms\hrms\bin\Debug\hrms.dacpac
-d:\FYP\hrms\hrms\obj\Debug\hrms.sqlproj.AssemblyReference.cache
-d:\FYP\hrms\hrms\obj\Debug\Model.xml
-d:\FYP\hrms\hrms\obj\Debug\refactor.xml
-d:\FYP\hrms\hrms\obj\Debug\postdeploy.sql
-d:\FYP\hrms\hrms\obj\Debug\predeploy.sql
-d:\FYP\hrms\hrms\obj\Debug\hrms.dll
-d:\FYP\hrms\hrms\obj\Debug\hrms.pdb
