@@ -478,6 +478,7 @@ class _ApplyLeave extends State<ApplyLeave> {
                             leaveType,
                             leaveReason.text,
                           );
+                          showToastSubmitted();
                           Future.delayed(Duration(milliseconds: 600), () {
                             Navigator.push(
                                 context,
