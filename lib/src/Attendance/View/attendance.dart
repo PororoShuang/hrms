@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/src/navBar.dart';
 import 'attendanceHistory.dart';
 import 'attendanceRegistration.dart';
 
@@ -32,7 +33,13 @@ class _Attendance extends State<Attendance>
       title: Text('Attendance'),
       backgroundColor: Colors.blueGrey[900],
       centerTitle: true,
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
+      leading: IconButton(icon:Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BottomNavigation()),
+          ); },),
       bottom: TabBar(
         controller: controller,
         tabs: [

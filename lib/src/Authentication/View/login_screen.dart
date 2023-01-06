@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   double _elementsOpacity = 1;
   bool loadingBallAppear = false;
   double loadingBallSize = 1;
+
   //late List<Employee> _userModel = [];
 
   @override
@@ -129,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               _elementsOpacity = 1;
                             });
                           } else {
-
                             setState(() {
                               print("gotStaffRole ${userModel.staffRole}");
                               _elementsOpacity = 0;
@@ -140,10 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialPageRoute(
                                         builder: (context) => Account()));
 
-                              } else if (deviceInfo == userModel.getUuid) {
+                              }
+                              if (deviceInfo == userModel.getUuid) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text('Welcome ${userModel.employeeName}')),
+                                      content: Text(
+                                          'Welcome ${userModel.employeeName}')),
                                 );
                                 Navigator.push(
                                     context,
@@ -160,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() {
                                   _elementsOpacity = 1;
                                 });
-                              }
+                             }
                             });
                           }
 

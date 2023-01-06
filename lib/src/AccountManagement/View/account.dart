@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hrms/src/AccountManagement/Controller/AccountAPI.dart';
 import '../../Authentication/View/login_screen.dart';
+import '../../navBar.dart';
 import 'accountBank.dart';
 import 'accountChangePassword.dart';
 import 'accountOthers.dart';
@@ -22,7 +23,13 @@ class _Account extends State<Account> {
           title: Text('Account'),
           backgroundColor: Colors.blueGrey[900],
           centerTitle: true,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
+          leading: IconButton(icon:Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BottomNavigation()),
+              ); },),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.logout_rounded),

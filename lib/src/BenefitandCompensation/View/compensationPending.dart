@@ -118,35 +118,35 @@ class _CompensationPending extends State<CompensationPending> {
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 40.0),
-                            child: Text("Receipt :"),
-                          ),
-                          TextButton.icon(
-                            // <-- TextButton
-                            onPressed: () async {
-                              await launchUrlString(
-                                "https://finalyearproject20221212223004.azurewebsites.net/" +
-                                    (compensationDescendedPendingList[index]
-                                            .supporting_document ??
-                                        "-"),
-                                mode: LaunchMode.externalApplication,
-                              );
-                            },
-                            icon: Icon(
-                              Icons.download,
-                              size: 24.0,
-                              color: Colors.indigo[900],
-                            ),
-                            label: Text(''),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       padding: EdgeInsets.only(left: 40.0),
+                      //       child: Text("Receipt :"),
+                      //     ),
+                      //     TextButton.icon(
+                      //       // <-- TextButton
+                      //       onPressed: () async {
+                      //         await launchUrlString(
+                      //           "https://finalyearproject20221212223004.azurewebsites.net/" +
+                      //               (compensationDescendedPendingList[index]
+                      //                       .supporting_document ??
+                      //                   "-"),
+                      //           mode: LaunchMode.externalApplication,
+                      //         );
+                      //       },
+                      //       icon: Icon(
+                      //         Icons.download,
+                      //         size: 24.0,
+                      //         color: Colors.indigo[900],
+                      //       ),
+                      //       label: Text(''),
+                      //     ),
+                      //     SizedBox(
+                      //       height: 30,
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 );

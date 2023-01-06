@@ -27,7 +27,7 @@ class _ApplyClaims extends State<ApplyClaims> {
 
   void getData() async {
     myCompensationList =
-    (await CompensationsApiService().getAllCompensations())!;
+        (await CompensationsApiService().getAllCompensations())!;
     if (mounted) setState(() {});
   }
 
@@ -53,6 +53,7 @@ class _ApplyClaims extends State<ApplyClaims> {
       image = img;
     });
   }
+
   void showToastSubmitted() {
     Fluttertoast.showToast(
         msg: 'Claim Submitted',
@@ -62,62 +63,67 @@ class _ApplyClaims extends State<ApplyClaims> {
         backgroundColor: Colors.teal,
         textColor: Colors.white);
   }
-  void myReceipt() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button, user can upload image from gallery
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.gallery);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.image),
-                        Text('From Gallery'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.camera);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+
+  //Could implement in future as enhancement
+  // void myReceipt() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           shape:
+  //               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //           title: Text('Please choose media to select'),
+  //           content: Container(
+  //             height: MediaQuery.of(context).size.height / 6,
+  //             child: Column(
+  //               children: [
+  //                 ElevatedButton(
+  //                   //if user click this button, user can upload image from gallery
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     getImage(ImageSource.gallery);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.image),
+  //                       Text('From Gallery'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 ElevatedButton(
+  //                   //if user click this button. user can upload image from camera
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     getImage(ImageSource.camera);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.camera),
+  //                       Text('From Camera'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text('Apply Claims'),
-      backgroundColor: Colors.blueGrey[900],
-      centerTitle:true,
-      automaticallyImplyLeading: true,
-      leading: IconButton(icon:Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context); },),
-    ),
+        appBar: AppBar(
+          title: Text('Apply Claims'),
+          backgroundColor: Colors.blueGrey[900],
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -173,57 +179,58 @@ class _ApplyClaims extends State<ApplyClaims> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    child: const Padding(
-                      padding: EdgeInsets.all(38.0),
-                      child: Text('Upload Receipt',
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),
-                  ),
-                  Container(
-                    child: IconButton(
-                      icon: const Icon(Icons.upload_rounded),
-                      onPressed: () {
-                        myReceipt();
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ), //if image not null show the image
-                  //if image null show text
-                  image != null
-                      ? Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              //to show image, you type like this.
-                              File(image!.path),
-                              fit: BoxFit.cover,
-                              //width: MediaQuery.of(context).size.width,
-                              width: 150,
-                              height: 250,
-                            ),
-                          ),
-                        )
-                      : Text(
-                          "No Image",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                ],
-              ),
+              //Could implement in future as enhancement-upload receipt
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Container(
+              //       child: const Padding(
+              //         padding: EdgeInsets.all(38.0),
+              //         child: Text('Upload Receipt',
+              //             style: TextStyle(
+              //               fontSize: 20,
+              //             )),
+              //       ),
+              //     ),
+              //     Container(
+              //       child: IconButton(
+              //         icon: const Icon(Icons.upload_rounded),
+              //         onPressed: () {
+              //           //myReceipt();
+              //           setState(() {});
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Column(
+              //   children: [
+              //     SizedBox(
+              //       height: 10,
+              //     ), //if image not null show the image
+              //     //if image null show text
+              //     image != null
+              //         ? Container(
+              //             alignment: Alignment.centerLeft,
+              //             padding: const EdgeInsets.symmetric(horizontal: 50),
+              //             child: ClipRRect(
+              //               borderRadius: BorderRadius.circular(8),
+              //               child: Image.file(
+              //                 //to show image, you type like this.
+              //                 File(image!.path),
+              //                 fit: BoxFit.cover,
+              //                 //width: MediaQuery.of(context).size.width,
+              //                 width: 150,
+              //                 height: 250,
+              //               ),
+              //             ),
+              //           )
+              //         : Text(
+              //             "No Image",
+              //             style: TextStyle(fontSize: 20),
+              //           ),
+              //   ],
+              // ),
               SizedBox(height: 30),
               SizedBox(
                 height: 55,
@@ -237,19 +244,52 @@ class _ApplyClaims extends State<ApplyClaims> {
                         borderRadius: BorderRadius.circular(112)),
                   ),
                   onPressed: () async {
-                    CompensationsApiService().uploadClaimDetails(
+                    if (purpose == null || purpose.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Please enter the purpose'),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK'))
+                          ],
+                        ),
+                      );
+                    } else if (selectedItem == "Select a expenses") {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Please select a category of expenses'),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK'))
+                          ],
+                        ),
+                      );
+                    } else {
+                      CompensationsApiService().uploadClaimDetails(
                         myCompensationList.length + 1,
                         selectedItem,
                         purpose.text,
                         //await image?.readAsBytes(),
-                        );
-                    showToastSubmitted();
-                    Future.delayed(Duration(milliseconds: 600), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CompensationStatus()));
-                    });
+                      );
+                      showToastSubmitted();
+                      Future.delayed(Duration(milliseconds: 600), () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompensationStatus()));
+                      });
+                    }
                   },
                 ),
               ),
